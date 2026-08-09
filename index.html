@@ -346,7 +346,7 @@
       cursor: pointer;
     }
 
-    /* MODAIS (GERAL) */
+    /* MODAIS */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -405,7 +405,7 @@
       color: #000;
     }
 
-    /* MODAL DE DETALHES DO PRODUTO (CLIENTE) */
+    /* MODAL DE DETALHES DO PRODUTO */
     .product-detail-container {
       display: flex;
       flex-direction: column;
@@ -488,7 +488,7 @@
 
     .btn-buy-modal:hover { background: #1EBE5D; }
 
-    /* CABEÇALHO INTERNO DO PAINEL ADM */
+    /* CABEÇALHO ADM */
     .admin-panel-header {
       display: flex;
       align-items: center;
@@ -549,7 +549,19 @@
       margin-top: 0.5rem;
     }
 
-    /* ABAS DO PAINEL ADM */
+    .btn-cancel-edit {
+      background: #6c757d;
+      color: #fff;
+      border: none;
+      width: 100%;
+      padding: 0.6rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+
+    /* ABAS ADM */
     .admin-nav-tabs {
       display: flex;
       gap: 0.4rem;
@@ -741,9 +753,7 @@
   <div class="modal-overlay" id="productModal">
     <div class="modal-card">
       <button class="btn-close-modal" onclick="closeProductModal()"><i class="fa-solid fa-xmark"></i></button>
-      <div class="product-detail-container" id="productModalContent">
-        <!-- Preenchido dinamicamente via JS -->
-      </div>
+      <div class="product-detail-container" id="productModalContent"></div>
     </div>
   </div>
 
@@ -780,15 +790,17 @@
         <!-- ABAS DO PAINEL ADM -->
         <div class="admin-nav-tabs">
           <button class="admin-tab-btn active" id="btnTabAdd" onclick="switchAdminTab('add')"><i class="fa-solid fa-plus"></i> Cadastrar Produto</button>
-          <button class="admin-tab-btn" id="btnTabManageProd" onclick="switchAdminTab('manageProd')"><i class="fa-solid fa-boxes-stacked"></i> Excluir Produtos</button>
+          <button class="admin-tab-btn" id="btnTabManageProd" onclick="switchAdminTab('manageProd')"><i class="fa-solid fa-boxes-stacked"></i> Gerenciar Produtos</button>
           <button class="admin-tab-btn" id="btnTabManageSubcat" onclick="switchAdminTab('manageSubcat')"><i class="fa-solid fa-tags"></i> Subcategorias</button>
           <button class="admin-tab-btn" id="btnTabManageCat" onclick="switchAdminTab('manageCat')"><i class="fa-solid fa-folder"></i> Categorias Principais</button>
         </div>
 
-        <!-- SEÇÃO 1: CADASTRAR NOVO PRODUTO -->
+        <!-- SEÇÃO 1: CADASTRAR / EDITAR PRODUTO -->
         <div id="adminSecAdd">
-          <h4 style="font-size: 1rem; margin-bottom: 0.8rem;">Cadastrar Novo Produto</h4>
-          <form onsubmit="handleAddNewProduct(event)">
+          <h4 id="formProductTitleHeader" style="font-size: 1rem; margin-bottom: 0.8rem;">Cadastrar Novo Produto</h4>
+          <form onsubmit="handleSaveProduct(event)">
+            <input type="hidden" id="pEditingId" value="">
+            
             <div class="form-group">
               <label>Categoria Principal:</label>
               <select id="pCategory" onchange="toggleSubcatSelect()" required></select>
@@ -813,8 +825,8 @@
               <input type="text" id="pTitle" placeholder="Ex: Caneca Porcelana 300ml - Tema Natal" required>
             </div>
             <div class="form-group">
-              <label>Preço (Ex: R$ 35,00):</label>
-              <input type="text" id="pPrice" placeholder="R$ 35,00" required>
+              <label>Preço (Digite o valor numérico):</label>
+              <input type="text" id="pPrice" placeholder="Ex: 15 ou 35,50" oninput="formatCurrencyInput(this)" required>
             </div>
             <div class="form-group">
               <label>Descrição:</label>
@@ -824,13 +836,14 @@
               <label>URL da Imagem (Link da foto):</label>
               <input type="url" id="pImage" placeholder="https://..." required>
             </div>
-            <button type="submit" class="btn-submit-admin">CADASTRAR PRODUTO</button>
+            <button type="submit" class="btn-submit-admin" id="btnSubmitFormProd">CADASTRAR PRODUTO</button>
+            <button type="button" class="btn-cancel-edit" id="btnCancelEditProd" style="display: none;" onclick="resetProductForm()">CANCELAR EDIÇÃO</button>
           </form>
         </div>
 
-        <!-- SEÇÃO 2: GERENCIAR / EXCLUIR PRODUTOS -->
+        <!-- SEÇÃO 2: GERENCIAR / EDITAR / EXCLUIR PRODUTOS -->
         <div id="adminSecManageProd" style="display: none;">
-          <h4 style="font-size: 1rem; margin-bottom: 0.8rem;">Excluir Produtos do Catálogo</h4>
+          <h4 style="font-size: 1rem; margin-bottom: 0.8rem;">Gerenciar / Editar / Excluir Produtos</h4>
           <div class="admin-search-box">
             <input type="text" id="adminProdSearchInput" oninput="renderAdminProductsList()" placeholder="🔍 Buscar por código ou nome do produto...">
           </div>
@@ -966,6 +979,19 @@
       { id: 10, code: "OUTROS Nº1", title: "Almofada Personalizada 30x30", category: "outros", subcategory: "ALMOFADAS", price: "R$ 30,00", description: "Almofada estampada macia com enchimento antialérgico.", image: "https://via.placeholder.com/400x300?text=Almofada+N1" }
     ];
 
+    /* MÁSCARA AUTOMÁTICA DE MOEDA (R$ 00,00) */
+    function formatCurrencyInput(input) {
+      let value = input.value.replace(/\D/g, ""); // Remove tudo que não é dígito
+      if (value === "") {
+        input.value = "";
+        return;
+      }
+      value = (parseInt(value, 10) / 100).toFixed(2); // Ajusta decimais
+      value = value.replace(".", ",");
+      value = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+      input.value = "R$ " + value;
+    }
+
     function getStoredProducts() {
       const stored = localStorage.getItem('sublimart_products');
       if (stored) return JSON.parse(stored);
@@ -1100,7 +1126,7 @@
       });
     }
 
-    /* SISTEMA DO POP-UP DE VISUALIZAÇÃO DO PRODUTO */
+    /* POP-UP DETALHES PRODUTO */
     function openProductModal(productId) {
       const productsList = getStoredProducts();
       const product = productsList.find(p => p.id === productId);
@@ -1236,8 +1262,10 @@
       }
     }
 
-    function handleAddNewProduct(e) {
+    /* SALVAR / CADASTRAR OU EDITAR PRODUTO */
+    function handleSaveProduct(e) {
       e.preventDefault();
+      const editingId = document.getElementById('pEditingId').value;
       const category = document.getElementById('pCategory').value;
       let subcategory = document.getElementById('pSubCategory').value;
 
@@ -1263,28 +1291,73 @@
       const description = document.getElementById('pDesc').value;
       const image = document.getElementById('pImage').value;
 
-      const productsList = getStoredProducts();
-      const newProduct = {
-        id: Date.now(),
-        code,
-        title,
-        category,
-        subcategory,
-        price,
-        description,
-        image
-      };
+      let productsList = getStoredProducts();
 
-      productsList.push(newProduct);
+      if (editingId) {
+        productsList = productsList.map(p => {
+          if (p.id == editingId) {
+            return { ...p, code, title, category, subcategory, price, description, image };
+          }
+          return p;
+        });
+        alert("Produto atualizado com sucesso!");
+      } else {
+        const newProduct = {
+          id: Date.now(),
+          code,
+          title,
+          category,
+          subcategory,
+          price,
+          description,
+          image
+        };
+        productsList.push(newProduct);
+        alert("Produto cadastrado com sucesso!");
+      }
+
       localStorage.setItem('sublimart_products', JSON.stringify(productsList));
+      resetProductForm();
+      switchCategory(category);
+    }
 
-      alert("Produto cadastrado com sucesso!");
+    function startEditProduct(id) {
+      const productsList = getStoredProducts();
+      const product = productsList.find(p => p.id == id);
+      if (!product) return;
+
+      switchAdminTab('add');
+
+      document.getElementById('formProductTitleHeader').innerText = "Editar Produto";
+      document.getElementById('btnSubmitFormProd').innerText = "SALVAR ALTERAÇÕES";
+      document.getElementById('btnCancelEditProd').style.display = "block";
+
+      document.getElementById('pEditingId').value = product.id;
+      document.getElementById('pCategory').value = product.category;
+      
+      toggleSubcatSelect();
+      document.getElementById('pSubCategory').value = product.subcategory || '';
+      
+      document.getElementById('pCode').value = product.code;
+      document.getElementById('pTitle').value = product.title;
+      document.getElementById('pPrice').value = product.price;
+      document.getElementById('pDesc').value = product.description;
+      document.getElementById('pImage').value = product.image;
+    }
+
+    function resetProductForm() {
+      document.getElementById('pEditingId').value = '';
+      document.getElementById('formProductTitleHeader').innerText = "Cadastrar Novo Produto";
+      document.getElementById('btnSubmitFormProd').innerText = "CADASTRAR PRODUTO";
+      document.getElementById('btnCancelEditProd').style.display = "none";
+
       document.getElementById('pCode').value = '';
       document.getElementById('pTitle').value = '';
       document.getElementById('pPrice').value = '';
       document.getElementById('pDesc').value = '';
       document.getElementById('pImage').value = '';
-      switchCategory(category);
+      document.getElementById('pCustomSubcat').value = '';
+      document.getElementById('customSubcatGroup').style.display = 'none';
     }
 
     function renderAdminProductsList() {
@@ -1317,7 +1390,10 @@
                 <span>${catLabel}${subLabel} • ${p.price}</span>
               </div>
             </div>
-            <button class="btn-delete-adm" onclick="deleteProduct(${p.id})"><i class="fa-solid fa-trash"></i> Excluir</button>
+            <div class="admin-action-btns">
+              <button class="btn-edit-adm" onclick="startEditProduct(${p.id})"><i class="fa-solid fa-pen"></i> Editar</button>
+              <button class="btn-delete-adm" onclick="deleteProduct(${p.id})"><i class="fa-solid fa-trash"></i> Excluir</button>
+            </div>
           </div>
         `;
       });
