@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
-    /* VARIÁVEIS & CORES DA MARCA (Inspiradas na Logo SUBLIMArt) */
+    /* VARIÁVEIS & CORES DA MARCA */
     :root {
       --primary-gradient: linear-gradient(135deg, #FF007A 0%, #7B2CBF 45%, #00B4D8 100%);
       --accent-magenta: #FF007A;
@@ -88,8 +88,34 @@
     }
 
     .contact-btn-head:hover {
+      background: rgba(255, 255, 255, 0.35);
+      transform: translateY(-2px);
+    }
+
+    .contact-btn-head.wa:hover {
       background: #25D366;
       border-color: #25D366;
+    }
+
+    .contact-btn-head.ig:hover {
+      background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+      border-color: transparent;
+    }
+
+    .btn-admin-trigger {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
     }
 
     /* NAVEGAÇÃO / ABAS */
@@ -112,14 +138,8 @@
       scrollbar-width: thin;
     }
 
-    .nav-container::-webkit-scrollbar {
-      height: 4px;
-    }
-
-    .nav-container::-webkit-scrollbar-thumb {
-      background: #ddd;
-      border-radius: 4px;
-    }
+    .nav-container::-webkit-scrollbar { height: 4px; }
+    .nav-container::-webkit-scrollbar-thumb { background: #ddd; border-radius: 4px; }
 
     .tab-btn {
       background: #F0F2F5;
@@ -137,15 +157,40 @@
       gap: 0.5rem;
     }
 
-    .tab-btn:hover {
-      background: #E2E6EA;
-    }
+    .tab-btn:hover { background: #E2E6EA; }
 
     .tab-btn.active {
       background: var(--primary-gradient);
       color: #fff;
       box-shadow: 0 4px 12px rgba(255, 0, 122, 0.3);
     }
+
+    /* BARRA DE SUBCATEGORIAS */
+    .subcategories-bar {
+      display: none;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+      background: #fff;
+      padding: 0.8rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .sub-btn {
+      background: #E9ECEF;
+      border: none;
+      padding: 0.4rem 0.9rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #495057;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .sub-btn:hover { background: #DEE2E6; }
+    .sub-btn.active { background: var(--accent-purple); color: #fff; }
 
     /* MAIN CATALOG */
     main {
@@ -158,7 +203,7 @@
 
     .category-title {
       font-size: 1.5rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
       font-weight: 700;
       display: flex;
       align-items: center;
@@ -181,6 +226,7 @@
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       display: flex;
       flex-direction: column;
+      position: relative;
     }
 
     .card:hover {
@@ -202,6 +248,31 @@
       object-fit: cover;
     }
 
+    .card-code-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: var(--dark-color);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .card-subcat-badge {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background: var(--accent-magenta);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+
     .card-body {
       padding: 1.2rem;
       display: flex;
@@ -210,9 +281,10 @@
     }
 
     .card-title {
-      font-size: 1.1rem;
-      font-weight: 600;
+      font-size: 1.05rem;
+      font-weight: 700;
       margin-bottom: 0.4rem;
+      color: var(--dark-color);
     }
 
     .card-desc {
@@ -223,37 +295,288 @@
       line-height: 1.4;
     }
 
+    .card-footer-buy {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-top: auto;
+      padding-top: 0.8rem;
+      border-top: 1px solid #f0f0f0;
+    }
+
     .price {
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       font-weight: 700;
       color: var(--accent-purple);
-      margin-bottom: 0.8rem;
     }
 
-    .whatsapp-options {
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    .btn-whatsapp {
-      flex: 1;
+    .btn-buy {
       background: #25D366;
       color: #fff;
       text-decoration: none;
-      padding: 0.55rem 0.4rem;
+      padding: 0.55rem 1rem;
       border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: background 0.3s ease;
+      box-shadow: 0 3px 8px rgba(37, 211, 102, 0.25);
+    }
+
+    .btn-buy:hover { background: #1EBE5D; }
+
+    .btn-explore {
+      background: var(--primary-gradient);
+      color: #fff;
+      text-decoration: none;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      width: 100%;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* MODAL ADMIN */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+
+    .modal-card {
+      background: #fff;
+      border-radius: var(--radius);
+      width: 100%;
+      max-width: 650px;
+      padding: 2rem 1.8rem 1.8rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--dark-color);
+      padding-right: 2.5rem; /* Evita colar no ícone de fechar */
+    }
+
+    /* CABEÇALHO INTERNO DO PAINEL ADM */
+    .admin-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.2rem;
+      padding-right: 2.5rem; /* Garante que o X do modal fique livre */
+    }
+
+    .admin-panel-header h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .btn-logout-admin {
+      background: #dc3545;
+      color: #fff;
+      border: none;
+      padding: 0.4rem 0.82rem;
+      border-radius: 8px;
+      cursor: pointer;
       font-size: 0.78rem;
       font-weight: 600;
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 0.3rem;
-      transition: background 0.3s ease;
-      text-align: center;
+      gap: 0.4rem;
+      transition: background 0.2s ease;
     }
 
-    .btn-whatsapp:hover {
-      background: #1EBE5D;
+    .btn-logout-admin:hover {
+      background: #bd2130;
+    }
+
+    .btn-close-modal {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: #f0f0f0;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 1rem;
+      cursor: pointer;
+      color: #555;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      z-index: 10;
+    }
+
+    .btn-close-modal:hover {
+      background: #e0e0e0;
+      color: #000;
+    }
+
+    .form-group { margin-bottom: 1rem; }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 0.6rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+
+    .btn-submit-admin {
+      background: var(--primary-gradient);
+      color: #fff;
+      border: none;
+      width: 100%;
+      padding: 0.8rem;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+
+    /* ABAS DO PAINEL ADM */
+    .admin-nav-tabs {
+      display: flex;
+      gap: 0.4rem;
+      margin-bottom: 1.2rem;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 0.6rem;
+      overflow-x: auto;
+    }
+
+    .admin-tab-btn {
+      background: #f0f0f0;
+      border: none;
+      padding: 0.5rem 0.8rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: #555;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .admin-tab-btn.active {
+      background: var(--accent-purple);
+      color: #fff;
+    }
+
+    /* BUSCA E ITENS DE GERENCIAMENTO ADM */
+    .admin-search-box { margin-bottom: 1rem; }
+
+    .admin-search-box input {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 0.85rem;
+    }
+
+    .admin-manage-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      padding: 0.6rem 0.8rem;
+      border-radius: 10px;
+      margin-bottom: 0.5rem;
+      gap: 0.8rem;
+    }
+
+    .admin-manage-info {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      overflow: hidden;
+    }
+
+    .admin-manage-img {
+      width: 45px;
+      height: 45px;
+      border-radius: 6px;
+      object-fit: cover;
+      background: #eee;
+      flex-shrink: 0;
+    }
+
+    .admin-manage-details {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .admin-manage-details strong {
+      font-size: 0.85rem;
+      color: #222;
+      display: block;
+    }
+
+    .admin-manage-details span {
+      font-size: 0.75rem;
+      color: #666;
+    }
+
+    .admin-action-btns {
+      display: flex;
+      gap: 0.4rem;
+      flex-shrink: 0;
+    }
+
+    .btn-edit-adm {
+      background: #007bff;
+      color: #fff;
+      border: none;
+      padding: 0.4rem 0.7rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .btn-delete-adm {
+      background: #dc3545;
+      color: #fff;
+      border: none;
+      padding: 0.4rem 0.7rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.75rem;
+      font-weight: 600;
     }
 
     /* FOOTER */
@@ -266,30 +589,34 @@
       font-size: 0.9rem;
     }
 
-    footer p {
-      opacity: 0.8;
-      margin-bottom: 0.8rem;
-    }
+    footer p { opacity: 0.8; margin-bottom: 0.8rem; }
 
     .footer-contacts {
       display: flex;
       justify-content: center;
       gap: 1.5rem;
       flex-wrap: wrap;
+      align-items: center;
     }
 
     .footer-contacts a {
-      color: #25D366;
+      color: #fff;
       text-decoration: none;
       font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
     }
 
-    /* RESPONSIVE */
+    .footer-contacts a.wa-link { color: #25D366; }
+    .footer-contacts a.ig-link { color: #E1306C; }
+
     @media (max-width: 600px) {
       header h1 { font-size: 1.8rem; }
       .catalog-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
       .card-img-wrapper { height: 180px; }
-      .whatsapp-options { flex-direction: column; }
+      .modal-card { padding: 1.5rem 1.2rem; }
+      .admin-panel-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
     }
   </style>
 </head>
@@ -297,146 +624,381 @@
 
   <!-- HEADER -->
   <header>
+    <button class="btn-admin-trigger" onclick="openAdminModal()">
+      <i class="fa-solid fa-lock"></i> ÁREA ADM
+    </button>
     <h1>SUBLIMArt</h1>
     <p>Personalizados e Sublimação de Alta Qualidade</p>
     
     <div class="contacts-header">
-      <a href="https://wa.me/5592992914876" target="_blank" class="contact-btn-head">
+      <a href="https://wa.me/5592992914876" target="_blank" class="contact-btn-head wa">
         <i class="fa-brands fa-whatsapp"></i> (92) 99291-4876
       </a>
-      <a href="https://wa.me/5592993522287" target="_blank" class="contact-btn-head">
+      <a href="https://wa.me/5592993522287" target="_blank" class="contact-btn-head wa">
         <i class="fa-brands fa-whatsapp"></i> (92) 99352-2287
+      </a>
+      <a href="https://www.instagram.com/sublimart_ofc1" target="_blank" class="contact-btn-head ig">
+        <i class="fa-brands fa-instagram"></i> @sublimart_ofc1
       </a>
     </div>
   </header>
 
-  <!-- NAVEGAÇÃO POR ABAS -->
+  <!-- NAVEGAÇÃO POR ABAS PRINCIPAIS -->
   <nav>
-    <div class="nav-container">
-      <button class="tab-btn active" onclick="filterCategory('todos', this)"><i class="fa-solid fa-border-all"></i> Todos</button>
-      <button class="tab-btn" onclick="filterCategory('card-sus', this)"><i class="fa-solid fa-id-card"></i> Card SUS</button>
-      <button class="tab-btn" onclick="filterCategory('canecas', this)"><i class="fa-solid fa-mug-hot"></i> Canecas</button>
-      <button class="tab-btn" onclick="filterCategory('cadernetas', this)"><i class="fa-solid fa-book-medical"></i> Cadernetas de Vacinação</button>
-      <button class="tab-btn" onclick="filterCategory('placas-mdf', this)"><i class="fa-solid fa-square"></i> Placas MDF</button>
-      <button class="tab-btn" onclick="filterCategory('chaveiros-mdf', this)"><i class="fa-solid fa-key"></i> Chaveiros MDF</button>
-      <button class="tab-btn" onclick="filterCategory('camisas', this)"><i class="fa-solid fa-shirt"></i> Camisas</button>
-      <button class="tab-btn" onclick="filterCategory('outros', this)"><i class="fa-solid fa-box-open"></i> Outros</button>
-    </div>
+    <div class="nav-container" id="navTabsContainer"></div>
   </nav>
 
   <!-- CONTEÚDO DO CATÁLOGO -->
   <main>
     <h2 class="category-title" id="category-title"><i class="fa-solid fa-border-all"></i> Todos os Produtos</h2>
-    <div class="catalog-grid" id="catalog-grid">
-      <!-- Os produtos serão injetados via JS -->
-    </div>
+    <div class="subcategories-bar" id="subcategories-bar"></div>
+    <div class="catalog-grid" id="catalog-grid"></div>
   </main>
+
+  <!-- MODAL DE LOGIN / GERENCIAMENTO ADM -->
+  <div class="modal-overlay" id="adminModal">
+    <div class="modal-card">
+      <button class="btn-close-modal" onclick="closeAdminModal()"><i class="fa-solid fa-xmark"></i></button>
+      
+      <!-- TELA DE LOGIN FIREBASE AUTH -->
+      <div id="adminLoginForm">
+        <h3 class="modal-title"><i class="fa-solid fa-shield-halved"></i> Login Seguro - ADM</h3>
+        <form onsubmit="handleFirebaseLogin(event)">
+          <div class="form-group">
+            <label>E-mail do Administrador:</label>
+            <input type="email" id="adminEmailInput" placeholder="seu-email@dominio.com" required>
+          </div>
+          <div class="form-group">
+            <label>Senha:</label>
+            <input type="password" id="adminPasswordInput" placeholder="Sua senha secreta" required>
+          </div>
+          <button type="submit" class="btn-submit-admin" id="btnLoginSubmit">ENTRAR</button>
+        </form>
+      </div>
+
+      <!-- PAINEL ADM ORGANIZADO -->
+      <div id="adminMainPanel" style="display: none;">
+        
+        <!-- CABEÇALHO DO PAINEL ADM -->
+        <div class="admin-panel-header">
+          <h3><i class="fa-solid fa-user-gear"></i> Painel de Controle</h3>
+          <button class="btn-logout-admin" onclick="handleFirebaseLogout()"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
+        </div>
+        
+        <!-- ABAS DO PAINEL ADM -->
+        <div class="admin-nav-tabs">
+          <button class="admin-tab-btn active" id="btnTabAdd" onclick="switchAdminTab('add')"><i class="fa-solid fa-plus"></i> Cadastrar Produto</button>
+          <button class="admin-tab-btn" id="btnTabManageProd" onclick="switchAdminTab('manageProd')"><i class="fa-solid fa-boxes-stacked"></i> Excluir Produtos</button>
+          <button class="admin-tab-btn" id="btnTabManageSubcat" onclick="switchAdminTab('manageSubcat')"><i class="fa-solid fa-tags"></i> Subcategorias</button>
+          <button class="admin-tab-btn" id="btnTabManageCat" onclick="switchAdminTab('manageCat')"><i class="fa-solid fa-folder"></i> Categorias Principais</button>
+        </div>
+
+        <!-- SEÇÃO 1: CADASTRAR NOVO PRODUTO -->
+        <div id="adminSecAdd">
+          <h4 style="font-size: 1rem; margin-bottom: 0.8rem;">Cadastrar Novo Produto</h4>
+          <form onsubmit="handleAddNewProduct(event)">
+            <div class="form-group">
+              <label>Categoria Principal:</label>
+              <select id="pCategory" onchange="toggleSubcatSelect()" required></select>
+            </div>
+
+            <div class="form-group" id="subcatFormGroup">
+              <label>Subcategoria / Tema:</label>
+              <select id="pSubCategory" onchange="checkCustomSubcat()"></select>
+            </div>
+
+            <div class="form-group" id="customSubcatGroup" style="display: none;">
+              <label>Nome da Nova Subcategoria:</label>
+              <input type="text" id="pCustomSubcat" placeholder="Ex: INFANTIL / DIA DOS NAMORADOS">
+            </div>
+
+            <div class="form-group">
+              <label>Código do Produto (Ex: CARTÃO SUS Nº2, CANECA Nº3):</label>
+              <input type="text" id="pCode" placeholder="CANECA Nº3" required>
+            </div>
+            <div class="form-group">
+              <label>Título do Produto:</label>
+              <input type="text" id="pTitle" placeholder="Ex: Caneca Porcelana 300ml - Tema Natal" required>
+            </div>
+            <div class="form-group">
+              <label>Preço (Ex: R$ 35,00):</label>
+              <input type="text" id="pPrice" placeholder="R$ 35,00" required>
+            </div>
+            <div class="form-group">
+              <label>Descrição:</label>
+              <textarea id="pDesc" rows="2" placeholder="Descrição do produto..." required></textarea>
+            </div>
+            <div class="form-group">
+              <label>URL da Imagem (Link da foto):</label>
+              <input type="url" id="pImage" placeholder="https://..." required>
+            </div>
+            <button type="submit" class="btn-submit-admin">CADASTRAR PRODUTO</button>
+          </form>
+        </div>
+
+        <!-- SEÇÃO 2: GERENCIAR / EXCLUIR PRODUTOS -->
+        <div id="adminSecManageProd" style="display: none;">
+          <h4 style="font-size: 1rem; margin-bottom: 0.8rem;">Excluir Produtos do Catálogo</h4>
+          <div class="admin-search-box">
+            <input type="text" id="adminProdSearchInput" oninput="renderAdminProductsList()" placeholder="🔍 Buscar por código ou nome do produto...">
+          </div>
+          <div id="adminProductListContainer" style="max-height: 320px; overflow-y: auto; padding-right: 0.3rem;"></div>
+        </div>
+
+        <!-- SEÇÃO 3: GERENCIAR / EDITAR / EXCLUIR SUBCATEGORIAS -->
+        <div id="adminSecManageSubcat" style="display: none;">
+          <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Editar ou Excluir Subcategorias</h4>
+          <p style="font-size: 0.8rem; color: #666; margin-bottom: 1rem;">Selecione a categoria principal para gerenciar suas subcategorias:</p>
+          <div class="form-group">
+            <select id="adminSubcatCatFilter" onchange="renderAdminSubcatsList()"></select>
+          </div>
+          <div id="adminSubcatListContainer" style="max-height: 280px; overflow-y: auto;"></div>
+        </div>
+
+        <!-- SEÇÃO 4: EDITAR E EXCLUIR CATEGORIAS PRINCIPAIS -->
+        <div id="adminSecManageCat" style="display: none;">
+          <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Editar ou Excluir Categorias Principais</h4>
+          <p style="font-size: 0.8rem; color: #666; margin-bottom: 1rem;">Gerencie as abas do topo do site:</p>
+          <div id="adminCatListContainer" style="max-height: 280px; overflow-y: auto;"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
 
   <!-- RODAPÉ -->
   <footer>
     <p><strong>SUBLIMArt Personalizados</strong> — Transformando suas ideias em arte.</p>
     <div class="footer-contacts">
-      <a href="https://wa.me/5592992914876" target="_blank"><i class="fa-brands fa-whatsapp"></i> (92) 99291-4876</a>
-      <a href="https://wa.me/5592993522287" target="_blank"><i class="fa-brands fa-whatsapp"></i> (92) 99352-2287</a>
+      <a href="https://wa.me/5592992914876" target="_blank" class="wa-link"><i class="fa-brands fa-whatsapp"></i> (92) 99291-4876</a>
+      <a href="https://wa.me/5592993522287" target="_blank" class="wa-link"><i class="fa-brands fa-whatsapp"></i> (92) 99352-2287</a>
+      <a href="https://www.instagram.com/sublimart_ofc1" target="_blank" class="ig-link"><i class="fa-brands fa-instagram"></i> @sublimart_ofc1</a>
     </div>
   </footer>
 
-  <!-- SCRIPT DE GERENCIAMENTO -->
-  <script>
-    // NÚMEROS DE WHATSAPP DA SUBLIMART (DDD 92)
-    const WA_NUMBER_1 = "5592992914876";
-    const WA_NUMBER_2 = "5592993522287";
+  <!-- SCRIPT DO FIREBASE (COM SUAS CREDENCIAIS CONFIGURADAS) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-    // LISTA DE PRODUTOS
-    const products = [
-      {
-        id: 1,
-        title: "Cartão do SUS Personalizado",
-        category: "card-sus",
-        price: "R$ 15,00",
-        description: "Cartão do SUS plastificado e personalizado no tema desejado.",
-        image: "https://via.placeholder.com/400x300?text=Card+SUS"
-      },
-      {
-        id: 2,
-        title: "Caneca de Porcelana 325ml",
-        category: "canecas",
-        price: "R$ 35,00",
-        description: "Caneca de cerâmica brilhante de alta qualidade com estampa total.",
-        image: "https://via.placeholder.com/400x300?text=Caneca+Porcelana"
-      },
-      {
-        id: 3,
-        title: "Caderneta de Vacinação Luxo",
-        category: "cadernetas",
-        price: "R$ 65,00",
-        description: "Capa dura, com espiral wire-o, bolso e saquinho porta documentos.",
-        image: "https://via.placeholder.com/400x300?text=Caderneta+Vacinacao"
-      },
-      {
-        id: 4,
-        title: "Placa Decorativa MDF 20x30",
-        category: "placas-mdf",
-        price: "R$ 25,00",
-        description: "Placa de MDF com fita dupla face inclusa e acabamento fosco ou brilho.",
-        image: "https://via.placeholder.com/400x300?text=Placa+MDF"
-      },
-      {
-        id: 5,
-        title: "Chaveiro MDF Sublimado",
-        category: "chaveiros-mdf",
-        price: "R$ 8,00",
-        description: "Chaveiro personalizado frente e verso com argola e fecho.",
-        image: "https://via.placeholder.com/400x300?text=Chaveiro+MDF"
-      },
-      {
-        id: 6,
-        title: "Camisa Poliéster Personalizada",
-        category: "camisas",
-        price: "R$ 45,00",
-        description: "Camisa 100% poliéster leve com estampa em sublimação de alta definição.",
-        image: "https://via.placeholder.com/400x300?text=Camisa+Sublimada"
-      },
-      {
-        id: 7,
-        title: "Almofada Personalizada 30x30",
-        category: "outros",
-        price: "R$ 30,00",
-        description: "Almofada estampada com enchimento macio e antialérgico.",
-        image: "https://via.placeholder.com/400x300?text=Almofada+Outros"
+    const firebaseConfig = {
+      apiKey: "AIzaSyANjvOsw0EJohoDtgQAZ3gvN8Sd8UqGZDk",
+      authDomain: "sublimart-catalogo.firebaseapp.com",
+      projectId: "sublimart-catalogo",
+      storageBucket: "sublimart-catalogo.firebasestorage.app",
+      messagingSenderId: "713298486667",
+      appId: "1:713298486667:web:f7d63d7b0f2444bdf5fb8e"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        window.isAdminLoggedIn = true;
+        document.getElementById('adminLoginForm').style.display = 'none';
+        document.getElementById('adminMainPanel').style.display = 'block';
+        window.populateCategoryDropdowns();
+        window.switchAdminTab('add');
+      } else {
+        window.isAdminLoggedIn = false;
+        document.getElementById('adminLoginForm').style.display = 'block';
+        document.getElementById('adminMainPanel').style.display = 'none';
       }
+    });
+
+    window.handleFirebaseLogin = async function(e) {
+      e.preventDefault();
+      const email = document.getElementById('adminEmailInput').value;
+      const pass = document.getElementById('adminPasswordInput').value;
+      const btn = document.getElementById('btnLoginSubmit');
+
+      try {
+        btn.innerHTML = 'Aguarde...';
+        btn.disabled = true;
+        await signInWithEmailAndPassword(auth, email, pass);
+        alert("Login efetuado com sucesso!");
+      } catch (error) {
+        alert("Erro no login: Verifique se o e-mail e a senha estão corretos e cadastrados no Firebase Authentication.");
+      } finally {
+        btn.innerHTML = 'ENTRAR';
+        btn.disabled = false;
+      }
+    };
+
+    window.handleFirebaseLogout = async function() {
+      await signOut(auth);
+      alert("Sessão finalizada!");
+      window.closeAdminModal();
+    };
+  </script>
+
+  <!-- SCRIPT DE GERENCIAMENTO DO CATÁLOGO -->
+  <script>
+    const WA_BUY_NUMBER = "5592992914876";
+
+    window.isAdminLoggedIn = false;
+    let currentCategory = 'todos';
+    let currentSubcategory = 'todas';
+
+    const defaultCategoryNames = {
+      'card-sus': 'Card SUS',
+      'canecas': 'Canecas',
+      'cadernetas': 'Cadernetas de Vacinação',
+      'placas-mdf': 'Placas MDF',
+      'chaveiros-mdf': 'Chaveiros MDF',
+      'camisas': 'Camisas',
+      'outros': 'Outros'
+    };
+
+    const defaultSubcategories = {
+      'canecas': ['AMIZADE', 'NATAL', 'DIA DOS PAIS', 'DIA DAS MÃES'],
+      'card-sus': ['INFANTIL', 'ADULTO'],
+      'cadernetas': ['MENINO', 'MENINA'],
+      'placas-mdf': ['DECORATIVAS', 'FRASES'],
+      'chaveiros-mdf': ['PERSONALIZADOS', 'EMPRESARIAL'],
+      'camisas': ['MASCULINA', 'FEMININA'],
+      'outros': ['ALMOFADAS', 'DIVERSOS']
+    };
+
+    const defaultProducts = [
+      { id: 1, code: "CANECA Nº1", title: "Caneca Porcelana - Amizade", category: "canecas", subcategory: "AMIZADE", price: "R$ 35,00", description: "Caneca 300ml personalizada tema Amizade.", image: "https://via.placeholder.com/400x300?text=Caneca+Amizade" },
+      { id: 2, code: "CANECA Nº2", title: "Caneca Porcelana - Natal", category: "canecas", subcategory: "NATAL", price: "R$ 35,00", description: "Caneca 300ml especial de Natal.", image: "https://via.placeholder.com/400x300?text=Caneca+Natal" },
+      { id: 3, code: "CANECA Nº3", title: "Caneca Porcelana - Dia dos Pais", category: "canecas", subcategory: "DIA DOS PAIS", price: "R$ 35,00", description: "Caneca 300ml com estampa Dia dos Pais.", image: "https://via.placeholder.com/400x300?text=Caneca+Dia+dos+Pais" },
+      { id: 4, code: "CANECA Nº4", title: "Caneca Porcelana - Dia das Mães", category: "canecas", subcategory: "DIA DAS MÃES", price: "R$ 35,00", description: "Caneca 300ml com estampa Dia das Mães.", image: "https://via.placeholder.com/400x300?text=Caneca+Dia+das+Maes" },
+      { id: 5, code: "CARTÃO SUS Nº1", title: "Cartão do SUS Personalizado", category: "card-sus", subcategory: "INFANTIL", price: "R$ 15,00", description: "Cartão do SUS plastificado e personalizado.", image: "https://via.placeholder.com/400x300?text=Card+SUS+N1" },
+      { id: 6, code: "CADERNETA DE VACINAÇÃO Nº1", title: "Caderneta de Vacinação Luxo", category: "cadernetas", subcategory: "MENINA", price: "R$ 65,00", description: "Capa dura com acabamento especial.", image: "https://via.placeholder.com/400x300?text=Caderneta+N1" },
+      { id: 7, code: "PLACA DECORATIVA Nº1", title: "Placa Decorativa MDF 20x30", category: "placas-mdf", subcategory: "DECORATIVAS", price: "R$ 25,00", description: "Placa MDF com fita dupla face.", image: "https://via.placeholder.com/400x300?text=Placa+MDF+N1" },
+      { id: 8, code: "CHAVEIRO MDF Nº1", title: "Chaveiro MDF Sublimado", category: "chaveiros-mdf", subcategory: "PERSONALIZADOS", price: "R$ 8,00", description: "Chaveiro personalizado frente e verso.", image: "https://via.placeholder.com/400x300?text=Chaveiro+MDF+N1" },
+      { id: 9, code: "CAMISA Nº1", title: "Camisa Poliéster Personalizada", category: "camisas", subcategory: "MASCULINA", price: "R$ 45,00", description: "Camisa 100% poliéster leve.", image: "https://via.placeholder.com/400x300?text=Camisa+N1" },
+      { id: 10, code: "OUTROS Nº1", title: "Almofada Personalizada 30x30", category: "outros", subcategory: "ALMOFADAS", price: "R$ 30,00", description: "Almofada estampada macia.", image: "https://via.placeholder.com/400x300?text=Almofada+N1" }
     ];
 
-    // FUNÇÃO PARA RENDERIZAR PRODUTOS
-    function renderProducts(items) {
+    function getStoredProducts() {
+      const stored = localStorage.getItem('sublimart_products');
+      if (stored) return JSON.parse(stored);
+      localStorage.setItem('sublimart_products', JSON.stringify(defaultProducts));
+      return defaultProducts;
+    }
+
+    function getStoredSubcats() {
+      const stored = localStorage.getItem('sublimart_all_subcats');
+      if (stored) return JSON.parse(stored);
+      localStorage.setItem('sublimart_all_subcats', JSON.stringify(defaultSubcategories));
+      return defaultSubcategories;
+    }
+
+    function getStoredCategoryNames() {
+      const stored = localStorage.getItem('sublimart_cat_names');
+      if (stored) return JSON.parse(stored);
+      localStorage.setItem('sublimart_cat_names', JSON.stringify(defaultCategoryNames));
+      return defaultCategoryNames;
+    }
+
+    function renderMainNavigation() {
+      const container = document.getElementById('navTabsContainer');
+      const catNames = getStoredCategoryNames();
+
+      const defaultIcons = {
+        'card-sus': 'fa-id-card',
+        'canecas': 'fa-mug-hot',
+        'cadernetas': 'fa-book-medical',
+        'placas-mdf': 'fa-square',
+        'chaveiros-mdf': 'fa-key',
+        'camisas': 'fa-shirt',
+        'outros': 'fa-box-open'
+      };
+
+      let html = `<button class="tab-btn ${currentCategory === 'todos' ? 'active' : ''}" data-category="todos" onclick="switchCategory('todos')"><i class="fa-solid fa-border-all"></i> Todos</button>`;
+
+      Object.keys(catNames).forEach(key => {
+        const activeClass = currentCategory === key ? 'active' : '';
+        const icon = defaultIcons[key] || 'fa-tag';
+        html += `<button class="tab-btn ${activeClass}" data-category="${key}" onclick="switchCategory('${key}')"><i class="fa-solid ${icon}"></i> ${catNames[key]}</button>`;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function renderOverview() {
+      document.getElementById('subcategories-bar').style.display = 'none';
       const grid = document.getElementById('catalog-grid');
       grid.innerHTML = '';
+      const productsList = getStoredProducts();
+      const catNames = getStoredCategoryNames();
+
+      Object.keys(catNames).forEach(cat => {
+        const product = productsList.find(p => p.category === cat);
+        if (product) {
+          const catName = catNames[cat] || cat;
+          const cardHtml = `
+            <div class="card" onclick="switchCategory('${cat}')">
+              <div class="card-img-wrapper">
+                <span class="card-code-badge">CATEGORIA</span>
+                <img src="${product.image}" alt="${catName}">
+              </div>
+              <div class="card-body">
+                <h3 class="card-title">${catName}</h3>
+                <p class="card-desc">Confira todos os nossos modelos de ${catName.toLowerCase()}.</p>
+                <div class="card-footer-buy">
+                  <button class="btn-explore">
+                    VER MODELOS <i class="fa-solid fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+          grid.innerHTML += cardHtml;
+        }
+      });
+    }
+
+    function renderCategoryProducts(category) {
+      const grid = document.getElementById('catalog-grid');
+      grid.innerHTML = '';
+      const productsList = getStoredProducts();
+      const allSubcats = getStoredSubcats();
+
+      const subBar = document.getElementById('subcategories-bar');
+      const catSubcats = allSubcats[category] || [];
+
+      if (catSubcats.length > 0) {
+        subBar.style.display = 'flex';
+        renderSubcategoriesBar(category, catSubcats);
+      } else {
+        subBar.style.display = 'none';
+      }
+
+      let items = productsList.filter(p => p.category === category);
+
+      if (currentSubcategory !== 'todas') {
+        items = items.filter(p => p.subcategory === currentSubcategory);
+      }
 
       if (items.length === 0) {
-        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #777;">Nenhum produto cadastrado nesta categoria.</p>';
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #777;">Nenhum produto encontrado nesta categoria.</p>';
         return;
       }
 
       items.forEach(product => {
-        const message = encodeURIComponent(`Olá! Gostaria de encomendar: ${product.title}`);
-        const waUrl1 = `https://wa.me/${WA_NUMBER_1}?text=${message}`;
-        const waUrl2 = `https://wa.me/${WA_NUMBER_2}?text=${message}`;
+        const message = encodeURIComponent(`Olá! Gostaria de comprar o item: ${product.code}`);
+        const waUrl = `https://wa.me/${WA_BUY_NUMBER}?text=${message}`;
+        const subcatBadge = product.subcategory ? `<span class="card-subcat-badge">${product.subcategory}</span>` : '';
 
         const cardHtml = `
           <div class="card">
             <div class="card-img-wrapper">
+              <span class="card-code-badge">${product.code}</span>
+              ${subcatBadge}
               <img src="${product.image}" alt="${product.title}">
             </div>
             <div class="card-body">
               <h3 class="card-title">${product.title}</h3>
               <p class="card-desc">${product.description}</p>
-              <div class="price">${product.price}</div>
-              <div class="whatsapp-options">
-                <a href="${waUrl1}" target="_blank" class="btn-whatsapp">
-                  <i class="fa-brands fa-whatsapp"></i> Pedir nº 1
-                </a>
-                <a href="${waUrl2}" target="_blank" class="btn-whatsapp">
-                  <i class="fa-brands fa-whatsapp"></i> Pedir nº 2
+              <div class="card-footer-buy">
+                <span class="price">${product.price}</span>
+                <a href="${waUrl}" target="_blank" class="btn-buy">
+                  <i class="fa-brands fa-whatsapp"></i> COMPRAR
                 </a>
               </div>
             </div>
@@ -446,25 +1008,349 @@
       });
     }
 
-    // FUNÇÃO DE FILTRAGEM
-    function filterCategory(category, button) {
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      button.classList.add('active');
+    function renderSubcategoriesBar(category, subcats) {
+      const subBar = document.getElementById('subcategories-bar');
+      let html = `<button class="sub-btn ${currentSubcategory === 'todas' ? 'active' : ''}" onclick="filterSubcategory('todas')">TODOS</button>`;
+      
+      subcats.forEach(sub => {
+        html += `<button class="sub-btn ${currentSubcategory === sub ? 'active' : ''}" onclick="filterSubcategory('${sub}')">${sub}</button>`;
+      });
 
+      subBar.innerHTML = html;
+    }
+
+    function filterSubcategory(sub) {
+      currentSubcategory = sub;
+      renderCategoryProducts(currentCategory);
+    }
+
+    function switchCategory(category) {
+      currentCategory = category;
+      currentSubcategory = 'todas';
+
+      renderMainNavigation();
+
+      const catNames = getStoredCategoryNames();
       const categoryTitle = document.getElementById('category-title');
-      categoryTitle.innerHTML = button.innerHTML;
+      const activeName = category === 'todos' ? 'Todos os Produtos' : (catNames[category] || 'Categoria');
+      categoryTitle.innerHTML = `<i class="fa-solid fa-folder-open"></i> ${activeName}`;
 
       if (category === 'todos') {
-        renderProducts(products);
+        renderOverview();
       } else {
-        const filtered = products.filter(p => p.category === category);
-        renderProducts(filtered);
+        renderCategoryProducts(category);
       }
     }
 
-    // CARREGAMENTO INICIAL
+    function openAdminModal() {
+      document.getElementById('adminModal').style.display = 'flex';
+    }
+
+    function closeAdminModal() {
+      document.getElementById('adminModal').style.display = 'none';
+    }
+
+    function populateCategoryDropdowns() {
+      const catNames = getStoredCategoryNames();
+      const selects = [document.getElementById('pCategory'), document.getElementById('adminSubcatCatFilter')];
+
+      selects.forEach(select => {
+        if (!select) return;
+        let html = '';
+        Object.keys(catNames).forEach(key => {
+          html += `<option value="${key}">${catNames[key]}</option>`;
+        });
+        select.innerHTML = html;
+      });
+    }
+
+    function switchAdminTab(tab) {
+      document.getElementById('adminSecAdd').style.display = tab === 'add' ? 'block' : 'none';
+      document.getElementById('adminSecManageProd').style.display = tab === 'manageProd' ? 'block' : 'none';
+      document.getElementById('adminSecManageSubcat').style.display = tab === 'manageSubcat' ? 'block' : 'none';
+      document.getElementById('adminSecManageCat').style.display = tab === 'manageCat' ? 'block' : 'none';
+
+      document.getElementById('btnTabAdd').classList.toggle('active', tab === 'add');
+      document.getElementById('btnTabManageProd').classList.toggle('active', tab === 'manageProd');
+      document.getElementById('btnTabManageSubcat').classList.toggle('active', tab === 'manageSubcat');
+      document.getElementById('btnTabManageCat').classList.toggle('active', tab === 'manageCat');
+
+      if (tab === 'manageProd') renderAdminProductsList();
+      if (tab === 'manageSubcat') renderAdminSubcatsList();
+      if (tab === 'manageCat') renderAdminCatNamesList();
+    }
+
+    function toggleSubcatSelect() {
+      const category = document.getElementById('pCategory').value;
+      populateSubcatDropdown(category);
+    }
+
+    function populateSubcatDropdown(category) {
+      const subSelect = document.getElementById('pSubCategory');
+      const allSubcats = getStoredSubcats();
+      const catSubcats = allSubcats[category] || [];
+      
+      let html = '<option value="">Sem Subcategoria</option>';
+      catSubcats.forEach(sub => {
+        html += `<option value="${sub}">${sub}</option>`;
+      });
+      html += '<option value="NEW_SUBCAT">+ Criar Nova Subcategoria</option>';
+
+      subSelect.innerHTML = html;
+      checkCustomSubcat();
+    }
+
+    function checkCustomSubcat() {
+      const subVal = document.getElementById('pSubCategory').value;
+      const customGroup = document.getElementById('customSubcatGroup');
+      if (subVal === 'NEW_SUBCAT') {
+        customGroup.style.display = 'block';
+      } else {
+        customGroup.style.display = 'none';
+      }
+    }
+
+    function handleAddNewProduct(e) {
+      e.preventDefault();
+      const category = document.getElementById('pCategory').value;
+      let subcategory = document.getElementById('pSubCategory').value;
+
+      if (subcategory === 'NEW_SUBCAT') {
+        const newSubName = document.getElementById('pCustomSubcat').value.trim().toUpperCase();
+        if (!newSubName) {
+          alert("Por favor, digite o nome da nova subcategoria.");
+          return;
+        }
+        subcategory = newSubName;
+        const allSubcats = getStoredSubcats();
+        if (!allSubcats[category]) allSubcats[category] = [];
+        
+        if (!allSubcats[category].includes(newSubName)) {
+          allSubcats[category].push(newSubName);
+          localStorage.setItem('sublimart_all_subcats', JSON.stringify(allSubcats));
+        }
+      }
+
+      const code = document.getElementById('pCode').value;
+      const title = document.getElementById('pTitle').value;
+      const price = document.getElementById('pPrice').value;
+      const description = document.getElementById('pDesc').value;
+      const image = document.getElementById('pImage').value;
+
+      const productsList = getStoredProducts();
+      const newProduct = {
+        id: Date.now(),
+        code,
+        title,
+        category,
+        subcategory,
+        price,
+        description,
+        image
+      };
+
+      productsList.push(newProduct);
+      localStorage.setItem('sublimart_products', JSON.stringify(productsList));
+
+      alert("Produto cadastrado com sucesso!");
+      document.getElementById('pCode').value = '';
+      document.getElementById('pTitle').value = '';
+      document.getElementById('pPrice').value = '';
+      document.getElementById('pDesc').value = '';
+      document.getElementById('pImage').value = '';
+      switchCategory(category);
+    }
+
+    function renderAdminProductsList() {
+      const container = document.getElementById('adminProductListContainer');
+      const searchVal = (document.getElementById('adminProdSearchInput')?.value || '').toLowerCase();
+      const productsList = getStoredProducts();
+      const catNames = getStoredCategoryNames();
+
+      const filtered = productsList.filter(p => 
+        p.code.toLowerCase().includes(searchVal) || 
+        p.title.toLowerCase().includes(searchVal) ||
+        p.category.toLowerCase().includes(searchVal)
+      );
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<p style="font-size:0.85rem; color:#777; text-align:center; padding: 1rem;">Nenhum produto encontrado.</p>';
+        return;
+      }
+
+      let html = '';
+      filtered.forEach(p => {
+        const catLabel = catNames[p.category] || p.category;
+        const subLabel = p.subcategory ? ` | ${p.subcategory}` : '';
+        html += `
+          <div class="admin-manage-card">
+            <div class="admin-manage-info">
+              <img src="${p.image}" alt="${p.title}" class="admin-manage-img">
+              <div class="admin-manage-details">
+                <strong>${p.code} - ${p.title}</strong>
+                <span>${catLabel}${subLabel} • ${p.price}</span>
+              </div>
+            </div>
+            <button class="btn-delete-adm" onclick="deleteProduct(${p.id})"><i class="fa-solid fa-trash"></i> Excluir</button>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
+
+    function deleteProduct(id) {
+      if (confirm("Tem certeza que deseja excluir este produto do catálogo?")) {
+        let productsList = getStoredProducts();
+        productsList = productsList.filter(p => p.id !== id);
+        localStorage.setItem('sublimart_products', JSON.stringify(productsList));
+        renderAdminProductsList();
+        switchCategory(currentCategory);
+      }
+    }
+
+    function renderAdminSubcatsList() {
+      const container = document.getElementById('adminSubcatListContainer');
+      const selectedCat = document.getElementById('adminSubcatCatFilter').value;
+      const allSubcats = getStoredSubcats();
+      const catNames = getStoredCategoryNames();
+      const subcats = allSubcats[selectedCat] || [];
+
+      if (subcats.length === 0) {
+        container.innerHTML = '<p style="font-size:0.85rem; color:#777; text-align:center; padding: 1rem;">Nenhuma subcategoria cadastrada nesta categoria.</p>';
+        return;
+      }
+
+      let html = '';
+      subcats.forEach(sub => {
+        html += `
+          <div class="admin-manage-card">
+            <div class="admin-manage-info">
+              <i class="fa-solid fa-tag" style="color: var(--accent-purple); font-size: 1.2rem;"></i>
+              <div class="admin-manage-details">
+                <strong>${sub}</strong>
+                <span>Subcategoria de ${catNames[selectedCat]}</span>
+              </div>
+            </div>
+            <div class="admin-action-btns">
+              <button class="btn-edit-adm" onclick="editSubcategory('${selectedCat}', '${sub}')"><i class="fa-solid fa-pen"></i> Editar</button>
+              <button class="btn-delete-adm" onclick="deleteSubcategory('${selectedCat}', '${sub}')"><i class="fa-solid fa-trash"></i> Excluir</button>
+            </div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
+
+    function editSubcategory(catKey, oldName) {
+      const newName = prompt(`Digite o novo nome para a subcategoria "${oldName}":`, oldName);
+      if (newName && newName.trim() !== "" && newName.trim().toUpperCase() !== oldName) {
+        const formattedNew = newName.trim().toUpperCase();
+        let allSubcats = getStoredSubcats();
+
+        if (allSubcats[catKey]) {
+          const idx = allSubcats[catKey].indexOf(oldName);
+          if (idx !== -1) allSubcats[catKey][idx] = formattedNew;
+          localStorage.setItem('sublimart_all_subcats', JSON.stringify(allSubcats));
+        }
+
+        let productsList = getStoredProducts();
+        productsList = productsList.map(p => {
+          if (p.category === catKey && p.subcategory === oldName) p.subcategory = formattedNew;
+          return p;
+        });
+        localStorage.setItem('sublimart_products', JSON.stringify(productsList));
+
+        renderAdminSubcatsList();
+        populateSubcatDropdown(catKey);
+        switchCategory(currentCategory);
+      }
+    }
+
+    function deleteSubcategory(catKey, subName) {
+      if (confirm(`Excluir a subcategoria "${subName}"?\nOs produtos dessa subcategoria continuarão cadastrados na categoria principal.`)) {
+        let allSubcats = getStoredSubcats();
+        if (allSubcats[catKey]) {
+          allSubcats[catKey] = allSubcats[catKey].filter(s => s !== subName);
+          localStorage.setItem('sublimart_all_subcats', JSON.stringify(allSubcats));
+        }
+
+        let productsList = getStoredProducts();
+        productsList = productsList.map(p => {
+          if (p.category === catKey && p.subcategory === subName) p.subcategory = '';
+          return p;
+        });
+        localStorage.setItem('sublimart_products', JSON.stringify(productsList));
+
+        renderAdminSubcatsList();
+        populateSubcatDropdown(catKey);
+        switchCategory(currentCategory);
+      }
+    }
+
+    function renderAdminCatNamesList() {
+      const container = document.getElementById('adminCatListContainer');
+      const catNames = getStoredCategoryNames();
+
+      let html = '';
+      Object.keys(catNames).forEach(key => {
+        html += `
+          <div class="admin-manage-card">
+            <div class="admin-manage-info">
+              <i class="fa-solid fa-folder" style="color: var(--accent-magenta); font-size: 1.2rem;"></i>
+              <div class="admin-manage-details">
+                <strong>${catNames[key]}</strong>
+                <span>Chave: ${key}</span>
+              </div>
+            </div>
+            <div class="admin-action-btns">
+              <button class="btn-edit-adm" onclick="editCategoryName('${key}', '${catNames[key]}')"><i class="fa-solid fa-pen"></i> Renomear</button>
+              <button class="btn-delete-adm" onclick="deleteCategoryName('${key}', '${catNames[key]}')"><i class="fa-solid fa-trash"></i> Excluir</button>
+            </div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
+
+    function editCategoryName(catKey, oldName) {
+      const newName = prompt(`Digite o novo nome para a categoria "${oldName}":`, oldName);
+      if (newName && newName.trim() !== "") {
+        let catNames = getStoredCategoryNames();
+        catNames[catKey] = newName.trim();
+        localStorage.setItem('sublimart_cat_names', JSON.stringify(catNames));
+
+        renderAdminCatNamesList();
+        populateCategoryDropdowns();
+        renderMainNavigation();
+        switchCategory(currentCategory);
+      }
+    }
+
+    function deleteCategoryName(catKey, catName) {
+      if (confirm(`ATENÇÃO: Deseja realmente excluir a categoria "${catName}"?\nTodos os produtos e subcategorias vinculados a ela também serão removidos!`)) {
+        let catNames = getStoredCategoryNames();
+        delete catNames[catKey];
+        localStorage.setItem('sublimart_cat_names', JSON.stringify(catNames));
+
+        let allSubcats = getStoredSubcats();
+        delete allSubcats[catKey];
+        localStorage.setItem('sublimart_all_subcats', JSON.stringify(allSubcats));
+
+        let productsList = getStoredProducts();
+        productsList = productsList.filter(p => p.category !== catKey);
+        localStorage.setItem('sublimart_products', JSON.stringify(productsList));
+
+        alert(`Categoria "${catName}" excluída com sucesso!`);
+        renderAdminCatNamesList();
+        populateCategoryDropdowns();
+        renderMainNavigation();
+        switchCategory('todos');
+      }
+    }
+
     window.onload = () => {
-      renderProducts(products);
+      renderMainNavigation();
+      renderOverview();
     };
   </script>
 </body>
