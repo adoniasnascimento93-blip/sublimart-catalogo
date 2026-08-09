@@ -227,6 +227,7 @@
       display: flex;
       flex-direction: column;
       position: relative;
+      cursor: pointer;
     }
 
     .card:hover {
@@ -345,7 +346,7 @@
       cursor: pointer;
     }
 
-    /* MODAL ADMIN */
+    /* MODAIS (GERAL) */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -377,41 +378,7 @@
       font-weight: 700;
       margin-bottom: 1rem;
       color: var(--dark-color);
-      padding-right: 2.5rem; /* Evita colar no ícone de fechar */
-    }
-
-    /* CABEÇALHO INTERNO DO PAINEL ADM */
-    .admin-panel-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1.2rem;
-      padding-right: 2.5rem; /* Garante que o X do modal fique livre */
-    }
-
-    .admin-panel-header h3 {
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin: 0;
-    }
-
-    .btn-logout-admin {
-      background: #dc3545;
-      color: #fff;
-      border: none;
-      padding: 0.4rem 0.82rem;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 0.78rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      transition: background 0.2s ease;
-    }
-
-    .btn-logout-admin:hover {
-      background: #bd2130;
+      padding-right: 2.5rem;
     }
 
     .btn-close-modal {
@@ -437,6 +404,121 @@
       background: #e0e0e0;
       color: #000;
     }
+
+    /* MODAL DE DETALHES DO PRODUTO (CLIENTE) */
+    .product-detail-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .product-detail-img {
+      width: 100%;
+      max-height: 380px;
+      object-fit: cover;
+      border-radius: 12px;
+      background: #f0f0f0;
+    }
+
+    .product-detail-badges {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .product-detail-code {
+      background: var(--dark-color);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+    }
+
+    .product-detail-subcat {
+      background: var(--accent-magenta);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+    }
+
+    .product-detail-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--dark-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .product-detail-price {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent-purple);
+      margin-bottom: 0.8rem;
+    }
+
+    .product-detail-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      background: #f8f9fa;
+      padding: 1rem;
+      border-radius: 10px;
+      border: 1px solid #eee;
+    }
+
+    .btn-buy-modal {
+      background: #25D366;
+      color: #fff;
+      text-decoration: none;
+      padding: 0.8rem 1.2rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+      transition: background 0.3s ease;
+    }
+
+    .btn-buy-modal:hover { background: #1EBE5D; }
+
+    /* CABEÇALHO INTERNO DO PAINEL ADM */
+    .admin-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.2rem;
+      padding-right: 2.5rem;
+    }
+
+    .admin-panel-header h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .btn-logout-admin {
+      background: #dc3545;
+      color: #fff;
+      border: none;
+      padding: 0.4rem 0.82rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.78rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: background 0.2s ease;
+    }
+
+    .btn-logout-admin:hover { background: #bd2130; }
 
     .form-group { margin-bottom: 1rem; }
 
@@ -655,6 +737,16 @@
     <div class="catalog-grid" id="catalog-grid"></div>
   </main>
 
+  <!-- MODAL DE VISUALIZAÇÃO DO PRODUTO (POP-UP CLIENTE) -->
+  <div class="modal-overlay" id="productModal">
+    <div class="modal-card">
+      <button class="btn-close-modal" onclick="closeProductModal()"><i class="fa-solid fa-xmark"></i></button>
+      <div class="product-detail-container" id="productModalContent">
+        <!-- Preenchido dinamicamente via JS -->
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL DE LOGIN / GERENCIAMENTO ADM -->
   <div class="modal-overlay" id="adminModal">
     <div class="modal-card">
@@ -776,7 +868,7 @@
     </div>
   </footer>
 
-  <!-- SCRIPT DO FIREBASE (COM SUAS CREDENCIAIS CONFIGURADAS) -->
+  <!-- SCRIPT DO FIREBASE -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -862,16 +954,16 @@
     };
 
     const defaultProducts = [
-      { id: 1, code: "CANECA Nº1", title: "Caneca Porcelana - Amizade", category: "canecas", subcategory: "AMIZADE", price: "R$ 35,00", description: "Caneca 300ml personalizada tema Amizade.", image: "https://via.placeholder.com/400x300?text=Caneca+Amizade" },
-      { id: 2, code: "CANECA Nº2", title: "Caneca Porcelana - Natal", category: "canecas", subcategory: "NATAL", price: "R$ 35,00", description: "Caneca 300ml especial de Natal.", image: "https://via.placeholder.com/400x300?text=Caneca+Natal" },
-      { id: 3, code: "CANECA Nº3", title: "Caneca Porcelana - Dia dos Pais", category: "canecas", subcategory: "DIA DOS PAIS", price: "R$ 35,00", description: "Caneca 300ml com estampa Dia dos Pais.", image: "https://via.placeholder.com/400x300?text=Caneca+Dia+dos+Pais" },
-      { id: 4, code: "CANECA Nº4", title: "Caneca Porcelana - Dia das Mães", category: "canecas", subcategory: "DIA DAS MÃES", price: "R$ 35,00", description: "Caneca 300ml com estampa Dia das Mães.", image: "https://via.placeholder.com/400x300?text=Caneca+Dia+das+Maes" },
-      { id: 5, code: "CARTÃO SUS Nº1", title: "Cartão do SUS Personalizado", category: "card-sus", subcategory: "INFANTIL", price: "R$ 15,00", description: "Cartão do SUS plastificado e personalizado.", image: "https://via.placeholder.com/400x300?text=Card+SUS+N1" },
-      { id: 6, code: "CADERNETA DE VACINAÇÃO Nº1", title: "Caderneta de Vacinação Luxo", category: "cadernetas", subcategory: "MENINA", price: "R$ 65,00", description: "Capa dura com acabamento especial.", image: "https://via.placeholder.com/400x300?text=Caderneta+N1" },
-      { id: 7, code: "PLACA DECORATIVA Nº1", title: "Placa Decorativa MDF 20x30", category: "placas-mdf", subcategory: "DECORATIVAS", price: "R$ 25,00", description: "Placa MDF com fita dupla face.", image: "https://via.placeholder.com/400x300?text=Placa+MDF+N1" },
-      { id: 8, code: "CHAVEIRO MDF Nº1", title: "Chaveiro MDF Sublimado", category: "chaveiros-mdf", subcategory: "PERSONALIZADOS", price: "R$ 8,00", description: "Chaveiro personalizado frente e verso.", image: "https://via.placeholder.com/400x300?text=Chaveiro+MDF+N1" },
-      { id: 9, code: "CAMISA Nº1", title: "Camisa Poliéster Personalizada", category: "camisas", subcategory: "MASCULINA", price: "R$ 45,00", description: "Camisa 100% poliéster leve.", image: "https://via.placeholder.com/400x300?text=Camisa+N1" },
-      { id: 10, code: "OUTROS Nº1", title: "Almofada Personalizada 30x30", category: "outros", subcategory: "ALMOFADAS", price: "R$ 30,00", description: "Almofada estampada macia.", image: "https://via.placeholder.com/400x300?text=Almofada+N1" }
+      { id: 1, code: "CANECA Nº1", title: "Caneca Porcelana - Amizade", category: "canecas", subcategory: "AMIZADE", price: "R$ 35,00", description: "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.", image: "https://via.placeholder.com/400x300?text=Caneca+Amizade" },
+      { id: 2, code: "CANECA Nº2", title: "Caneca Porcelana - Natal", category: "canecas", subcategory: "NATAL", price: "R$ 35,00", description: "Caneca 300ml especial de Natal personalizada.", image: "https://via.placeholder.com/400x300?text=Caneca+Natal" },
+      { id: 3, code: "CANECA Nº3", title: "Caneca Porcelana - Dia dos Pais", category: "canecas", subcategory: "DIA DOS PAIS", price: "R$ 35,00", description: "Caneca 300ml com estampa especial para o Dia dos Pais.", image: "https://via.placeholder.com/400x300?text=Caneca+Dia+dos+Pais" },
+      { id: 4, code: "CANECA Nº4", title: "Caneca Porcelana - Dia das Mães", category: "canecas", subcategory: "DIA DAS MÃES", price: "R$ 35,00", description: "Caneca 300ml com estampa especial para o Dia das Mães.", image: "https://via.placeholder.com/400x300?text=Caneca+Dia+das+Maes" },
+      { id: 5, code: "CARTÃO SUS Nº1", title: "Cartão do SUS Personalizado", category: "card-sus", subcategory: "INFANTIL", price: "R$ 15,00", description: "Cartão do SUS plastificado e personalizado no tema desejado com dados completos do paciente.", image: "https://via.placeholder.com/400x300?text=Card+SUS+N1" },
+      { id: 6, code: "CADERNETA DE VACINAÇÃO Nº1", title: "Caderneta de Vacinação Luxo", category: "cadernetas", subcategory: "MENINA", price: "R$ 65,00", description: "Capa dura, encadernação wire-o, bolso e saquinho porta documentos.", image: "https://via.placeholder.com/400x300?text=Caderneta+N1" },
+      { id: 7, code: "PLACA DECORATIVA Nº1", title: "Placa Decorativa MDF 20x30", category: "placas-mdf", subcategory: "DECORATIVAS", price: "R$ 25,00", description: "Placa MDF 3mm com fita dupla face inclusa para fixação sem furos.", image: "https://via.placeholder.com/400x300?text=Placa+MDF+N1" },
+      { id: 8, code: "CHAVEIRO MDF Nº1", title: "Chaveiro MDF Sublimado", category: "chaveiros-mdf", subcategory: "PERSONALIZADOS", price: "R$ 8,00", description: "Chaveiro personalizado frente e verso com argola e corrente.", image: "https://via.placeholder.com/400x300?text=Chaveiro+MDF+N1" },
+      { id: 9, code: "CAMISA Nº1", title: "Camisa Poliéster Personalizada", category: "camisas", subcategory: "MASCULINA", price: "R$ 45,00", description: "Camisa 100% poliéster leve com estampa em sublimação HD.", image: "https://via.placeholder.com/400x300?text=Camisa+N1" },
+      { id: 10, code: "OUTROS Nº1", title: "Almofada Personalizada 30x30", category: "outros", subcategory: "ALMOFADAS", price: "R$ 30,00", description: "Almofada estampada macia com enchimento antialérgico.", image: "https://via.placeholder.com/400x300?text=Almofada+N1" }
     ];
 
     function getStoredProducts() {
@@ -986,7 +1078,7 @@
         const subcatBadge = product.subcategory ? `<span class="card-subcat-badge">${product.subcategory}</span>` : '';
 
         const cardHtml = `
-          <div class="card">
+          <div class="card" onclick="openProductModal(${product.id})">
             <div class="card-img-wrapper">
               <span class="card-code-badge">${product.code}</span>
               ${subcatBadge}
@@ -997,7 +1089,7 @@
               <p class="card-desc">${product.description}</p>
               <div class="card-footer-buy">
                 <span class="price">${product.price}</span>
-                <a href="${waUrl}" target="_blank" class="btn-buy">
+                <a href="${waUrl}" target="_blank" class="btn-buy" onclick="event.stopPropagation()">
                   <i class="fa-brands fa-whatsapp"></i> COMPRAR
                 </a>
               </div>
@@ -1006,6 +1098,40 @@
         `;
         grid.innerHTML += cardHtml;
       });
+    }
+
+    /* SISTEMA DO POP-UP DE VISUALIZAÇÃO DO PRODUTO */
+    function openProductModal(productId) {
+      const productsList = getStoredProducts();
+      const product = productsList.find(p => p.id === productId);
+      if (!product) return;
+
+      const message = encodeURIComponent(`Olá! Gostaria de comprar o item: ${product.code}`);
+      const waUrl = `https://wa.me/${WA_BUY_NUMBER}?text=${message}`;
+      const subcatHtml = product.subcategory ? `<span class="product-detail-subcat">${product.subcategory}</span>` : '';
+
+      const modalContent = document.getElementById('productModalContent');
+      modalContent.innerHTML = `
+        <img src="${product.image}" alt="${product.title}" class="product-detail-img">
+        <div>
+          <div class="product-detail-badges">
+            <span class="product-detail-code">${product.code}</span>
+            ${subcatHtml}
+          </div>
+          <h2 class="product-detail-title">${product.title}</h2>
+          <div class="product-detail-price">${product.price}</div>
+          <div class="product-detail-desc">${product.description}</div>
+          <a href="${waUrl}" target="_blank" class="btn-buy-modal">
+            <i class="fa-brands fa-whatsapp"></i> QUERO COMPRAR ESTE MODELO
+          </a>
+        </div>
+      `;
+
+      document.getElementById('productModal').style.display = 'flex';
+    }
+
+    function closeProductModal() {
+      document.getElementById('productModal').style.display = 'none';
     }
 
     function renderSubcategoriesBar(category, subcats) {
