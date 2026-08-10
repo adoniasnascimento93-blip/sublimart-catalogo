@@ -92,6 +92,16 @@
       transform: translateY(-2px);
     }
 
+    .contact-btn-head.wa:hover {
+      background: #25D366;
+      border-color: #25D366;
+    }
+
+    .contact-btn-head.ig:hover {
+      background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+      border-color: transparent;
+    }
+
     .btn-admin-trigger {
       position: absolute;
       top: 15px;
@@ -438,7 +448,7 @@
 
   <!-- CONTEÚDO DO CATÁLOGO -->
   <main>
-    <h2 class="category-title" id="category-title"><i class="fa-solid fa-border-all"></i> Carregando produtos...</h2>
+    <h2 class="category-title" id="category-title"><i class="fa-solid fa-border-all"></i> Todos os Produtos</h2>
     <div class="subcategories-bar" id="subcategories-bar"></div>
     <div class="catalog-grid" id="catalog-grid"></div>
   </main>
@@ -484,8 +494,10 @@
           <button class="admin-tab-btn" id="btnTabManageProd" onclick="switchAdminTab('manageProd')"><i class="fa-solid fa-boxes-stacked"></i> Gerenciar Produtos</button>
           <button class="admin-tab-btn" id="btnTabManageSubcat" onclick="switchAdminTab('manageSubcat')"><i class="fa-solid fa-tags"></i> Subcategorias</button>
           <button class="admin-tab-btn" id="btnTabManageCat" onclick="switchAdminTab('manageCat')"><i class="fa-solid fa-folder"></i> Categorias Principais</button>
+          <button class="admin-tab-btn" id="btnTabGithub" onclick="switchAdminTab('github')"><i class="fa-brands fa-github"></i> Configurar GitHub</button>
         </div>
 
+        <!-- CADASTRAR/EDITAR PRODUTO -->
         <div id="adminSecAdd">
           <h4 id="formProductTitleHeader" style="font-size: 1rem; margin-bottom: 0.8rem;">Cadastrar Novo Produto</h4>
           <form onsubmit="handleSaveProduct(event)">
@@ -531,6 +543,7 @@
           </form>
         </div>
 
+        <!-- GERENCIAR PRODUTOS -->
         <div id="adminSecManageProd" style="display: none;">
           <h4 style="font-size: 1rem; margin-bottom: 0.8rem;">Gerenciar / Editar / Excluir Produtos</h4>
           <div class="admin-search-box">
@@ -539,6 +552,7 @@
           <div id="adminProductListContainer" style="max-height: 320px; overflow-y: auto; padding-right: 0.3rem;"></div>
         </div>
 
+        <!-- GERENCIAR SUBCATEGORIAS -->
         <div id="adminSecManageSubcat" style="display: none;">
           <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Editar ou Excluir Subcategorias</h4>
           <p style="font-size: 0.8rem; color: #666; margin-bottom: 1rem;">Selecione a categoria principal:</p>
@@ -548,10 +562,32 @@
           <div id="adminSubcatListContainer" style="max-height: 280px; overflow-y: auto;"></div>
         </div>
 
+        <!-- GERENCIAR CATEGORIAS -->
         <div id="adminSecManageCat" style="display: none;">
           <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Editar ou Excluir Categorias Principais</h4>
           <p style="font-size: 0.8rem; color: #666; margin-bottom: 1rem;">Gerencie as abas do topo do site:</p>
           <div id="adminCatListContainer" style="max-height: 280px; overflow-y: auto;"></div>
+        </div>
+
+        <!-- CONFIGURAR GITHUB -->
+        <div id="adminSecGithub" style="display: none;">
+          <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Conectar com o GitHub</h4>
+          <p style="font-size: 0.8rem; color: #666; margin-bottom: 1rem;">Configure os dados para salvar alterações diretamente no arquivo no GitHub:</p>
+          <form onsubmit="handleSaveGithubConfig(event)">
+            <div class="form-group">
+              <label>GitHub Username (Seu Usuário):</label>
+              <input type="text" id="ghUsername" placeholder="Ex: adoniasdesigner" required>
+            </div>
+            <div class="form-group">
+              <label>Nome do Repositório:</label>
+              <input type="text" id="ghRepo" placeholder="Ex: sublimart-catalogo" required>
+            </div>
+            <div class="form-group">
+              <label>Personal Access Token (PAT):</label>
+              <input type="password" id="ghToken" placeholder="ghp_..." required>
+            </div>
+            <button type="submit" class="btn-submit-admin">SALVAR CONFIGURAÇÃO GITHUB</button>
+          </form>
         </div>
 
       </div>
@@ -568,11 +604,10 @@
     </div>
   </footer>
 
-  <!-- SCRIPT DO FIREBASE + FIRESTORE -->
+  <!-- SCRIPT FIREBASE -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyANjvOsw0EJohoDtgQAZ3gvN8Sd8UqGZDk",
@@ -585,13 +620,7 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-    const db = getFirestore(app);
 
-    window.db = db;
-    window.doc = doc;
-    window.setDoc = setDoc;
-
-    // ESCUTA LOGIN ADM
     onAuthStateChanged(auth, (user) => {
       if (user) {
         window.isAdminLoggedIn = true;
@@ -599,6 +628,7 @@
         document.getElementById('adminMainPanel').style.display = 'block';
         window.populateCategoryDropdowns();
         window.switchAdminTab('add');
+        window.loadGithubConfigInputs();
       } else {
         window.isAdminLoggedIn = false;
         document.getElementById('adminLoginForm').style.display = 'block';
@@ -630,51 +660,9 @@
       alert("Sessão finalizada!");
       window.closeAdminModal();
     };
-
-    // SINCRONIZAÇÃO EM TEMPO REAL COM FIREBASE FIRESTORE
-    async function initFirestoreSync() {
-      const docRef = doc(db, "catalogo", "dados");
-
-      onSnapshot(docRef, async (snapshot) => {
-        if (snapshot.exists()) {
-          const data = snapshot.data();
-          window.appProducts = data.products || [];
-          window.appSubcats = data.subcats || {};
-          window.appCatNames = data.catNames || {};
-        } else {
-          // Inicializa dados padrão na primeira execução
-          window.appProducts = window.defaultProducts;
-          window.appSubcats = window.defaultSubcategories;
-          window.appCatNames = window.defaultCategoryNames;
-          await window.syncToFirebase();
-        }
-
-        window.renderMainNavigation();
-        if (window.currentCategory === 'todos') {
-          window.renderOverview();
-        } else {
-          window.renderCategoryProducts(window.currentCategory);
-        }
-      });
-    }
-
-    window.syncToFirebase = async function() {
-      try {
-        const docRef = doc(db, "catalogo", "dados");
-        await setDoc(docRef, {
-          products: window.appProducts,
-          subcats: window.appSubcats,
-          catNames: window.appCatNames
-        });
-      } catch (e) {
-        console.error("Erro ao salvar no Firebase: ", e);
-      }
-    };
-
-    initFirestoreSync();
   </script>
 
-  <!-- SCRIPT LÓGICA DO CATÁLOGO -->
+  <!-- SCRIPT LÓGICA DO CATÁLOGO E INTEGRAÇÃO DIRECTA COM GITHUB -->
   <script>
     const WA_BUY_NUMBER = "5592992914876";
 
@@ -682,7 +670,9 @@
     window.currentCategory = 'todos';
     window.currentSubcategory = 'todas';
 
-    window.defaultCategoryNames = {
+    // DADOS FIXOS DO CÓDIGO (SERÃO ATUALIZADOS DIRETO NO ARQUIVO PELO GITHUB)
+    /*START_DATA*/
+    window.appCatNames = {
       'card-sus': 'Card SUS',
       'canecas': 'Canecas',
       'cadernetas': 'Cadernetas de Vacinação',
@@ -692,7 +682,7 @@
       'outros': 'Outros'
     };
 
-    window.defaultSubcategories = {
+    window.appSubcats = {
       'canecas': ['AMIZADE', 'NATAL', 'DIA DOS PAIS', 'DIA DAS MÃES'],
       'card-sus': ['INFANTIL', 'ADULTO'],
       'cadernetas': ['MENINO', 'MENINA'],
@@ -702,17 +692,14 @@
       'outros': ['ALMOFADAS', 'DIVERSOS']
     };
 
-    window.defaultProducts = [
-      { id: 1, code: "CANECA Nº1", title: "Caneca Porcelana - Amizade", category: "canecas", subcategory: "AMIZADE", price: "R$ 35,00", description: "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade.", image: "https://via.placeholder.com/400x300?text=Caneca+Amizade" },
+    window.appProducts = [
+      { id: 1, code: "CANECA Nº1", title: "Caneca Porcelana - Amizade", category: "canecas", subcategory: "AMIZADE", price: "R$ 35,00", description: "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.", image: "https://via.placeholder.com/400x300?text=Caneca+Amizade" },
       { id: 2, code: "CANECA Nº2", title: "Caneca Porcelana - Natal", category: "canecas", subcategory: "NATAL", price: "R$ 35,00", description: "Caneca 300ml especial de Natal personalizada.", image: "https://via.placeholder.com/400x300?text=Caneca+Natal" },
-      { id: 3, code: "CANECA Nº3", title: "Caneca Porcelana - Dia dos Pais", category: "canecas", subcategory: "DIA DOS PAIS", price: "R$ 35,00", description: "Caneca 300ml para o Dia dos Pais.", image: "https://via.placeholder.com/400x300?text=Caneca+Dia+dos+Pais" },
-      { id: 4, code: "CANECA Nº4", title: "Caneca Porcelana - Dia das Mães", category: "canecas", subcategory: "DIA DAS MÃES", price: "R$ 35,00", description: "Caneca 300ml para o Dia das Mães.", image: "https://via.placeholder.com/400x300?text=Caneca+Dia+das+Maes" },
-      { id: 5, code: "CARTÃO SUS Nº1", title: "Cartão do SUS Personalizado", category: "card-sus", subcategory: "INFANTIL", price: "R$ 15,00", description: "Cartão do SUS plastificado e personalizado.", image: "https://via.placeholder.com/400x300?text=Card+SUS+N1" }
+      { id: 3, code: "CANECA Nº3", title: "Caneca Porcelana - Dia dos Pais", category: "canecas", subcategory: "DIA DOS PAIS", price: "R$ 35,00", description: "Caneca 300ml com estampa especial para o Dia dos Pais.", image: "https://via.placeholder.com/400x300?text=Caneca+Dia+dos+Pais" },
+      { id: 4, code: "CANECA Nº4", title: "Caneca Porcelana - Dia das Mães", category: "canecas", subcategory: "DIA DAS MÃES", price: "R$ 35,00", description: "Caneca 300ml com estampa especial para o Dia das Mães.", image: "https://via.placeholder.com/400x300?text=Caneca+Dia+das+Maes" },
+      { id: 5, code: "CARTÃO SUS Nº1", title: "Cartão do SUS Personalizado", category: "card-sus", subcategory: "INFANTIL", price: "R$ 15,00", description: "Cartão do SUS plastificado e personalizado no tema desejado com dados completos do paciente.", image: "https://via.placeholder.com/400x300?text=Card+SUS+N1" }
     ];
-
-    window.appProducts = [];
-    window.appSubcats = {};
-    window.appCatNames = {};
+    /*END_DATA*/
 
     function formatCurrencyInput(input) {
       let value = input.value.replace(/\D/g, "");
@@ -725,7 +712,7 @@
 
     function renderMainNavigation() {
       const container = document.getElementById('navTabsContainer');
-      const catNames = window.appCatNames || window.defaultCategoryNames;
+      const catNames = window.appCatNames;
 
       const defaultIcons = {
         'card-sus': 'fa-id-card', 'canecas': 'fa-mug-hot', 'cadernetas': 'fa-book-medical',
@@ -916,11 +903,13 @@
       document.getElementById('adminSecManageProd').style.display = tab === 'manageProd' ? 'block' : 'none';
       document.getElementById('adminSecManageSubcat').style.display = tab === 'manageSubcat' ? 'block' : 'none';
       document.getElementById('adminSecManageCat').style.display = tab === 'manageCat' ? 'block' : 'none';
+      document.getElementById('adminSecGithub').style.display = tab === 'github' ? 'block' : 'none';
 
       document.getElementById('btnTabAdd').classList.toggle('active', tab === 'add');
       document.getElementById('btnTabManageProd').classList.toggle('active', tab === 'manageProd');
       document.getElementById('btnTabManageSubcat').classList.toggle('active', tab === 'manageSubcat');
       document.getElementById('btnTabManageCat').classList.toggle('active', tab === 'manageCat');
+      document.getElementById('btnTabGithub').classList.toggle('active', tab === 'github');
 
       if (tab === 'manageProd') renderAdminProductsList();
       if (tab === 'manageSubcat') renderAdminSubcatsList();
@@ -957,6 +946,63 @@
       }
     }
 
+    /* SALVAR E SINCRONIZAR AUTOMATICAMENTE COM GITHUB */
+    async function commitToGithub() {
+      const username = localStorage.getItem('gh_username');
+      const repo = localStorage.getItem('gh_repo');
+      const token = localStorage.getItem('gh_token');
+
+      if (!username || !repo || !token) {
+        alert("Atenção: Configure seus dados do GitHub na aba 'Configurar GitHub' no Painel ADM para salvar as alterações para todos os celulares!");
+        return;
+      }
+
+      try {
+        const filePath = "index.html";
+        const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/${filePath}`;
+
+        // 1. Pega o SHA do arquivo atual
+        const getFileRes = await fetch(apiUrl, {
+          headers: { "Authorization": `token ${token}` }
+        });
+        
+        if (!getFileRes.ok) throw new Error("Não foi possível acessar o repositório no GitHub.");
+        
+        const fileData = await getFileRes.json();
+        const sha = fileData.sha;
+        const currentContent = decodeURIComponent(escape(atob(fileData.content)));
+
+        // 2. Prepara o novo bloco de dados
+        const newBlock = `/*START_DATA*/\n    window.appCatNames = ${JSON.stringify(window.appCatNames, null, 2)};\n\n    window.appSubcats = ${JSON.stringify(window.appSubcats, null, 2)};\n\n    window.appProducts = ${JSON.stringify(window.appProducts, null, 2)};\n    /*END_DATA*/`;
+
+        // 3. Substitui o bloco no código fonte
+        const updatedContent = currentContent.replace(/\/\*START_DATA\*\/[\s\S]*?\/\*END_DATA\*\//, newBlock);
+
+        // 4. Faz o COMMIT via API
+        const putRes = await fetch(apiUrl, {
+          method: "PUT",
+          headers: {
+            "Authorization": `token ${token}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            message: "Atualização via Painel ADM",
+            content: btoa(unescape(encodeURIComponent(updatedContent))),
+            sha: sha
+          })
+        });
+
+        if (putRes.ok) {
+          alert("Sua alteração foi salva no GitHub com sucesso! Em cerca de 1 a 2 minutos o site estará atualizado em todos os celulares.");
+        } else {
+          alert("Erro ao fazer commit no GitHub. Verifique seu Token e permissões.");
+        }
+
+      } catch (err) {
+        alert("Erro na sincronização com GitHub: " + err.message);
+      }
+    }
+
     async function handleSaveProduct(e) {
       e.preventDefault();
       const editingId = document.getElementById('pEditingId').value;
@@ -990,19 +1036,17 @@
           }
           return p;
         });
-        alert("Produto atualizado com sucesso!");
       } else {
         const newProduct = {
           id: Date.now(),
           code, title, category, subcategory, price, description, image
         };
         window.appProducts.push(newProduct);
-        alert("Produto cadastrado com sucesso!");
       }
 
-      await window.syncToFirebase();
       resetProductForm();
       switchCategory(category);
+      await commitToGithub();
     }
 
     function startEditProduct(id) {
@@ -1086,9 +1130,9 @@
     async function deleteProduct(id) {
       if (confirm("Tem certeza que deseja excluir este produto do catálogo?")) {
         window.appProducts = window.appProducts.filter(p => p.id !== id);
-        await window.syncToFirebase();
         renderAdminProductsList();
         switchCategory(window.currentCategory);
+        await commitToGithub();
       }
     }
 
@@ -1140,10 +1184,10 @@
           return p;
         });
 
-        await window.syncToFirebase();
         renderAdminSubcatsList();
         populateSubcatDropdown(catKey);
         switchCategory(window.currentCategory);
+        await commitToGithub();
       }
     }
 
@@ -1158,10 +1202,10 @@
           return p;
         });
 
-        await window.syncToFirebase();
         renderAdminSubcatsList();
         populateSubcatDropdown(catKey);
         switchCategory(window.currentCategory);
+        await commitToGithub();
       }
     }
 
@@ -1195,11 +1239,11 @@
       if (newName && newName.trim() !== "") {
         window.appCatNames[catKey] = newName.trim();
 
-        await window.syncToFirebase();
         renderAdminCatNamesList();
         populateCategoryDropdowns();
         renderMainNavigation();
         switchCategory(window.currentCategory);
+        await commitToGithub();
       }
     }
 
@@ -1209,14 +1253,38 @@
         delete window.appSubcats[catKey];
         window.appProducts = window.appProducts.filter(p => p.category !== catKey);
 
-        await window.syncToFirebase();
-        alert(`Categoria "${catName}" excluída com sucesso!`);
         renderAdminCatNamesList();
         populateCategoryDropdowns();
         renderMainNavigation();
         switchCategory('todos');
+        await commitToGithub();
       }
     }
+
+    /* GERENCIAMENTO DA CONFIGURAÇÃO DO GITHUB NO LOCALSTORAGE DO ADM */
+    function loadGithubConfigInputs() {
+      document.getElementById('ghUsername').value = localStorage.getItem('gh_username') || '';
+      document.getElementById('ghRepo').value = localStorage.getItem('gh_repo') || '';
+      document.getElementById('ghToken').value = localStorage.getItem('gh_token') || '';
+    }
+
+    function handleSaveGithubConfig(e) {
+      e.preventDefault();
+      const u = document.getElementById('ghUsername').value.trim();
+      const r = document.getElementById('ghRepo').value.trim();
+      const t = document.getElementById('ghToken').value.trim();
+
+      localStorage.setItem('gh_username', u);
+      localStorage.setItem('gh_repo', r);
+      localStorage.setItem('gh_token', t);
+
+      alert("Configuração do GitHub salva com sucesso no seu dispositivo de ADM!");
+    }
+
+    window.onload = () => {
+      renderMainNavigation();
+      renderOverview();
+    };
   </script>
 </body>
 </html>
