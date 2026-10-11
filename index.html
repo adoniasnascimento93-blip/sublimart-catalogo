@@ -160,7 +160,7 @@
       box-shadow: 0 4px 12px rgba(255, 0, 122, 0.3);
     }
 
-    /* BARRA DE SUBCATEGORIAS (ROLAGEM HORIZONTAL NO MOBILE) */
+    /* BARRA DE SUBCATEGORIAS */
     .subcategories-bar {
       display: none;
       gap: 0.5rem;
@@ -431,31 +431,16 @@
     .footer-contacts a.wa-link { color: #25D366; }
     .footer-contacts a.ig-link { color: #E1306C; }
 
-    /* REGRAS RESPONSIVAS PARA DISPOSITIVOS MÓVEIS (CELULAR) */
+    /* REGRAS RESPONSIVAS */
     @media (max-width: 600px) {
       header h1 { font-size: 1.8rem; }
-      
-      /* Grid com 2 colunas no celular */
       .catalog-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 0.8rem;
       }
-
-      /* Adaptação dos cards para tela menor */
-      .card-img-wrapper {
-        height: 140px;
-      }
-
-      .card-body {
-        padding: 0.7rem;
-      }
-
-      .card-title {
-        font-size: 0.88rem;
-        line-height: 1.2;
-        margin-bottom: 0.2rem;
-      }
-
+      .card-img-wrapper { height: 140px; }
+      .card-body { padding: 0.7rem; }
+      .card-title { font-size: 0.88rem; line-height: 1.2; margin-bottom: 0.2rem; }
       .card-desc {
         font-size: 0.75rem;
         margin-bottom: 0.5rem;
@@ -464,30 +449,10 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
       }
-
-      .price {
-        font-size: 0.95rem;
-      }
-
-      .btn-buy {
-        padding: 0.4rem 0.6rem;
-        font-size: 0.75rem;
-      }
-
-      .card-code-badge {
-        font-size: 0.65rem;
-        padding: 0.2rem 0.4rem;
-        top: 6px;
-        left: 6px;
-      }
-
-      .card-subcat-badge {
-        font-size: 0.6rem;
-        padding: 0.15rem 0.35rem;
-        bottom: 6px;
-        left: 6px;
-      }
-
+      .price { font-size: 0.95rem; }
+      .btn-buy { padding: 0.4rem 0.6rem; font-size: 0.75rem; }
+      .card-code-badge { font-size: 0.65rem; padding: 0.2rem 0.4rem; top: 6px; left: 6px; }
+      .card-subcat-badge { font-size: 0.6rem; padding: 0.15rem 0.35rem; bottom: 6px; left: 6px; }
       .modal-card { padding: 1.5rem 1.2rem; }
       .admin-panel-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
     }
@@ -701,9 +666,9 @@
         window.isAdminLoggedIn = true;
         document.getElementById('adminLoginForm').style.display = 'none';
         document.getElementById('adminMainPanel').style.display = 'block';
-        window.populateCategoryDropdowns();
-        window.switchAdminTab('add');
-        window.loadGithubConfigInputs();
+        if (typeof window.populateCategoryDropdowns === 'function') window.populateCategoryDropdowns();
+        if (typeof window.switchAdminTab === 'function') window.switchAdminTab('add');
+        if (typeof window.loadGithubConfigInputs === 'function') window.loadGithubConfigInputs();
       } else {
         window.isAdminLoggedIn = false;
         document.getElementById('adminLoginForm').style.display = 'block';
@@ -733,11 +698,11 @@
     window.handleFirebaseLogout = async function() {
       await signOut(auth);
       alert("Sessão finalizada!");
-      window.closeAdminModal();
+      if (typeof window.closeAdminModal === 'function') window.closeAdminModal();
     };
   </script>
 
-  <!-- SCRIPT LÓGICA DO CATÁLOGO E INTEGRAÇÃO DIRECTA COM GITHUB -->
+  <!-- SCRIPT LÓGICA DO CATÁLOGO E FUNÇÕES DE EXCLUSÃO -->
   <script>
     const WA_BUY_NUMBER = "5592992914876";
 
@@ -745,1503 +710,211 @@
     window.currentCategory = 'todos';
     window.currentSubcategory = 'todas';
 
-    // DADOS FIXOS DO CÓDIGO (SERÃO ATUALIZADOS DIRETO NO ARQUIVO PELO GITHUB)
     /*START_DATA*/
     window.appCatNames = {
-  "canecas": "Canecas",
-  "camisas": "Camisas"
-};
+      "canecas": "Canecas",
+      "camisas": "Camisas"
+    };
 
     window.appSubcats = {
-  "canecas": [
-    "AMIZADE",
-    "ANIVERSÁRIO",
-    "DESENHOS",
-    "FILMES"
-  ],
-  "camisas": [
-    "MASCULINA",
-    "FEMININA"
-  ]
-};
+      "canecas": [
+        "AMIZADE",
+        "ANIVERSÁRIO",
+        "DESENHOS",
+        "FILMES"
+      ],
+      "camisas": [
+        "MASCULINA",
+        "FEMININA"
+      ]
+    };
 
     window.appProducts = [
-  {
-    "id": 1,
-    "code": "CANECA Nº1",
-    "title": "Caneca Porcelana - Amizade",
-    "category": "canecas",
-    "subcategory": "AMIZADE",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/a4l2nF8.jpeg"
-  },
-  {
-    "id": 2,
-    "code": "CANECA Nº2",
-    "title": "Caneca Porcelana - Amizade ",
-    "category": "canecas",
-    "subcategory": "AMIZADE",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/kbOZGSz.jpeg"
-  },
-  {
-    "id": 1786332537399,
-    "code": "CANECA Nº3",
-    "title": "Caneca Porcelana - Amizade",
-    "category": "canecas",
-    "subcategory": "AMIZADE",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/VBsCihq.jpeg"
-  },
-  {
-    "id": 1786332990691,
-    "code": "CANECA Nº4",
-    "title": "Caneca Porcelana - Amizade",
-    "category": "canecas",
-    "subcategory": "AMIZADE",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/A9mf8kt.jpeg"
-  },
-  {
-    "id": 1786333037513,
-    "code": "CANECA Nº5",
-    "title": "Caneca Porcelana - Amizade",
-    "category": "canecas",
-    "subcategory": "AMIZADE",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/iPfuKun.jpeg"
-  },
-  {
-    "id": 1786333078163,
-    "code": "CANECA Nº6",
-    "title": "Caneca Porcelana - Amizade",
-    "category": "canecas",
-    "subcategory": "AMIZADE",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/wUNFOGh.jpeg"
-  },
-  {
-    "id": 1786333201629,
-    "code": "CANECA Nº7",
-    "title": "Caneca Porcelana - Amizade",
-    "category": "canecas",
-    "subcategory": "AMIZADE",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/rheWC4i.jpeg"
-  },
-  {
-    "id": 1786333321167,
-    "code": "CANECA Nº8",
-    "title": "Caneca Porcelana - Amizade",
-    "category": "canecas",
-    "subcategory": "AMIZADE",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/2qMUK8Q.jpeg"
-  },
-  {
-    "id": 1786333430522,
-    "code": "CANECA Nº9",
-    "title": "Caneca Porcelana - Amizade",
-    "category": "canecas",
-    "subcategory": "AMIZADE",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/KIpcc72.jpeg"
-  },
-  {
-    "id": 1786333536647,
-    "code": "CANECA Nº10",
-    "title": "Caneca Porcelana - Amizade",
-    "category": "canecas",
-    "subcategory": "AMIZADE",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/Cz1jSQp.jpeg"
-  },
-  {
-    "id": 1786333648402,
-    "code": "CANECA Nº11",
-    "title": "Caneca Porcelana - Amizade",
-    "category": "canecas",
-    "subcategory": "AMIZADE",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/ncBM2Er.jpeg"
-  },
-  {
-    "id": 1786333746912,
-    "code": "CANECA Nº12",
-    "title": "Caneca Porcelana - Amizade",
-    "category": "canecas",
-    "subcategory": "AMIZADE",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/rb2lsPC.jpeg"
-  },
-  {
-    "id": 1786333834104,
-    "code": "CANECA Nº13",
-    "title": "Caneca Porcelana - Amizade",
-    "category": "canecas",
-    "subcategory": "AMIZADE",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/cKZucNW.jpeg"
-  },
-  {
-    "id": 1786333945942,
-    "code": "CANECA Nº14",
-    "title": "Caneca Porcelana - Amizade",
-    "category": "canecas",
-    "subcategory": "AMIZADE",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/fwyhJXu.jpeg"
-  },
-  {
-    "id": 1786334001774,
-    "code": "CANECA Nº15",
-    "title": "Caneca Porcelana - Amizade",
-    "category": "canecas",
-    "subcategory": "AMIZADE",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/DiQYXpt.jpeg"
-  },
-  {
-    "id": 1786334062182,
-    "code": "CANECA Nº16",
-    "title": "Caneca Porcelana - Amizade",
-    "category": "canecas",
-    "subcategory": "AMIZADE",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/EGFxtXs.jpeg"
-  },
-  {
-    "id": 1786334111966,
-    "code": "CANECA Nº17",
-    "title": "Caneca Porcelana - Amizade",
-    "category": "canecas",
-    "subcategory": "AMIZADE",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/Xvvf8Mu.jpeg"
-  },
-  {
-    "id": 1786334167236,
-    "code": "CANECA Nº18",
-    "title": "Caneca Porcelana - Amizade",
-    "category": "canecas",
-    "subcategory": "AMIZADE",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/6OszQC5.jpeg"
-  },
-  {
-    "id": 1786334263422,
-    "code": "CANECA Nº19",
-    "title": "Caneca Porcelana - Amizade",
-    "category": "canecas",
-    "subcategory": "AMIZADE",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/C2K7p6R.jpeg"
-  },
-  {
-    "id": 1786335594347,
-    "code": "CANECA Nº20",
-    "title": "Caneca Porcelana - Amizade",
-    "category": "canecas",
-    "subcategory": "AMIZADE",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/l5YAGUB.jpeg"
-  },
-  {
-    "id": 1786678304585,
-    "code": "CANECA Nº21",
-    "title": "Caneca Porcelana - Amizade",
-    "category": "canecas",
-    "subcategory": "AMIZADE",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/HDQ9aBG.jpeg"
-  },
-  {
-    "id": 1786678718980,
-    "code": "CANECA Nº1",
-    "title": "Caneca Porcelana - Aniversário",
-    "category": "canecas",
-    "subcategory": "ANIVERSÁRIO",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/GR4o2lS.jpeg"
-  },
-  {
-    "id": 1786680496133,
-    "code": "CANECA Nº2",
-    "title": "Caneca Porcelana - Aniversário",
-    "category": "canecas",
-    "subcategory": "ANIVERSÁRIO",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/jruIpg5.jpeg"
-  },
-  {
-    "id": 1786680561883,
-    "code": "CANECA Nº3",
-    "title": "Caneca Porcelana - Aniversário",
-    "category": "canecas",
-    "subcategory": "ANIVERSÁRIO",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/IkD0EHz.jpeg"
-  },
-  {
-    "id": 1786680712913,
-    "code": "CANECA Nº4",
-    "title": "Caneca Porcelana - Aniversário",
-    "category": "canecas",
-    "subcategory": "ANIVERSÁRIO",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/6hKAJYN.jpeg"
-  },
-  {
-    "id": 1786680876659,
-    "code": "CANECA Nº5",
-    "title": "Caneca Porcelana - Aniversário",
-    "category": "canecas",
-    "subcategory": "ANIVERSÁRIO",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/5dHEqYd.jpeg"
-  },
-  {
-    "id": 1786680989406,
-    "code": "CANECA Nº6",
-    "title": "Caneca Porcelana - Aniversário",
-    "category": "canecas",
-    "subcategory": "ANIVERSÁRIO",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/LYqJp1A.jpeg"
-  },
-  {
-    "id": 1786681063646,
-    "code": "CANECA Nº7",
-    "title": "Caneca Porcelana - Aniversário",
-    "category": "canecas",
-    "subcategory": "ANIVERSÁRIO",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/zcUnQ5b.jpeg"
-  },
-  {
-    "id": 1786683918083,
-    "code": "CANECA Nº8",
-    "title": "Caneca Porcelana - Aniversário",
-    "category": "canecas",
-    "subcategory": "ANIVERSÁRIO",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/4qNdqUF.jpeg"
-  },
-  {
-    "id": 1786683981036,
-    "code": "CANECA Nº9",
-    "title": "Caneca Porcelana - Aniversário",
-    "category": "canecas",
-    "subcategory": "ANIVERSÁRIO",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/QPAq9NT.jpeg"
-  },
-  {
-    "id": 1786684086437,
-    "code": "CANECA Nº10",
-    "title": "Caneca Porcelana - Aniversário",
-    "category": "canecas",
-    "subcategory": "ANIVERSÁRIO",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/cVOsiay.jpeg"
-  },
-  {
-    "id": 1786684140555,
-    "code": "CANECA Nº11",
-    "title": "Caneca Porcelana - Aniversário",
-    "category": "canecas",
-    "subcategory": "ANIVERSÁRIO",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/Uf5kh1h.jpeg"
-  },
-  {
-    "id": 1786684194098,
-    "code": "CANECA Nº12",
-    "title": "Caneca Porcelana - Aniversário",
-    "category": "canecas",
-    "subcategory": "ANIVERSÁRIO",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/c3vF4mi.jpeg"
-  },
-  {
-    "id": 1786684918533,
-    "code": "CANECA Nº22",
-    "title": "Caneca Porcelana - Amizade",
-    "category": "canecas",
-    "subcategory": "AMIZADE",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/3LAAe6y.jpeg"
-  },
-  {
-    "id": 1786685258585,
-    "code": "CANECA Nº1",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/h1YzTux.jpeg"
-  },
-  {
-    "id": 1786685445014,
-    "code": "CANECA Nº2",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/pqYh1PZ.jpeg"
-  },
-  {
-    "id": 1786685553770,
-    "code": "CANECA Nº3",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/F141MsQ.jpeg"
-  },
-  {
-    "id": 1786685592286,
-    "code": "CANECA Nº4",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/ATbAueH.jpeg"
-  },
-  {
-    "id": 1786685849268,
-    "code": "CANECA Nº5",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/RrqVZIH.jpeg"
-  },
-  {
-    "id": 1786685883251,
-    "code": "CANECA Nº6",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/39Jz9rd.jpeg"
-  },
-  {
-    "id": 1786686031731,
-    "code": "CANECA Nº7",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/ejyixrl.jpeg"
-  },
-  {
-    "id": 1786686066847,
-    "code": "CANECA Nº8",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/Z0uNE7a.jpeg"
-  },
-  {
-    "id": 1786686096673,
-    "code": "CANECA Nº9",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/NDdezc2.jpeg"
-  },
-  {
-    "id": 1786686128925,
-    "code": "CANECA Nº10",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/GZBQLBq.jpeg"
-  },
-  {
-    "id": 1786686467495,
-    "code": "CANECA Nº11",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/zuELk1j.jpeg"
-  },
-  {
-    "id": 1786686606426,
-    "code": "CANECA Nº12",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/clwqZ2C.jpeg"
-  },
-  {
-    "id": 1786686686026,
-    "code": "CANECA Nº13",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/3O16dpr.jpeg"
-  },
-  {
-    "id": 1786686719726,
-    "code": "CANECA Nº14",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/ljf6SeV.jpeg"
-  },
-  {
-    "id": 1786686819424,
-    "code": "CANECA Nº15",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/hgkU5Sv.jpeg"
-  },
-  {
-    "id": 1786687252556,
-    "code": "CANECA Nº16",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/LsZ9aOv.jpeg"
-  },
-  {
-    "id": 1786687329427,
-    "code": "CANECA Nº17",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/qEOvxXc.jpeg"
-  },
-  {
-    "id": 1786687387409,
-    "code": "CANECA Nº18",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/6KX4Cwi.jpeg"
-  },
-  {
-    "id": 1786687766044,
-    "code": "CANECA Nº19",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/6aAWrSA.jpeg"
-  },
-  {
-    "id": 1786688261916,
-    "code": "CANECA Nº20",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/7RwNt2M.jpeg"
-  },
-  {
-    "id": 1787460056129,
-    "code": "CANECA Nº21",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/J4dYeWZ.jpeg"
-  },
-  {
-    "id": 1787460110295,
-    "code": "CANECA Nº22",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/oA0MMzs.jpeg"
-  },
-  {
-    "id": 1787460140478,
-    "code": "CANECA Nº23",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/IA3x7oV.jpeg"
-  },
-  {
-    "id": 1787460168728,
-    "code": "CANECA Nº24",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/Wsw8RIU.jpeg"
-  },
-  {
-    "id": 1787460231831,
-    "code": "CANECA Nº25",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/5GnMOFO.jpeg"
-  },
-  {
-    "id": 1787460268715,
-    "code": "CANECA Nº26",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/l2nS5wE.jpeg"
-  },
-  {
-    "id": 1787460307243,
-    "code": "CANECA Nº27",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/BP8f5VM.jpeg"
-  },
-  {
-    "id": 1787460360577,
-    "code": "CANECA Nº28",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/YnaoToj.jpeg"
-  },
-  {
-    "id": 1787460397983,
-    "code": "CANECA Nº29",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/muMD5EH.jpeg"
-  },
-  {
-    "id": 1787460425515,
-    "code": "CANECA Nº30",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/mDqmsDW.jpeg"
-  },
-  {
-    "id": 1787460450921,
-    "code": "CANECA Nº31",
-    "title": "Caneca Porcelana - Desenhos",
-    "category": "canecas",
-    "subcategory": "DESENHOS",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/jrxCAex.jpeg"
-  },
-  {
-    "id": 1787460647663,
-    "code": "CANECA Nº1",
-    "title": "Caneca Porcelana - Filmes",
-    "category": "canecas",
-    "subcategory": "FILMES",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/lkSEwbf.jpeg"
-  },
-  {
-    "id": 1787460730148,
-    "code": "CANECA Nº2",
-    "title": "Caneca Porcelana - Filmes",
-    "category": "canecas",
-    "subcategory": "FILMES",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/EUNcwut.jpeg"
-  },
-  {
-    "id": 1787460759939,
-    "code": "CANECA Nº3",
-    "title": "Caneca Porcelana - Filmes",
-    "category": "canecas",
-    "subcategory": "FILMES",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/KInghC7.jpeg"
-  },
-  {
-    "id": 1787460786657,
-    "code": "CANECA Nº4",
-    "title": "Caneca Porcelana - Filmes",
-    "category": "canecas",
-    "subcategory": "FILMES",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/O9Pyk6C.jpeg"
-  },
-  {
-    "id": 1787460812639,
-    "code": "CANECA Nº5",
-    "title": "Caneca Porcelana - Filmes",
-    "category": "canecas",
-    "subcategory": "FILMES",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/AKkQU82.jpeg"
-  },
-  {
-    "id": 1787460839123,
-    "code": "CANECA Nº6",
-    "title": "Caneca Porcelana - Filmes",
-    "category": "canecas",
-    "subcategory": "FILMES",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/egFtUEi.jpeg"
-  },
-  {
-    "id": 1787460895003,
-    "code": "CANECA Nº7",
-    "title": "Caneca Porcelana - Filmes",
-    "category": "canecas",
-    "subcategory": "FILMES",
-    "price": "R$ 35,00",
-    "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
-    "image": "https://i.imgur.com/YAGkmz6.jpeg"
-  },
-  {
-    "id": 1791608261179,
-    "code": "CAMISA Nº 1",
-    "title": "ESTAMPA EM DTF",
-    "category": "camisas",
-    "subcategory": "MASCULINA",
-    "price": "R$ 25,00",
-    "description": "\"Estampa\" em DTF a pronta entrega. Frente e Costas",
-    "image": "https://i.postimg.cc/sDJK2SgZ/Camisa-nº-013.png"
-  },
-  {
-    "id": 1791608409917,
-    "code": "CAMISA Nº 2",
-    "title": "ESTAMPA EM DTF",
-    "category": "camisas",
-    "subcategory": "MASCULINA",
-    "price": "R$ 20,00",
-    "description": "\"Estampa\" em DTF a pronta entrega.",
-    "image": "https://i.postimg.cc/VLF4NMkX/Camisa-nº-13.png"
-  },
-  {
-    "id": 1791748158780,
-    "code": "CAMISA Nº 3",
-    "title": "ESTAMPA EM DTF",
-    "category": "camisas",
-    "subcategory": "MASCULINA",
-    "price": "R$ 20,00",
-    "description": "\"Estampa\" em DTF a pronta entrega.",
-    "image": "https://i.ibb.co/gFQSSp8B/Camisa-n-19.png"
-  },
-  {
-    "id": 1791749368217,
-    "code": "CAMISA Nº 4",
-    "title": "ESTAMPA EM DTF",
-    "category": "camisas",
-    "subcategory": "MASCULINA",
-    "price": "R$ 20,00",
-    "description": "\"Estampa\" em DTF a pronta entrega.",
-    "image": "https://i.ibb.co/fw7795Y/Camisa-n-17.png"
-  },
-  {
-    "id": 1791749461683,
-    "code": "CAMISA Nº 5",
-    "title": "ESTAMPA EM DTF",
-    "category": "camisas",
-    "subcategory": "MASCULINA",
-    "price": "R$ 20,00",
-    "description": "\"Estampa\" em DTF a pronta entrega.",
-    "image": "https://i.ibb.co/4npb2rkJ/Camisa-n-18.png"
-  },
-  {
-    "id": 1791749490630,
-    "code": "CAMISA Nº 6",
-    "title": "ESTAMPA EM DTF",
-    "category": "camisas",
-    "subcategory": "MASCULINA",
-    "price": "R$ 20,00",
-    "description": "\"Estampa\" em DTF a pronta entrega.",
-    "image": "https://i.ibb.co/xt6PDKFV/Camisa-n-16.png"
-  },
-  {
-    "id": 1791749527301,
-    "code": "CAMISA Nº 7",
-    "title": "ESTAMPA EM DTF",
-    "category": "camisas",
-    "subcategory": "MASCULINA",
-    "price": "R$ 20,00",
-    "description": "\"Estampa\" em DTF a pronta entrega.",
-    "image": "https://i.ibb.co/fV1h7vBh/Camisa-n-15.png"
-  },
-  {
-    "id": 1791749570759,
-    "code": "CAMISA Nº 8",
-    "title": "ESTAMPA EM DTF",
-    "category": "camisas",
-    "subcategory": "MASCULINA",
-    "price": "R$ 25,00",
-    "description": "\"Estampa\" em DTF a pronta entrega.",
-    "image": "https://i.ibb.co/pBN3mSS6/Camisa-n-14.png"
-  },
-  {
-    "id": 1791749618607,
-    "code": "CAMISA Nº 9",
-    "title": "ESTAMPA EM DTF",
-    "category": "camisas",
-    "subcategory": "MASCULINA",
-    "price": "R$ 20,00",
-    "description": "\"Estampa\" em DTF a pronta entrega.",
-    "image": "https://i.ibb.co/PvWjqb5d/Camisa-n-21.png"
-  },
-  {
-    "id": 1791749686581,
-    "code": "CAMISA Nº 10",
-    "title": "ESTAMPA EM DTF",
-    "category": "camisas",
-    "subcategory": "MASCULINA",
-    "price": "R$ 20,00",
-    "description": "\"Estampa\" em DTF a pronta entrega.",
-    "image": "https://i.ibb.co/FLcyNKSL/CAMISA-n-22.jpg"
-  },
-  {
-    "id": 1791749731474,
-    "code": "CAMISA Nº 11",
-    "title": "ESTAMPA EM DTF",
-    "category": "camisas",
-    "subcategory": "MASCULINA",
-    "price": "R$ 20,00",
-    "description": "\"Estampa\" em DTF a pronta entrega.",
-    "image": "https://i.ibb.co/GfTdPjVQ/Camisa-n-20.png"
-  },
-  {
-    "id": 1791749984118,
-    "code": "CAMISA Nº 12",
-    "title": "ESTAMPA EM DTF",
-    "category": "camisas",
-    "subcategory": "MASCULINA",
-    "price": "R$ 20,00",
-    "description": "\"Estampa\" em DTF a pronta entrega.",
-    "image": "https://i.ibb.co/b5C1RGwt/Camisa-n-23.png"
-  },
-  {
-    "id": 1791751274280,
-    "code": "CANECA Nº13",
-    "title": "ESTAMPA EM DTF",
-    "category": "camisas",
-    "subcategory": "MASCULINA",
-    "price": "R$ 20,00",
-    "description": "\"Estampa\" em DTF a pronta entrega.",
-    "image": "https://i.ibb.co/6JvxLddn/Camisa-n-12.png"
-  },
-  {
-    "id": 1791751344601,
-    "code": "CAMISA Nº 14",
-    "title": "ESTAMPA EM DTF",
-    "category": "camisas",
-    "subcategory": "MASCULINA",
-    "price": "R$ 20,00",
-    "description": "\"Estampa\" em DTF a pronta entrega.",
-    "image": "https://i.ibb.co/9FfvLsR/Camisa-n-7.png"
-  },
-  {
-    "id": 1791751378675,
-    "code": "CAMISA Nº 15",
-    "title": "ESTAMPA EM DTF",
-    "category": "camisas",
-    "subcategory": "MASCULINA",
-    "price": "R$ 20,00",
-    "description": "\"Estampa\" em DTF a pronta entrega.",
-    "image": "https://i.ibb.co/S4N13DTP/Camisa-n-6.png"
-  },
-  {
-    "id": 1791751437577,
-    "code": "CAMISA Nº 16",
-    "title": "ESTAMPA EM DTF",
-    "category": "camisas",
-    "subcategory": "MASCULINA",
-    "price": "R$ 20,00",
-    "description": "\"Estampa\" em DTF a pronta entrega.",
-    "image": "https://i.ibb.co/CppGJmB5/Camisa-n-11.png"
-  }
-];
+      {
+        "id": 1,
+        "code": "CANECA Nº1",
+        "title": "Caneca Porcelana - Amizade",
+        "category": "canecas",
+        "subcategory": "AMIZADE",
+        "price": "R$ 35,00",
+        "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
+        "image": "https://i.imgur.com/a4l2nF8.jpeg"
+      },
+      {
+        "id": 2,
+        "code": "CANECA Nº2",
+        "title": "Caneca Porcelana - Amizade",
+        "category": "canecas",
+        "subcategory": "AMIZADE",
+        "price": "R$ 35,00",
+        "description": "Caneca de cerâmica brilhante 300ml com estampa total de alta qualidade e excelente acabamento.",
+        "image": "https://i.imgur.com/kbOZGSz.jpeg"
+      }
+    ];
     /*END_DATA*/
 
-    // GERADOR DE LINK DO WHATSAPP NO FORMATO: CATEGORIA - SUBCATEGORIA - CÓDIGO
-    function generateWhatsappUrl(product) {
-      const catName = window.appCatNames[product.category] || product.category;
-      const catNameUpper = catName.toUpperCase();
-      
-      let messageText = `Olá! Gostaria de comprar o item: ${catNameUpper}`;
-      
-      if (product.subcategory && product.subcategory.trim() !== '') {
-        messageText += ` - ${product.subcategory.trim().toUpperCase()}`;
-      }
-      
-      messageText += ` - ${product.code.toUpperCase()}`;
+    // ==========================================
+    // FUNÇÕES DE EXCLUSÃO DE CATEGORIAS E SUBCATEGORIAS
+    // ==========================================
 
-      const message = encodeURIComponent(messageText);
-      return `https://wa.me/${WA_BUY_NUMBER}?text=${message}`;
-    }
-
-    function formatCurrencyInput(input) {
-      let value = input.value.replace(/\D/g, "");
-      if (value === "") { input.value = ""; return; }
-      value = (parseInt(value, 10) / 100).toFixed(2);
-      value = value.replace(".", ",");
-      value = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
-      input.value = "R$ " + value;
-    }
-
-    function renderMainNavigation() {
-      const container = document.getElementById('navTabsContainer');
-      const catNames = window.appCatNames;
-
-      const defaultIcons = {
-        'card-sus': 'fa-id-card', 'canecas': 'fa-mug-hot', 'cadernetas': 'fa-book-medical',
-        'placas-mdf': 'fa-square', 'chaveiros-mdf': 'fa-key', 'camisas': 'fa-shirt', 'outros': 'fa-box-open'
-      };
-
-      let html = `<button class="tab-btn ${window.currentCategory === 'todos' ? 'active' : ''}" data-category="todos" onclick="switchCategory('todos')"><i class="fa-solid fa-border-all"></i> Todos</button>`;
-
-      Object.keys(catNames).forEach(key => {
-        const activeClass = window.currentCategory === key ? 'active' : '';
-        const icon = defaultIcons[key] || 'fa-tag';
-        html += `<button class="tab-btn ${activeClass}" data-category="${key}" onclick="switchCategory('${key}')"><i class="fa-solid ${icon}"></i> ${catNames[key]}</button>`;
-      });
-
-      container.innerHTML = html;
-    }
-
-    function renderOverview() {
-      document.getElementById('subcategories-bar').style.display = 'none';
-      const grid = document.getElementById('catalog-grid');
-      grid.innerHTML = '';
-      const productsList = window.appProducts;
-      const catNames = window.appCatNames;
-
-      Object.keys(catNames).forEach(cat => {
-        const product = productsList.find(p => p.category === cat);
-        if (product) {
-          const catName = catNames[cat] || cat;
-          const cardHtml = `
-            <div class="card" onclick="switchCategory('${cat}')">
-              <div class="card-img-wrapper">
-                <span class="card-code-badge">CATEGORIA</span>
-                <img src="${product.image}" alt="${catName}">
-              </div>
-              <div class="card-body">
-                <h3 class="card-title">${catName}</h3>
-                <p class="card-desc">Confira todos os nossos modelos de ${catName.toLowerCase()}.</p>
-                <div class="card-footer-buy">
-                  <button class="btn-explore">VER MODELOS <i class="fa-solid fa-arrow-right"></i></button>
-                </div>
-              </div>
-            </div>
-          `;
-          grid.innerHTML += cardHtml;
-        }
-      });
-    }
-
-    function renderCategoryProducts(category) {
-      const grid = document.getElementById('catalog-grid');
-      grid.innerHTML = '';
-      const productsList = window.appProducts;
-      const allSubcats = window.appSubcats;
-
-      const subBar = document.getElementById('subcategories-bar');
-      const catSubcats = allSubcats[category] || [];
-
-      if (catSubcats.length > 0) {
-        subBar.style.display = 'flex';
-        renderSubcategoriesBar(category, catSubcats);
-      } else {
-        subBar.style.display = 'none';
-      }
-
-      let items = productsList.filter(p => p.category === category);
-
-      if (window.currentSubcategory !== 'todas') {
-        items = items.filter(p => p.subcategory === window.currentSubcategory);
-      }
-
-      if (items.length === 0) {
-        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #777;">Nenhum produto encontrado nesta categoria.</p>';
+    window.deleteSubcategory = function(catKey, subcatName) {
+      if (!confirm(`Deseja realmente excluir a subcategoria "${subcatName}"? Os produtos vinculados a ela também serão removidos.`)) {
         return;
       }
 
-      items.forEach(product => {
-        const waUrl = generateWhatsappUrl(product);
-        const subcatBadge = product.subcategory ? `<span class="card-subcat-badge">${product.subcategory}</span>` : '';
-
-        const cardHtml = `
-          <div class="card" onclick="openProductModal(${product.id})">
-            <div class="card-img-wrapper">
-              <span class="card-code-badge">${product.code}</span>
-              ${subcatBadge}
-              <img src="${product.image}" alt="${product.title}">
-            </div>
-            <div class="card-body">
-              <h3 class="card-title">${product.title}</h3>
-              <p class="card-desc">${product.description}</p>
-              <div class="card-footer-buy">
-                <span class="price">${product.price}</span>
-                <a href="${waUrl}" target="_blank" class="btn-buy" onclick="event.stopPropagation()">
-                  <i class="fa-brands fa-whatsapp"></i> COMPRAR
-                </a>
-              </div>
-            </div>
-          </div>
-        `;
-        grid.innerHTML += cardHtml;
-      });
-    }
-
-    function openProductModal(productId) {
-      const productsList = window.appProducts;
-      const product = productsList.find(p => p.id === productId);
-      if (!product) return;
-
-      const waUrl = generateWhatsappUrl(product);
-      const subcatHtml = product.subcategory ? `<span class="product-detail-subcat">${product.subcategory}</span>` : '';
-
-      const modalContent = document.getElementById('productModalContent');
-      modalContent.innerHTML = `
-        <img src="${product.image}" alt="${product.title}" class="product-detail-img">
-        <div>
-          <div class="product-detail-badges">
-            <span class="product-detail-code">${product.code}</span>
-            ${subcatHtml}
-          </div>
-          <h2 class="product-detail-title">${product.title}</h2>
-          <div class="product-detail-price">${product.price}</div>
-          <div class="product-detail-desc">${product.description}</div>
-          <a href="${waUrl}" target="_blank" class="btn-buy-modal">
-            <i class="fa-brands fa-whatsapp"></i> QUERO COMPRAR ESTE MODELO
-          </a>
-        </div>
-      `;
-
-      document.getElementById('productModal').style.display = 'flex';
-    }
-
-    function closeProductModal() { document.getElementById('productModal').style.display = 'none'; }
-
-    function renderSubcategoriesBar(category, subcats) {
-      const subBar = document.getElementById('subcategories-bar');
-      let html = `<button class="sub-btn ${window.currentSubcategory === 'todas' ? 'active' : ''}" onclick="filterSubcategory('todas')">TODOS</button>`;
-      
-      subcats.forEach(sub => {
-        html += `<button class="sub-btn ${window.currentSubcategory === sub ? 'active' : ''}" onclick="filterSubcategory('${sub}')">${sub}</button>`;
-      });
-
-      subBar.innerHTML = html;
-    }
-
-    function filterSubcategory(sub) {
-      window.currentSubcategory = sub;
-      renderCategoryProducts(window.currentCategory);
-    }
-
-    function switchCategory(category) {
-      window.currentCategory = category;
-      window.currentSubcategory = 'todas';
-
-      renderMainNavigation();
-
-      const catNames = window.appCatNames;
-      const categoryTitle = document.getElementById('category-title');
-      const activeName = category === 'todos' ? 'Todos os Produtos' : (catNames[category] || 'Categoria');
-      categoryTitle.innerHTML = `<i class="fa-solid fa-folder-open"></i> ${activeName}`;
-
-      if (category === 'todos') {
-        renderOverview();
-      } else {
-        renderCategoryProducts(category);
+      // Remove da lista de subcategorias
+      if (window.appSubcats[catKey]) {
+        window.appSubcats[catKey] = window.appSubcats[catKey].filter(s => s !== subcatName);
       }
-    }
 
-    function openAdminModal() { document.getElementById('adminModal').style.display = 'flex'; }
-    function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
+      // Remove os produtos que usavam esta subcategoria
+      window.appProducts = window.appProducts.filter(p => !(p.category === catKey && p.subcategory === subcatName));
 
-    function populateCategoryDropdowns() {
-      const catNames = window.appCatNames;
-      const selects = [document.getElementById('pCategory'), document.getElementById('adminSubcatCatFilter')];
+      alert("Subcategoria excluída com sucesso!");
+      renderAdminSubcatsList();
+      populateCategoryDropdowns();
+      if (typeof renderCatalog === 'function') renderCatalog();
+    };
 
-      selects.forEach(select => {
-        if (!select) return;
-        let html = '';
-        Object.keys(catNames).forEach(key => {
-          html += `<option value="${key}">${catNames[key]}</option>`;
-        });
-        select.innerHTML = html;
-      });
-    }
-
-    function switchAdminTab(tab) {
-      document.getElementById('adminSecAdd').style.display = tab === 'add' ? 'block' : 'none';
-      document.getElementById('adminSecManageProd').style.display = tab === 'manageProd' ? 'block' : 'none';
-      document.getElementById('adminSecManageSubcat').style.display = tab === 'manageSubcat' ? 'block' : 'none';
-      document.getElementById('adminSecManageCat').style.display = tab === 'manageCat' ? 'block' : 'none';
-      document.getElementById('adminSecGithub').style.display = tab === 'github' ? 'block' : 'none';
-
-      document.getElementById('btnTabAdd').classList.toggle('active', tab === 'add');
-      document.getElementById('btnTabManageProd').classList.toggle('active', tab === 'manageProd');
-      document.getElementById('btnTabManageSubcat').classList.toggle('active', tab === 'manageSubcat');
-      document.getElementById('btnTabManageCat').classList.toggle('active', tab === 'manageCat');
-      document.getElementById('btnTabGithub').classList.toggle('active', tab === 'github');
-
-      if (tab === 'manageProd') renderAdminProductsList();
-      if (tab === 'manageSubcat') renderAdminSubcatsList();
-      if (tab === 'manageCat') renderAdminCatNamesList();
-    }
-
-    function toggleSubcatSelect() {
-      const category = document.getElementById('pCategory').value;
-      populateSubcatDropdown(category);
-    }
-
-    function populateSubcatDropdown(category) {
-      const subSelect = document.getElementById('pSubCategory');
-      const allSubcats = window.appSubcats;
-      const catSubcats = allSubcats[category] || [];
-      
-      let html = '<option value="">Sem Subcategoria</option>';
-      catSubcats.forEach(sub => {
-        html += `<option value="${sub}">${sub}</option>`;
-      });
-      html += '<option value="NEW_SUBCAT">+ Criar Nova Subcategoria</option>';
-
-      subSelect.innerHTML = html;
-      checkCustomSubcat();
-    }
-
-    function checkCustomSubcat() {
-      const subVal = document.getElementById('pSubCategory').value;
-      const customGroup = document.getElementById('customSubcatGroup');
-      if (subVal === 'NEW_SUBCAT') {
-        customGroup.style.display = 'block';
-      } else {
-        customGroup.style.display = 'none';
-      }
-    }
-
-    /* SALVAR E SINCRONIZAR AUTOMATICAMENTE COM GITHUB */
-    async function commitToGithub() {
-      const username = localStorage.getItem('gh_username');
-      const repo = localStorage.getItem('gh_repo');
-      const token = localStorage.getItem('gh_token');
-
-      if (!username || !repo || !token) {
-        alert("Atenção: Configure seus dados do GitHub na aba 'Configurar GitHub' no Painel ADM para salvar as alterações para todos os celulares!");
+    window.deleteCategory = function(catKey) {
+      const catName = window.appCatNames[catKey] || catKey;
+      if (!confirm(`Deseja realmente excluir a categoria principal "${catName}"? TODOS os produtos e subcategorias dela serão apagados!`)) {
         return;
       }
 
-      try {
-        const filePath = "index.html";
-        const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/${filePath}`;
+      // Remove a categoria e suas subcategorias
+      delete window.appCatNames[catKey];
+      delete window.appSubcats[catKey];
 
-        const getFileRes = await fetch(apiUrl, {
-          headers: { "Authorization": `token ${token}` }
-        });
-        
-        if (!getFileRes.ok) throw new Error("Não foi possível acessar o repositório no GitHub.");
-        
-        const fileData = await getFileRes.json();
-        const sha = fileData.sha;
-        const currentContent = decodeURIComponent(escape(atob(fileData.content)));
+      // Remove os produtos pertencentes a esta categoria
+      window.appProducts = window.appProducts.filter(p => p.category !== catKey);
 
-        const newBlock = `/*START_DATA*/\n    window.appCatNames = ${JSON.stringify(window.appCatNames, null, 2)};\n\n    window.appSubcats = ${JSON.stringify(window.appSubcats, null, 2)};\n\n    window.appProducts = ${JSON.stringify(window.appProducts, null, 2)};\n    /*END_DATA*/`;
+      alert("Categoria principal excluída com sucesso!");
+      renderAdminCatList();
+      populateCategoryDropdowns();
+      if (typeof renderCatalog === 'function') renderCatalog();
+    };
 
-        const updatedContent = currentContent.replace(/\/\*START_DATA\*\/[\s\S]*?\/\*END_DATA\*\//, newBlock);
-
-        const putRes = await fetch(apiUrl, {
-          method: "PUT",
-          headers: {
-            "Authorization": `token ${token}`,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            message: "Atualização via Painel ADM",
-            content: btoa(unescape(encodeURIComponent(updatedContent))),
-            sha: sha
-          })
-        });
-
-        if (putRes.ok) {
-          alert("Sua alteração foi salva no GitHub com sucesso! Em cerca de 1 a 2 minutos o site estará atualizado em todos os celulares.");
-        } else {
-          alert("Erro ao fazer commit no GitHub. Verifique seu Token e permissões.");
-        }
-
-      } catch (err) {
-        alert("Erro na sincronização com GitHub: " + err.message);
-      }
-    }
-
-    async function handleSaveProduct(e) {
-      e.preventDefault();
-      const editingId = document.getElementById('pEditingId').value;
-      const category = document.getElementById('pCategory').value;
-      let subcategory = document.getElementById('pSubCategory').value;
-
-      if (subcategory === 'NEW_SUBCAT') {
-        const newSubName = document.getElementById('pCustomSubcat').value.trim().toUpperCase();
-        if (!newSubName) {
-          alert("Por favor, digite o nome da nova subcategoria.");
-          return;
-        }
-        subcategory = newSubName;
-        if (!window.appSubcats[category]) window.appSubcats[category] = [];
-        
-        if (!window.appSubcats[category].includes(newSubName)) {
-          window.appSubcats[category].push(newSubName);
-        }
-      }
-
-      const code = document.getElementById('pCode').value;
-      const title = document.getElementById('pTitle').value;
-      const price = document.getElementById('pPrice').value;
-      const description = document.getElementById('pDesc').value;
-      const image = document.getElementById('pImage').value;
-
-      if (editingId) {
-        window.appProducts = window.appProducts.map(p => {
-          if (p.id == editingId) {
-            return { ...p, code, title, category, subcategory, price, description, image };
-          }
-          return p;
-        });
-      } else {
-        const newProduct = {
-          id: Date.now(),
-          code, title, category, subcategory, price, description, image
-        };
-        window.appProducts.push(newProduct);
-      }
-
-      resetProductForm();
-      switchCategory(category);
-      await commitToGithub();
-    }
-
-    function startEditProduct(id) {
-      const product = window.appProducts.find(p => p.id == id);
-      if (!product) return;
-
-      switchAdminTab('add');
-
-      document.getElementById('formProductTitleHeader').innerText = "Editar Produto";
-      document.getElementById('btnSubmitFormProd').innerText = "SALVAR ALTERAÇÕES";
-      document.getElementById('btnCancelEditProd').style.display = "block";
-
-      document.getElementById('pEditingId').value = product.id;
-      document.getElementById('pCategory').value = product.category;
-      
-      toggleSubcatSelect();
-      document.getElementById('pSubCategory').value = product.subcategory || '';
-      
-      document.getElementById('pCode').value = product.code;
-      document.getElementById('pTitle').value = product.title;
-      document.getElementById('pPrice').value = product.price;
-      document.getElementById('pDesc').value = product.description;
-      document.getElementById('pImage').value = product.image;
-    }
-
-    function resetProductForm() {
-      document.getElementById('pEditingId').value = '';
-      document.getElementById('formProductTitleHeader').innerText = "Cadastrar Novo Produto";
-      document.getElementById('btnSubmitFormProd').innerText = "CADASTRAR PRODUTO";
-      document.getElementById('btnCancelEditProd').style.display = "none";
-
-      document.getElementById('pCode').value = '';
-      document.getElementById('pTitle').value = '';
-      document.getElementById('pPrice').value = '';
-      document.getElementById('pDesc').value = '';
-      document.getElementById('pImage').value = '';
-      document.getElementById('pCustomSubcat').value = '';
-      document.getElementById('customSubcatGroup').style.display = 'none';
-    }
-
-    function renderAdminProductsList() {
-      const container = document.getElementById('adminProductListContainer');
-      const searchVal = (document.getElementById('adminProdSearchInput')?.value || '').toLowerCase();
-      const productsList = window.appProducts;
-      const catNames = window.appCatNames;
-
-      const filtered = productsList.filter(p => 
-        p.code.toLowerCase().includes(searchVal) || 
-        p.title.toLowerCase().includes(searchVal) ||
-        p.category.toLowerCase().includes(searchVal)
-      );
-
-      if (filtered.length === 0) {
-        container.innerHTML = '<p style="font-size:0.85rem; color:#777; text-align:center; padding: 1rem;">Nenhum produto encontrado.</p>';
-        return;
-      }
-
-      let html = '';
-      filtered.forEach(p => {
-        const catLabel = catNames[p.category] || p.category;
-        const subLabel = p.subcategory ? ` | ${p.subcategory}` : '';
-        html += `
-          <div class="admin-manage-card">
-            <div class="admin-manage-info">
-              <img src="${p.image}" alt="${p.title}" class="admin-manage-img">
-              <div class="admin-manage-details">
-                <strong>${p.code} - ${p.title}</strong>
-                <span>${catLabel}${subLabel} • ${p.price}</span>
-              </div>
-            </div>
-            <div class="admin-action-btns">
-              <button class="btn-edit-adm" onclick="startEditProduct(${p.id})"><i class="fa-solid fa-pen"></i> Editar</button>
-              <button class="btn-delete-adm" onclick="deleteProduct(${p.id})"><i class="fa-solid fa-trash"></i> Excluir</button>
-            </div>
-          </div>
-        `;
-      });
-      container.innerHTML = html;
-    }
-
-    async function deleteProduct(id) {
-      if (confirm("Tem certeza que deseja excluir este produto do catálogo?")) {
-        window.appProducts = window.appProducts.filter(p => p.id !== id);
-        renderAdminProductsList();
-        switchCategory(window.currentCategory);
-        await commitToGithub();
-      }
-    }
-
-    function renderAdminSubcatsList() {
+    window.renderAdminSubcatsList = function() {
+      const catFilter = document.getElementById('adminSubcatCatFilter').value;
       const container = document.getElementById('adminSubcatListContainer');
-      const selectedCat = document.getElementById('adminSubcatCatFilter').value;
-      const allSubcats = window.appSubcats;
-      const catNames = window.appCatNames;
-      const subcats = allSubcats[selectedCat] || [];
+      if (!container) return;
 
-      if (subcats.length === 0) {
-        container.innerHTML = '<p style="font-size:0.85rem; color:#777; text-align:center; padding: 1rem;">Nenhuma subcategoria cadastrada nesta categoria.</p>';
+      container.innerHTML = '';
+
+      if (!catFilter || !window.appSubcats[catFilter] || window.appSubcats[catFilter].length === 0) {
+        container.innerHTML = '<p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhuma subcategoria encontrada nesta categoria.</p>';
         return;
       }
 
-      let html = '';
-      subcats.forEach(sub => {
-        html += `
-          <div class="admin-manage-card">
-            <div class="admin-manage-info">
-              <i class="fa-solid fa-tag" style="color: var(--accent-purple); font-size: 1.2rem;"></i>
-              <div class="admin-manage-details">
-                <strong>${sub}</strong>
-                <span>Subcategoria de ${catNames[selectedCat]}</span>
-              </div>
-            </div>
-            <div class="admin-action-btns">
-              <button class="btn-edit-adm" onclick="editSubcategory('${selectedCat}', '${sub}')"><i class="fa-solid fa-pen"></i> Editar</button>
-              <button class="btn-delete-adm" onclick="deleteSubcategory('${selectedCat}', '${sub}')"><i class="fa-solid fa-trash"></i> Excluir</button>
+      window.appSubcats[catFilter].forEach(subcat => {
+        const item = document.createElement('div');
+        item.className = 'admin-manage-card';
+        item.innerHTML = `
+          <div class="admin-manage-info">
+            <div class="admin-manage-details">
+              <strong>${subcat}</strong>
+              <span>Categoria: ${window.appCatNames[catFilter] || catFilter}</span>
             </div>
           </div>
+          <div class="admin-action-btns">
+            <button class="btn-delete-adm" onclick="deleteSubcategory('${catFilter}', '${subcat}')"><i class="fa-solid fa-trash"></i> Excluir</button>
+          </div>
         `;
+        container.appendChild(item);
       });
-      container.innerHTML = html;
-    }
+    };
 
-    async function editSubcategory(catKey, oldName) {
-      const newName = prompt(`Digite o novo nome para a subcategoria "${oldName}":`, oldName);
-      if (newName && newName.trim() !== "" && newName.trim().toUpperCase() !== oldName) {
-        const formattedNew = newName.trim().toUpperCase();
-
-        if (window.appSubcats[catKey]) {
-          const idx = window.appSubcats[catKey].indexOf(oldName);
-          if (idx !== -1) window.appSubcats[catKey][idx] = formattedNew;
-        }
-
-        window.appProducts = window.appProducts.map(p => {
-          if (p.category === catKey && p.subcategory === oldName) p.subcategory = formattedNew;
-          return p;
-        });
-
-        renderAdminSubcatsList();
-        populateSubcatDropdown(catKey);
-        switchCategory(window.currentCategory);
-        await commitToGithub();
-      }
-    }
-
-    async function deleteSubcategory(catKey, subName) {
-      if (confirm(`Excluir a subcategoria "${subName}"?`)) {
-        if (window.appSubcats[catKey]) {
-          window.appSubcats[catKey] = window.appSubcats[catKey].filter(s => s !== subName);
-        }
-
-        window.appProducts = window.appProducts.map(p => {
-          if (p.category === catKey && p.subcategory === subName) p.subcategory = '';
-          return p;
-        });
-
-        renderAdminSubcatsList();
-        populateSubcatDropdown(catKey);
-        switchCategory(window.currentCategory);
-        await commitToGithub();
-      }
-    }
-
-    function renderAdminCatNamesList() {
+    window.renderAdminCatList = function() {
       const container = document.getElementById('adminCatListContainer');
-      const catNames = window.appCatNames;
+      if (!container) return;
 
-      let html = '';
-      Object.keys(catNames).forEach(key => {
-        html += `
-          <div class="admin-manage-card">
-            <div class="admin-manage-info">
-              <i class="fa-solid fa-folder" style="color: var(--accent-magenta); font-size: 1.2rem;"></i>
-              <div class="admin-manage-details">
-                <strong>${catNames[key]}</strong>
-                <span>Chave: ${key}</span>
-              </div>
-            </div>
-            <div class="admin-action-btns">
-              <button class="btn-edit-adm" onclick="editCategoryName('${key}', '${catNames[key]}')"><i class="fa-solid fa-pen"></i> Renomear</button>
-              <button class="btn-delete-adm" onclick="deleteCategoryName('${key}', '${catNames[key]}')"><i class="fa-solid fa-trash"></i> Excluir</button>
+      container.innerHTML = '';
+
+      const catKeys = Object.keys(window.appCatNames);
+      if (catKeys.length === 0) {
+        container.innerHTML = '<p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhuma categoria cadastrada.</p>';
+        return;
+      }
+
+      catKeys.forEach(key => {
+        const name = window.appCatNames[key];
+        const subCount = window.appSubcats[key] ? window.appSubcats[key].length : 0;
+        const prodCount = window.appProducts.filter(p => p.category === key).length;
+
+        const item = document.createElement('div');
+        item.className = 'admin-manage-card';
+        item.innerHTML = `
+          <div class="admin-manage-info">
+            <div class="admin-manage-details">
+              <strong>${name}</strong>
+              <span>Chave: ${key} | Subcategorias: ${subCount} | Produtos: ${prodCount}</span>
             </div>
           </div>
+          <div class="admin-action-btns">
+            <button class="btn-delete-adm" onclick="deleteCategory('${key}')"><i class="fa-solid fa-trash"></i> Excluir</button>
+          </div>
         `;
+        container.appendChild(item);
       });
-      container.innerHTML = html;
-    }
+    };
 
-    async function editCategoryName(catKey, oldName) {
-      const newName = prompt(`Digite o novo nome para a categoria "${oldName}":`, oldName);
-      if (newName && newName.trim() !== "") {
-        window.appCatNames[catKey] = newName.trim();
+    window.populateCategoryDropdowns = function() {
+      const catSelects = [document.getElementById('pCategory'), document.getElementById('adminSubcatCatFilter')];
+      
+      catSelects.forEach(select => {
+        if (!select) return;
+        const currentVal = select.value;
+        select.innerHTML = '';
+        
+        for (const [key, name] of Object.entries(window.appCatNames)) {
+          const opt = document.createElement('option');
+          opt.value = key;
+          opt.textContent = name;
+          select.appendChild(opt);
+        }
+        if (currentVal) select.value = currentVal;
+      });
 
-        renderAdminCatNamesList();
-        populateCategoryDropdowns();
-        renderMainNavigation();
-        switchCategory(window.currentCategory);
-        await commitToGithub();
+      renderAdminSubcatsList();
+      renderAdminCatList();
+    };
+
+    window.switchAdminTab = function(tabName) {
+      document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('adminSecAdd').style.display = 'none';
+      document.getElementById('adminSecManageProd').style.display = 'none';
+      document.getElementById('adminSecManageSubcat').style.display = 'none';
+      document.getElementById('adminSecManageCat').style.display = 'none';
+      document.getElementById('adminSecGithub').style.display = 'none';
+
+      if (tabName === 'add') {
+        document.getElementById('btnTabAdd').classList.add('active');
+        document.getElementById('adminSecAdd').style.display = 'block';
+      } else if (tabName === 'manageProd') {
+        document.getElementById('btnTabManageProd').classList.add('active');
+        document.getElementById('adminSecManageProd').style.display = 'block';
+      } else if (tabName === 'manageSubcat') {
+        document.getElementById('btnTabManageSubcat').classList.add('active');
+        document.getElementById('adminSecManageSubcat').style.display = 'block';
+        renderAdminSubcatsList();
+      } else if (tabName === 'manageCat') {
+        document.getElementById('btnTabManageCat').classList.add('active');
+        document.getElementById('adminSecManageCat').style.display = 'block';
+        renderAdminCatList();
+      } else if (tabName === 'github') {
+        document.getElementById('btnTabGithub').classList.add('active');
+        document.getElementById('adminSecGithub').style.display = 'block';
       }
-    }
+    };
 
-    async function deleteCategoryName(catKey, catName) {
-      if (confirm(`ATENÇÃO: Deseja realmente excluir a categoria "${catName}"?`)) {
-        delete window.appCatNames[catKey];
-        delete window.appSubcats[catKey];
-        window.appProducts = window.appProducts.filter(p => p.category !== catKey);
+    window.openAdminModal = function() {
+      document.getElementById('adminModal').style.display = 'flex';
+      populateCategoryDropdowns();
+    };
 
-        renderAdminCatNamesList();
-        populateCategoryDropdowns();
-        renderMainNavigation();
-        switchCategory('todos');
-        await commitToGithub();
-      }
-    }
-
-    function loadGithubConfigInputs() {
-      document.getElementById('ghUsername').value = localStorage.getItem('gh_username') || '';
-      document.getElementById('ghRepo').value = localStorage.getItem('gh_repo') || '';
-      document.getElementById('ghToken').value = localStorage.getItem('gh_token') || '';
-    }
-
-    function handleSaveGithubConfig(e) {
-      e.preventDefault();
-      const u = document.getElementById('ghUsername').value.trim();
-      const r = document.getElementById('ghRepo').value.trim();
-      const t = document.getElementById('ghToken').value.trim();
-
-      localStorage.setItem('gh_username', u);
-      localStorage.setItem('gh_repo', r);
-      localStorage.setItem('gh_token', t);
-
-      alert("Configuração do GitHub salva com sucesso no seu dispositivo de ADM!");
-    }
-
-    window.onload = () => {
-      renderMainNavigation();
-      renderOverview();
+    window.closeAdminModal = function() {
+      document.getElementById('adminModal').style.display = 'none';
     };
   </script>
 </body>
