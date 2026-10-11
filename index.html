@@ -583,7 +583,7 @@
           </form>
         </div>
 
-        <!-- GERENCIAR PRODUTOS (COM FILTROS DE CATEGORIA E SUBCATEGORIA) -->
+        <!-- GERENCIAR PRODUTOS -->
         <div id="adminSecManageProd" style="display: none;">
           <h4 style="font-size: 1rem; margin-bottom: 0.8rem;">Gerenciar / Editar / Excluir Produtos</h4>
           
@@ -681,7 +681,6 @@
         document.getElementById('adminMainPanel').style.display = 'block';
         if (typeof window.populateCategoryDropdowns === 'function') window.populateCategoryDropdowns();
         if (typeof window.switchAdminTab === 'function') window.switchAdminTab('add');
-        if (typeof window.loadGithubConfigInputs === 'function') window.loadGithubConfigInputs();
       } else {
         window.isAdminLoggedIn = false;
         document.getElementById('adminLoginForm').style.display = 'block';
@@ -715,7 +714,7 @@
     };
   </script>
 
-  <!-- SCRIPT LÓGICA DO CATÁLOGO E DADOS RESTAURADOS -->
+  <!-- SCRIPT LÓGICA DO CATÁLOGO E EXIBIÇÃO -->
   <script>
     const WA_BUY_NUMBER = "5592992914876";
 
@@ -756,7 +755,7 @@
       {
         "id": 2,
         "code": "CANECA Nº2",
-        "title": "Caneca Porcelana - Amizade ",
+        "title": "Caneca Porcelana - Amizade",
         "category": "canecas",
         "subcategory": "AMIZADE",
         "price": "R$ 35,00",
@@ -896,7 +895,151 @@
     ];
     /*END_DATA*/
 
-    // Funções de Gerenciamento de Produtos com Filtro
+    // --- RENDERIZAÇÃO DO CATÁLOGO NO SITE ---
+    window.renderNavTabs = function() {
+      const container = document.getElementById('navTabsContainer');
+      if (!container) return;
+      container.innerHTML = '';
+
+      // Botão "Todos"
+      const allBtn = document.createElement('button');
+      allBtn.className = `tab-btn ${window.currentCategory === 'todos' ? 'active' : ''}`;
+      allBtn.innerHTML = '<i class="fa-solid fa-border-all"></i> Todos';
+      allBtn.onclick = () => selectCategory('todos');
+      container.appendChild(allBtn);
+
+      for (const [key, name] of Object.entries(window.appCatNames)) {
+        const btn = document.createElement('button');
+        btn.className = `tab-btn ${window.currentCategory === key ? 'active' : ''}`;
+        btn.innerHTML = `<i class="fa-solid fa-folder"></i> ${name}`;
+        btn.onclick = () => selectCategory(key);
+        container.appendChild(btn);
+      }
+    };
+
+    window.selectCategory = function(catKey) {
+      window.currentCategory = catKey;
+      window.currentSubcategory = 'todas';
+      renderNavTabs();
+      renderSubcategoriesBar();
+      renderCatalog();
+    };
+
+    window.renderSubcategoriesBar = function() {
+      const bar = document.getElementById('subcategories-bar');
+      if (!bar) return;
+
+      if (window.currentCategory === 'todos' || !window.appSubcats[window.currentCategory] || window.appSubcats[window.currentCategory].length === 0) {
+        bar.style.display = 'none';
+        return;
+      }
+
+      bar.style.display = 'flex';
+      bar.innerHTML = '';
+
+      const allSubBtn = document.createElement('button');
+      allSubBtn.className = `sub-btn ${window.currentSubcategory === 'todas' ? 'active' : ''}`;
+      allSubBtn.textContent = 'Todas';
+      allSubBtn.onclick = () => selectSubcategory('todas');
+      bar.appendChild(allSubBtn);
+
+      window.appSubcats[window.currentCategory].forEach(sub => {
+        const btn = document.createElement('button');
+        btn.className = `sub-btn ${window.currentSubcategory === sub ? 'active' : ''}`;
+        btn.textContent = sub;
+        btn.onclick = () => selectSubcategory(sub);
+        bar.appendChild(btn);
+      });
+    };
+
+    window.selectSubcategory = function(subName) {
+      window.currentSubcategory = subName;
+      renderSubcategoriesBar();
+      renderCatalog();
+    };
+
+    window.renderCatalog = function() {
+      const grid = document.getElementById('catalog-grid');
+      const titleEl = document.getElementById('category-title');
+      if (!grid) return;
+
+      grid.innerHTML = '';
+
+      // Atualiza o título da categoria
+      if (window.currentCategory === 'todos') {
+        titleEl.innerHTML = '<i class="fa-solid fa-border-all"></i> Todos os Produtos';
+      } else {
+        const catName = window.appCatNames[window.currentCategory] || window.currentCategory;
+        titleEl.innerHTML = `<i class="fa-solid fa-folder-open"></i> ${catName} ${window.currentSubcategory !== 'todas' ? '› ' + window.currentSubcategory : ''}`;
+      }
+
+      // Filtra produtos
+      let filtered = window.appProducts.filter(p => {
+        const matchCat = (window.currentCategory === 'todos' || p.category === window.currentCategory);
+        const matchSub = (window.currentSubcategory === 'todas' || p.subcategory === window.currentSubcategory);
+        return matchCat && matchSub;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #777; padding: 2rem;">Nenhum produto encontrado nesta categoria.</p>';
+        return;
+      }
+
+      filtered.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.onclick = () => openProductModal(p.id);
+
+        const waText = encodeURIComponent(`Olá! Gostaria de encomendar o produto *${p.title}* (Código: *${p.code}*).`);
+        const waLink = `https://wa.me/${WA_BUY_NUMBER}?text=${waText}`;
+
+        card.innerHTML = `
+          <div class="card-img-wrapper">
+            <span class="card-code-badge">${p.code}</span>
+            ${p.subcategory ? `<span class="card-subcat-badge">${p.subcategory}</span>` : ''}
+            <img src="${p.image}" alt="${p.title}" onerror="this.src='https://via.placeholder.com/260x220?text=Sem+Imagem'">
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">${p.title}</h3>
+            <p class="card-desc">${p.description}</p>
+            <div class="card-footer-buy">
+              <span class="price">${p.price}</span>
+              <a href="${waLink}" target="_blank" class="btn-buy" onclick="event.stopPropagation()"><i class="fa-brands fa-whatsapp"></i> Comprar</a>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    };
+
+    window.openProductModal = function(id) {
+      const p = window.appProducts.find(item => item.id === id);
+      if (!p) return;
+
+      const waText = encodeURIComponent(`Olá! Gostaria de encomendar o produto *${p.title}* (Código: *${p.code}*).`);
+      const waLink = `https://wa.me/${WA_BUY_NUMBER}?text=${waText}`;
+
+      const content = document.getElementById('productModalContent');
+      content.innerHTML = `
+        <img src="${p.image}" class="product-detail-img" onerror="this.src='https://via.placeholder.com/600x380?text=Sem+Imagem'">
+        <div class="product-detail-badges">
+          <span class="product-detail-code">${p.code}</span>
+          ${p.subcategory ? `<span class="product-detail-subcat">${p.subcategory}</span>` : ''}
+        </div>
+        <h2 class="product-detail-title">${p.title}</h2>
+        <div class="product-detail-price">${p.price}</div>
+        <p class="product-detail-desc">${p.description}</p>
+        <a href="${waLink}" target="_blank" class="btn-buy-modal"><i class="fa-brands fa-whatsapp"></i> Encomendar via WhatsApp</a>
+      `;
+
+      document.getElementById('productModal').style.display = 'flex';
+    };
+
+    window.closeProductModal = function() {
+      document.getElementById('productModal').style.display = 'none';
+    };
+
+    // --- GERENCIAMENTO DE PRODUTOS NO ADM ---
     window.updateAdminProdSubcatFilter = function() {
       const catSelect = document.getElementById('adminProdCatFilter');
       const subcatSelect = document.getElementById('adminProdSubcatFilter');
@@ -963,7 +1106,7 @@
       window.appProducts = window.appProducts.filter(p => p.id !== id);
       alert("Produto excluído com sucesso!");
       renderAdminProductsList();
-      if (typeof renderCatalog === 'function') renderCatalog();
+      renderCatalog();
     };
 
     window.editProduct = function(id) {
@@ -994,7 +1137,112 @@
       document.getElementById('btnCancelEditProd').style.display = 'none';
     };
 
-    // Funções de Exclusão de Categorias e Subcategorias
+    // --- CADASTRO E EDIÇÃO DE PRODUTOS ---
+    window.toggleSubcatSelect = function() {
+      const catKey = document.getElementById('pCategory').value;
+      const subSelect = document.getElementById('pSubCategory');
+      const customGroup = document.getElementById('customSubcatGroup');
+      if (!subSelect) return;
+
+      subSelect.innerHTML = '';
+      const subs = window.appSubcats[catKey] || [];
+
+      subs.forEach(sub => {
+        const opt = document.createElement('option');
+        opt.value = sub;
+        opt.textContent = sub;
+        subSelect.appendChild(opt);
+      });
+
+      const optCustom = document.createElement('option');
+      optCustom.value = 'nova_subcat_custom';
+      optCustom.textContent = '+ Adicionar Nova Subcategoria...';
+      subSelect.appendChild(optCustom);
+
+      checkCustomSubcat();
+    };
+
+    window.checkCustomSubcat = function() {
+      const subSelect = document.getElementById('pSubCategory');
+      const customGroup = document.getElementById('customSubcatGroup');
+      if (!subSelect || !customGroup) return;
+
+      if (subSelect.value === 'nova_subcat_custom') {
+        customGroup.style.display = 'block';
+        document.getElementById('pCustomSubcat').required = true;
+      } else {
+        customGroup.style.display = 'none';
+        document.getElementById('pCustomSubcat').required = false;
+      }
+    };
+
+    window.handleSaveProduct = function(e) {
+      e.preventDefault();
+      const editingId = document.getElementById('pEditingId').value;
+      const cat = document.getElementById('pCategory').value;
+      let subcat = document.getElementById('pSubCategory').value;
+
+      if (subcat === 'nova_subcat_custom') {
+        subcat = document.getElementById('pCustomSubcat').value.trim().toUpperCase();
+        if (subcat && window.appSubcats[cat] && !window.appSubcats[cat].includes(subcat)) {
+          window.appSubcats[cat].push(subcat);
+        }
+      }
+
+      const code = document.getElementById('pCode').value.trim();
+      const title = document.getElementById('pTitle').value.trim();
+      let priceVal = document.getElementById('pPrice').value.trim();
+      if (!priceVal.startsWith('R$')) {
+        priceVal = 'R$ ' + priceVal;
+      }
+      const desc = document.getElementById('pDesc').value.trim();
+      const img = document.getElementById('pImage').value.trim();
+
+      if (editingId) {
+        // Atualiza produto existente
+        const idx = window.appProducts.findIndex(item => item.id == editingId);
+        if (idx !== -1) {
+          window.appProducts[idx] = {
+            id: Number(editingId),
+            code,
+            title,
+            category: cat,
+            subcategory: subcat,
+            price: priceVal,
+            description: desc,
+            image: img
+          };
+        }
+        alert("Produto atualizado com sucesso!");
+      } else {
+        // Cria novo produto
+        const newProd = {
+          id: Date.now(),
+          code,
+          title,
+          category: cat,
+          subcategory: subcat,
+          price: priceVal,
+          description: desc,
+          image: img
+        };
+        window.appProducts.push(newProd);
+        alert("Produto cadastrado com sucesso!");
+      }
+
+      resetProductForm();
+      e.target.reset();
+      populateCategoryDropdowns();
+      renderNavTabs();
+      renderCatalog();
+      closeAdminModal();
+    };
+
+    window.formatCurrencyInput = function(input) {
+      // Formatação simples de preço se necessário
+    };
+
+    // --- GERENCIAR CATEGORIAS E SUBCATEGORIAS ---
     window.deleteSubcategory = function(catKey, subcatName) {
       if (!confirm(`Deseja realmente excluir a subcategoria "${subcatName}"? Os produtos vinculados a ela também serão removidos.`)) return;
 
@@ -1006,7 +1254,8 @@
       alert("Subcategoria excluída com sucesso!");
       renderAdminSubcatsList();
       populateCategoryDropdowns();
-      if (typeof renderCatalog === 'function') renderCatalog();
+      renderNavTabs();
+      renderCatalog();
     };
 
     window.deleteCategory = function(catKey) {
@@ -1020,7 +1269,8 @@
       alert("Categoria principal excluída com sucesso!");
       renderAdminCatList();
       populateCategoryDropdowns();
-      if (typeof renderCatalog === 'function') renderCatalog();
+      renderNavTabs();
+      renderCatalog();
     };
 
     window.renderAdminSubcatsList = function() {
@@ -1099,6 +1349,7 @@
         }
         if (currentVal) select.value = currentVal;
       });
+      toggleSubcatSelect();
 
       const adminProdCat = document.getElementById('adminProdCatFilter');
       if (adminProdCat) {
@@ -1116,10 +1367,6 @@
 
       renderAdminSubcatsList();
       renderAdminCatList();
-    };
-
-    window.toggleSubcatSelect = function() {
-      // Simulação para o select do form de cadastro
     };
 
     window.switchAdminTab = function(tabName) {
@@ -1158,6 +1405,12 @@
 
     window.closeAdminModal = function() {
       document.getElementById('adminModal').style.display = 'none';
+    };
+
+    // Inicialização ao carregar a página
+    window.onload = function() {
+      renderNavTabs();
+      renderCatalog();
     };
   </script>
 </body>
