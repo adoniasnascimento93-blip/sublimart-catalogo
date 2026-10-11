@@ -583,13 +583,26 @@
           </form>
         </div>
 
-        <!-- GERENCIAR PRODUTOS -->
+        <!-- GERENCIAR PRODUTOS (COM FILTROS DE CATEGORIA E SUBCATEGORIA) -->
         <div id="adminSecManageProd" style="display: none;">
           <h4 style="font-size: 1rem; margin-bottom: 0.8rem;">Gerenciar / Editar / Excluir Produtos</h4>
-          <div class="admin-search-box">
-            <input type="text" id="adminProdSearchInput" oninput="renderAdminProductsList()" placeholder="🔍 Buscar por código ou nome do produto...">
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.8rem;">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label style="font-size: 0.75rem;">Filtrar Categoria:</label>
+              <select id="adminProdCatFilter" onchange="updateAdminProdSubcatFilter()" style="padding: 0.4rem; font-size: 0.8rem;"></select>
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label style="font-size: 0.75rem;">Filtrar Subcategoria:</label>
+              <select id="adminProdSubcatFilter" onchange="renderAdminProductsList()" style="padding: 0.4rem; font-size: 0.8rem;"></select>
+            </div>
           </div>
-          <div id="adminProductListContainer" style="max-height: 320px; overflow-y: auto; padding-right: 0.3rem;"></div>
+
+          <div class="admin-search-box">
+            <input type="text" id="adminProdSearchInput" oninput="renderAdminProductsList()" placeholder="🔍 Ou busque por código ou nome..." style="padding: 0.45rem; font-size: 0.85rem;">
+          </div>
+          
+          <div id="adminProductListContainer" style="max-height: 270px; overflow-y: auto; padding-right: 0.3rem;"></div>
         </div>
 
         <!-- GERENCIAR SUBCATEGORIAS -->
@@ -702,7 +715,7 @@
     };
   </script>
 
-  <!-- SCRIPT LÓGICA DO CATÁLOGO E FUNÇÕES DE EXCLUSÃO -->
+  <!-- SCRIPT LÓGICA DO CATÁLOGO E FILTROS DO ADM -->
   <script>
     const WA_BUY_NUMBER = "5592992914876";
 
@@ -753,21 +766,112 @@
     ];
     /*END_DATA*/
 
-    // ==========================================
-    // FUNÇÕES DE EXCLUSÃO DE CATEGORIAS E SUBCATEGORIAS
-    // ==========================================
+    // Funções de Gerenciamento de Produtos com Filtro
+    window.updateAdminProdSubcatFilter = function() {
+      const catSelect = document.getElementById('adminProdCatFilter');
+      const subcatSelect = document.getElementById('adminProdSubcatFilter');
+      if (!catSelect || !subcatSelect) return;
 
-    window.deleteSubcategory = function(catKey, subcatName) {
-      if (!confirm(`Deseja realmente excluir a subcategoria "${subcatName}"? Os produtos vinculados a ela também serão removidos.`)) {
+      const selectedCat = catSelect.value;
+      subcatSelect.innerHTML = '<option value="todos">Todas as Subcategorias</option>';
+
+      if (selectedCat !== 'todos' && window.appSubcats[selectedCat]) {
+        window.appSubcats[selectedCat].forEach(sub => {
+          const opt = document.createElement('option');
+          opt.value = sub;
+          opt.textContent = sub;
+          subcatSelect.appendChild(opt);
+        });
+      }
+      renderAdminProductsList();
+    };
+
+    window.renderAdminProductsList = function() {
+      const container = document.getElementById('adminProductListContainer');
+      if (!container) return;
+
+      const catFilter = document.getElementById('adminProdCatFilter')?.value || 'todos';
+      const subcatFilter = document.getElementById('adminProdSubcatFilter')?.value || 'todos';
+      const searchTxt = document.getElementById('adminProdSearchInput')?.value.toLowerCase() || '';
+
+      container.innerHTML = '';
+
+      let filtered = window.appProducts.filter(p => {
+        const matchCat = (catFilter === 'todos' || p.category === catFilter);
+        const matchSubcat = (subcatFilter === 'todos' || p.subcategory === subcatFilter);
+        const matchSearch = (p.code.toLowerCase().includes(searchTxt) || p.title.toLowerCase().includes(searchTxt));
+        return matchCat && matchSubcat && matchSearch;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhum produto encontrado com esses filtros.</p>';
         return;
       }
 
-      // Remove da lista de subcategorias
+      filtered.forEach(p => {
+        const item = document.createElement('div');
+        item.className = 'admin-manage-card';
+        item.innerHTML = `
+          <div class="admin-manage-info">
+            <img src="${p.image}" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/45'">
+            <div class="admin-manage-details">
+              <strong>[${p.code}] ${p.title}</strong>
+              <span>Cat: ${window.appCatNames[p.category] || p.category} / Sub: ${p.subcategory || 'N/A'} - ${p.price}</span>
+            </div>
+          </div>
+          <div class="admin-action-btns">
+            <button class="btn-edit-adm" onclick="editProduct(${p.id})"><i class="fa-solid fa-pen"></i> Editar</button>
+            <button class="btn-delete-adm" onclick="deleteProduct(${p.id})"><i class="fa-solid fa-trash"></i> Excluir</button>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    };
+
+    window.deleteProduct = function(id) {
+      if (!confirm("Deseja realmente excluir este produto?")) return;
+      window.appProducts = window.appProducts.filter(p => p.id !== id);
+      alert("Produto excluído com sucesso!");
+      renderAdminProductsList();
+      if (typeof renderCatalog === 'function') renderCatalog();
+    };
+
+    window.editProduct = function(id) {
+      const p = window.appProducts.find(item => item.id === id);
+      if (!p) return;
+
+      document.getElementById('pEditingId').value = p.id;
+      document.getElementById('pCategory').value = p.category;
+      toggleSubcatSelect();
+      document.getElementById('pSubCategory').value = p.subcategory;
+      document.getElementById('pCode').value = p.code;
+      document.getElementById('pTitle').value = p.title;
+      document.getElementById('pPrice').value = p.price.replace('R$ ', '');
+      document.getElementById('pDesc').value = p.description;
+      document.getElementById('pImage').value = p.image;
+
+      document.getElementById('formProductTitleHeader').textContent = 'Editar Produto: ' + p.code;
+      document.getElementById('btnSubmitFormProd').textContent = 'SALVAR ALTERAÇÕES';
+      document.getElementById('btnCancelEditProd').style.display = 'block';
+
+      switchAdminTab('add');
+    };
+
+    window.resetProductForm = function() {
+      document.getElementById('pEditingId').value = '';
+      document.getElementById('formProductTitleHeader').textContent = 'Cadastrar Novo Produto';
+      document.getElementById('btnSubmitFormProd').textContent = 'CADASTRAR PRODUTO';
+      document.getElementById('btnCancelEditProd').style.display = 'none';
+      // Limpa os campos se quiser
+    };
+
+    // Funções de Exclusão de Categorias e Subcategorias
+    window.deleteSubcategory = function(catKey, subcatName) {
+      if (!confirm(`Deseja realmente excluir a subcategoria "${subcatName}"? Os produtos vinculados a ela também serão removidos.`)) return;
+
       if (window.appSubcats[catKey]) {
         window.appSubcats[catKey] = window.appSubcats[catKey].filter(s => s !== subcatName);
       }
-
-      // Remove os produtos que usavam esta subcategoria
       window.appProducts = window.appProducts.filter(p => !(p.category === catKey && p.subcategory === subcatName));
 
       alert("Subcategoria excluída com sucesso!");
@@ -778,15 +882,10 @@
 
     window.deleteCategory = function(catKey) {
       const catName = window.appCatNames[catKey] || catKey;
-      if (!confirm(`Deseja realmente excluir a categoria principal "${catName}"? TODOS os produtos e subcategorias dela serão apagados!`)) {
-        return;
-      }
+      if (!confirm(`Deseja realmente excluir a categoria principal "${catName}"? TODOS os produtos e subcategorias dela serão apagados!`)) return;
 
-      // Remove a categoria e suas subcategorias
       delete window.appCatNames[catKey];
       delete window.appSubcats[catKey];
-
-      // Remove os produtos pertencentes a esta categoria
       window.appProducts = window.appProducts.filter(p => p.category !== catKey);
 
       alert("Categoria principal excluída com sucesso!");
@@ -801,9 +900,8 @@
       if (!container) return;
 
       container.innerHTML = '';
-
       if (!catFilter || !window.appSubcats[catFilter] || window.appSubcats[catFilter].length === 0) {
-        container.innerHTML = '<p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhuma subcategoria encontrada nesta categoria.</p>';
+        container.innerHTML = '<p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhuma subcategoria encontrada.</p>';
         return;
       }
 
@@ -830,7 +928,6 @@
       if (!container) return;
 
       container.innerHTML = '';
-
       const catKeys = Object.keys(window.appCatNames);
       if (catKeys.length === 0) {
         container.innerHTML = '<p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhuma categoria cadastrada.</p>';
@@ -860,13 +957,12 @@
     };
 
     window.populateCategoryDropdowns = function() {
+      // Selects do cadastro/edição e subcategorias
       const catSelects = [document.getElementById('pCategory'), document.getElementById('adminSubcatCatFilter')];
-      
       catSelects.forEach(select => {
         if (!select) return;
         const currentVal = select.value;
         select.innerHTML = '';
-        
         for (const [key, name] of Object.entries(window.appCatNames)) {
           const opt = document.createElement('option');
           opt.value = key;
@@ -876,8 +972,27 @@
         if (currentVal) select.value = currentVal;
       });
 
+      // Select de filtro na aba Gerenciar Produtos
+      const adminProdCat = document.getElementById('adminProdCatFilter');
+      if (adminProdCat) {
+        const currentVal = adminProdCat.value;
+        adminProdCat.innerHTML = '<option value="todos">Todas as Categorias</option>';
+        for (const [key, name] of Object.entries(window.appCatNames)) {
+          const opt = document.createElement('option');
+          opt.value = key;
+          opt.textContent = name;
+          adminProdCat.appendChild(opt);
+        }
+        if (currentVal) adminProdCat.value = currentVal;
+        updateAdminProdSubcatFilter();
+      }
+
       renderAdminSubcatsList();
       renderAdminCatList();
+    };
+
+    window.toggleSubcatSelect = function() {
+      // Simulação para o select do form de cadastro
     };
 
     window.switchAdminTab = function(tabName) {
@@ -894,6 +1009,7 @@
       } else if (tabName === 'manageProd') {
         document.getElementById('btnTabManageProd').classList.add('active');
         document.getElementById('adminSecManageProd').style.display = 'block';
+        renderAdminProductsList();
       } else if (tabName === 'manageSubcat') {
         document.getElementById('btnTabManageSubcat').classList.add('active');
         document.getElementById('adminSecManageSubcat').style.display = 'block';
