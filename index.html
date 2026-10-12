@@ -490,7 +490,7 @@
 
     .admin-search-box { margin-bottom: 1rem; }
     .admin-manage-card { display: flex; align-items: center; justify-content: space-between; background: #f8f9fa; border: 1px solid #e9ecef; padding: 0.6rem 0.8rem; border-radius: 10px; margin-bottom: 0.5rem; gap: 0.8rem; }
-    .admin-manage-info { display: flex; align-items: center; gap: 0.8rem; overflow: hidden; }
+    .admin-manage-info { display: flex; align-items: center; gap: 0.8rem; overflow: hidden; flex: 1; }
     .admin-manage-img { width: 45px; height: 45px; border-radius: 6px; object-fit: cover; background: #eee; flex-shrink: 0; }
     .admin-manage-details { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .admin-manage-details strong { font-size: 0.85rem; color: #222; display: block; }
@@ -701,6 +701,20 @@
           <div class="admin-search-box" bis_skin_checked="1">
             <input type="text" id="adminProdSearchInput" oninput="renderAdminProductsList()" placeholder="🔍 Ou busque por código ou nome..." style="padding: 0.45rem; font-size: 0.85rem;">
           </div>
+
+          <!-- AÇÕES EM MASSA (EXCLUIR SELECIONADOS) -->
+          <div id="bulkActionsBar" style="display: none; align-items: center; justify-content: space-between; background: #fff3cd; border: 1px solid #ffeeba; padding: 0.5rem 0.8rem; border-radius: 8px; margin-bottom: 0.8rem;">
+            <span id="selectedCountText" style="font-size: 0.8rem; font-weight: 600; color: #856404;">0 selecionados</span>
+            <button onclick="deleteSelectedProducts()" style="background: #dc3545; color: #fff; border: none; padding: 0.35rem 0.7rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer;">
+              <i class="fa-solid fa-trash"></i> Excluir Selecionados
+            </button>
+          </div>
+
+          <!-- OPÇÃO SELECIONAR TODOS -->
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; padding-left: 0.2rem;">
+            <input type="checkbox" id="selectAllProductsCheckbox" onchange="toggleSelectAllProducts(this)">
+            <label for="selectAllProductsCheckbox" style="font-size: 0.78rem; font-weight: 600; color: #555; cursor: pointer; margin-bottom: 0;">Selecionar todos visíveis</label>
+          </div>
           
           <div id="adminProductListContainer" style="max-height: 270px; overflow-y: auto; padding-right: 0.3rem;" bis_skin_checked="1"><p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhum produto encontrado.</p></div>
         </div>
@@ -775,12 +789,37 @@
     // Função para limpar as tags [img] e [/img] automaticamente ao colar ou digitar
     function cleanImageUrl(input) {
       let val = input.value.trim();
-      // Remove [img] no início (case insensitive) e [/img] no final (case insensitive)
-      val = val.replace(/^\[img\]/i, '').replace(/\[\/img\]$/i, '').trim();
+      val = val.replace(/^[img]/i, '').replace(/\[\/img\]$/i, '').trim();
       if (input.value !== val) {
         input.value = val;
       }
     }
+
+    // Funções de Seleção e Exclusão Múltipla na Área Adm
+    function toggleSelectAllProducts(masterCheckbox) {
+      const checkboxes = document.querySelectorAll('.product-select-item');
+      checkboxes.forEach(cb => {
+        cb.checked = masterCheckbox.checked;
+      });
+      updateBulkActionsBar();
+    }
+
+    function updateBulkActionsBar() {
+      const checkedCount = document.querySelectorAll('.product-select-item:checked').length;
+      const bulkBar = document.getElementById('bulkActionsBar');
+      const countText = document.getElementById('selectedCountText');
+      
+      if (checkedCount > 0) {
+        bulkBar.style.display = 'flex';
+        countText.innerText = `${checkedCount} produto(s) selecionado(s)`;
+      } else {
+        bulkBar.style.display = 'none';
+      }
+    }
+
+    // NOTA: Certifique-se de que a função padrão "renderAdminProductsList" inclua o checkbox nos cards. 
+    // Exemplo do HTML injetado no card da listagem gerencial:
+    // <input type="checkbox" class="product-select-item" value="ID_DO_PRODUTO" onchange="updateBulkActionsBar()">
   </script>
 </body>
 </html>
