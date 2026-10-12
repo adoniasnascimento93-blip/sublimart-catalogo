@@ -1,4 +1,6 @@
-<html lang="pt-BR"><head><meta charset="UTF-8">
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Catálogo Digital | SUBLIMArt Personalizados</title>
   <!-- Google Fonts & Font Awesome -->
@@ -493,8 +495,8 @@
       .admin-panel-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
     }
   </style>
-<script bis_use="true" type="text/javascript" charset="utf-8" nonce="" data-dynamic-id="68ce137d-49c1-4d80-b75f-0812181d4988" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/200.js"></script><script bis_use="true" type="text/javascript" charset="utf-8" nonce="" data-dynamic-id="68ce137d-49c1-4d80-b75f-0812181d4988" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/101.js"></script><script bis_use="true" type="text/javascript" charset="utf-8" nonce="" data-dynamic-id="68ce137d-49c1-4d80-b75f-0812181d4988" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/101.js"></script></head>
-<body __processed_7da7c6d9-9c52-46c4-9665-7696b00c6299__="true" bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWllZ29tY29uIiwiYWRibG9ja2VyU3RhdHVzIjp7IkRJU1BMQVkiOiJlbmFibGVkIiwiRkFDRUJPT0siOiJlbmFibGVkIiwiVFdJVFRFUiI6ImVuYWJsZWQiLCJSRURESVQiOiJlbmFibGVkIiwiUElOVEVSRVNUIjoiZW5hYmxlZCIsIklOU1RBR1JBTSI6ImVuYWJsZWQiLCJUSUtUT0siOiJlbmFibGVkIiwiTElOS0VESU4iOiJlbmFibGVkIiwiQ09ORklHIjoiZGlzYWJsZWQifSwidmVyc2lvbiI6IjIuMy4wIiwic2NvcmUiOjIwMzAwMH1d" __processed_1fb8bd26-685e-4f37-b694-57d8087787ff__="true">
+</head>
+<body>
 
   <!-- BOTÃO FLUTUANTE ADM -->
   <button class="btn-admin-trigger" onclick="openAdminModal()">
@@ -506,7 +508,7 @@
     <h1>SUBLIMArt</h1>
     <p>Personalizados e Sublimação de Alta Qualidade</p>
     
-    <div class="contacts-header" bis_skin_checked="1">
+    <div class="contacts-header">
       <a href="https://wa.me/5592992914876" target="_blank" class="contact-btn-head wa">
         <i class="fa-brands fa-whatsapp"></i> (92) 99291-4876
       </a>
@@ -521,12 +523,14 @@
 
   <!-- MENU DROPDOWN DE CATEGORIAS -->
   <nav>
-    <div class="nav-container" bis_skin_checked="1">
-      <div class="categories-dropdown" bis_skin_checked="1">
+    <div class="nav-container">
+      <div class="categories-dropdown">
         <button class="btn-categories-menu" onclick="toggleCategoriesMenu()">
           <i class="fa-solid fa-bars"></i> CATEGORIAS <i class="fa-solid fa-chevron-down" style="font-size: 0.75rem;"></i>
         </button>
-        <div class="dropdown-content" id="navTabsContainer" bis_skin_checked="1"><button class="tab-btn active" onclick="filterCategory('todos')"><i class="fa-solid fa-border-all"></i> Todos</button><button class="tab-btn " onclick="filterCategory('card-sus')"><i class="fa-solid fa-folder"></i> Card-sus</button><button class="tab-btn " onclick="filterCategory('cadernetas')"><i class="fa-solid fa-folder"></i> Cadernetas</button><button class="tab-btn " onclick="filterCategory('placas-mdf')"><i class="fa-solid fa-folder"></i> Placas-mdf</button><button class="tab-btn " onclick="filterCategory('chaveiros-mdf')"><i class="fa-solid fa-folder"></i> Chaveiros-mdf</button><button class="tab-btn " onclick="filterCategory('camisas')"><i class="fa-solid fa-folder"></i> Camisas</button><button class="tab-btn " onclick="filterCategory('outros')"><i class="fa-solid fa-folder"></i> Outros</button><button class="tab-btn " onclick="filterCategory('canecas')"><i class="fa-solid fa-folder"></i> Canecas</button></div>
+        <div class="dropdown-content" id="navTabsContainer">
+          <button class="tab-btn active" onclick="filterCategory('todos')"><i class="fa-solid fa-border-all"></i> Todos</button>
+        </div>
       </div>
     </div>
   </nav>
@@ -534,160 +538,32 @@
   <!-- CONTEÚDO DO CATÁLOGO -->
   <main>
     <h2 class="category-title" id="category-title"><i class="fa-solid fa-border-all"></i> Todos os Produtos</h2>
-    <div class="subcategories-bar" id="subcategories-bar" bis_skin_checked="1" style="display: none;"></div>
-    <div class="catalog-grid" id="catalog-grid" bis_skin_checked="1">
-        <div class="card" onclick="openProductDetail('5')" bis_skin_checked="1">
-          <div class="card-img-wrapper" bis_skin_checked="1">
-            <span class="card-code-badge">CARTÃO SUS Nº1</span>
-            <span class="card-subcat-badge">INFANTIL</span>
-            <img src="https://via.placeholder.com/400x300?text=Card+SUS+N1" alt="Cartão do SUS Personalizado" onerror="this.src='https://via.placeholder.com/260x220?text=Sem+Imagem'">
-          </div>
-          <div class="card-body" bis_skin_checked="1">
-            <h3 class="card-title">Cartão do SUS Personalizado</h3>
-            <p class="card-desc">undefined</p>
-            <div class="card-footer-buy" bis_skin_checked="1">
-              <span class="price">R$ R$ 15,00</span>
-              <a href="https://wa.me/5592992914876?text=Ol%C3%A1!%20Gostaria%20de%20encomendar%20o%20produto%20*Cart%C3%A3o%20do%20SUS%20Personalizado*%20(C%C3%B3digo%3A%20*CART%C3%83O%20SUS%20N%C2%BA1*)." target="_blank" class="btn-buy" onclick="event.stopPropagation()"><i class="fa-brands fa-whatsapp"></i> Comprar</a>
-            </div>
-          </div>
-        </div>
-      
-        <div class="card" onclick="openProductDetail('6')" bis_skin_checked="1">
-          <div class="card-img-wrapper" bis_skin_checked="1">
-            <span class="card-code-badge">CADERNETA DE VACINAÇÃO Nº1</span>
-            <span class="card-subcat-badge">MENINA</span>
-            <img src="https://via.placeholder.com/400x300?text=Caderneta+N1" alt="Caderneta de Vacinação Luxo" onerror="this.src='https://via.placeholder.com/260x220?text=Sem+Imagem'">
-          </div>
-          <div class="card-body" bis_skin_checked="1">
-            <h3 class="card-title">Caderneta de Vacinação Luxo</h3>
-            <p class="card-desc">undefined</p>
-            <div class="card-footer-buy" bis_skin_checked="1">
-              <span class="price">R$ R$ 65,00</span>
-              <a href="https://wa.me/5592992914876?text=Ol%C3%A1!%20Gostaria%20de%20encomendar%20o%20produto%20*Caderneta%20de%20Vacina%C3%A7%C3%A3o%20Luxo*%20(C%C3%B3digo%3A%20*CADERNETA%20DE%20VACINA%C3%87%C3%83O%20N%C2%BA1*)." target="_blank" class="btn-buy" onclick="event.stopPropagation()"><i class="fa-brands fa-whatsapp"></i> Comprar</a>
-            </div>
-          </div>
-        </div>
-      
-        <div class="card" onclick="openProductDetail('7')" bis_skin_checked="1">
-          <div class="card-img-wrapper" bis_skin_checked="1">
-            <span class="card-code-badge">PLACA DECORATIVA Nº1</span>
-            <span class="card-subcat-badge">DECORATIVAS</span>
-            <img src="https://via.placeholder.com/400x300?text=Placa+MDF+N1" alt="Placa Decorativa MDF 20x30" onerror="this.src='https://via.placeholder.com/260x220?text=Sem+Imagem'">
-          </div>
-          <div class="card-body" bis_skin_checked="1">
-            <h3 class="card-title">Placa Decorativa MDF 20x30</h3>
-            <p class="card-desc">undefined</p>
-            <div class="card-footer-buy" bis_skin_checked="1">
-              <span class="price">R$ R$ 25,00</span>
-              <a href="https://wa.me/5592992914876?text=Ol%C3%A1!%20Gostaria%20de%20encomendar%20o%20produto%20*Placa%20Decorativa%20MDF%2020x30*%20(C%C3%B3digo%3A%20*PLACA%20DECORATIVA%20N%C2%BA1*)." target="_blank" class="btn-buy" onclick="event.stopPropagation()"><i class="fa-brands fa-whatsapp"></i> Comprar</a>
-            </div>
-          </div>
-        </div>
-      
-        <div class="card" onclick="openProductDetail('8')" bis_skin_checked="1">
-          <div class="card-img-wrapper" bis_skin_checked="1">
-            <span class="card-code-badge">CHAVEIRO MDF Nº1</span>
-            <span class="card-subcat-badge">PERSONALIZADOS</span>
-            <img src="https://via.placeholder.com/400x300?text=Chaveiro+MDF+N1" alt="Chaveiro MDF Sublimado" onerror="this.src='https://via.placeholder.com/260x220?text=Sem+Imagem'">
-          </div>
-          <div class="card-body" bis_skin_checked="1">
-            <h3 class="card-title">Chaveiro MDF Sublimado</h3>
-            <p class="card-desc">undefined</p>
-            <div class="card-footer-buy" bis_skin_checked="1">
-              <span class="price">R$ R$ 8,00</span>
-              <a href="https://wa.me/5592992914876?text=Ol%C3%A1!%20Gostaria%20de%20encomendar%20o%20produto%20*Chaveiro%20MDF%20Sublimado*%20(C%C3%B3digo%3A%20*CHAVEIRO%20MDF%20N%C2%BA1*)." target="_blank" class="btn-buy" onclick="event.stopPropagation()"><i class="fa-brands fa-whatsapp"></i> Comprar</a>
-            </div>
-          </div>
-        </div>
-      
-        <div class="card" onclick="openProductDetail('9')" bis_skin_checked="1">
-          <div class="card-img-wrapper" bis_skin_checked="1">
-            <span class="card-code-badge">CAMISA Nº1</span>
-            <span class="card-subcat-badge">MASCULINA</span>
-            <img src="https://via.placeholder.com/400x300?text=Camisa+N1" alt="Camisa Poliéster Personalizada" onerror="this.src='https://via.placeholder.com/260x220?text=Sem+Imagem'">
-          </div>
-          <div class="card-body" bis_skin_checked="1">
-            <h3 class="card-title">Camisa Poliéster Personalizada</h3>
-            <p class="card-desc">undefined</p>
-            <div class="card-footer-buy" bis_skin_checked="1">
-              <span class="price">R$ R$ 45,00</span>
-              <a href="https://wa.me/5592992914876?text=Ol%C3%A1!%20Gostaria%20de%20encomendar%20o%20produto%20*Camisa%20Poli%C3%A9ster%20Personalizada*%20(C%C3%B3digo%3A%20*CAMISA%20N%C2%BA1*)." target="_blank" class="btn-buy" onclick="event.stopPropagation()"><i class="fa-brands fa-whatsapp"></i> Comprar</a>
-            </div>
-          </div>
-        </div>
-      
-        <div class="card" onclick="openProductDetail('10')" bis_skin_checked="1">
-          <div class="card-img-wrapper" bis_skin_checked="1">
-            <span class="card-code-badge">OUTROS Nº1</span>
-            <span class="card-subcat-badge">ALMOFADAS</span>
-            <img src="https://via.placeholder.com/400x300?text=Almofada+N1" alt="Almofada Personalizada 30x30" onerror="this.src='https://via.placeholder.com/260x220?text=Sem+Imagem'">
-          </div>
-          <div class="card-body" bis_skin_checked="1">
-            <h3 class="card-title">Almofada Personalizada 30x30</h3>
-            <p class="card-desc">undefined</p>
-            <div class="card-footer-buy" bis_skin_checked="1">
-              <span class="price">R$ R$ 30,00</span>
-              <a href="https://wa.me/5592992914876?text=Ol%C3%A1!%20Gostaria%20de%20encomendar%20o%20produto%20*Almofada%20Personalizada%2030x30*%20(C%C3%B3digo%3A%20*OUTROS%20N%C2%BA1*)." target="_blank" class="btn-buy" onclick="event.stopPropagation()"><i class="fa-brands fa-whatsapp"></i> Comprar</a>
-            </div>
-          </div>
-        </div>
-      
-        <div class="card" onclick="openProductDetail('1786255491356')" bis_skin_checked="1">
-          <div class="card-img-wrapper" bis_skin_checked="1">
-            <span class="card-code-badge">CANECA Nº1</span>
-            <span class="card-subcat-badge">AMIZADE</span>
-            <img src="https://i.imgur.com/a4l2nF8.jpeg" alt="Caneca de Porcelana AMIZADE" onerror="this.src='https://via.placeholder.com/260x220?text=Sem+Imagem'">
-          </div>
-          <div class="card-body" bis_skin_checked="1">
-            <h3 class="card-title">Caneca de Porcelana AMIZADE</h3>
-            <p class="card-desc">undefined</p>
-            <div class="card-footer-buy" bis_skin_checked="1">
-              <span class="price">R$ R$ 35,00</span>
-              <a href="https://wa.me/5592992914876?text=Ol%C3%A1!%20Gostaria%20de%20encomendar%20o%20produto%20*Caneca%20de%20Porcelana%20AMIZADE*%20(C%C3%B3digo%3A%20*CANECA%20N%C2%BA1*)." target="_blank" class="btn-buy" onclick="event.stopPropagation()"><i class="fa-brands fa-whatsapp"></i> Comprar</a>
-            </div>
-          </div>
-        </div>
-      
-        <div class="card" onclick="openProductDetail('1786256410038')" bis_skin_checked="1">
-          <div class="card-img-wrapper" bis_skin_checked="1">
-            <span class="card-code-badge">CANECA Nº2</span>
-            <span class="card-subcat-badge">AMIZADE</span>
-            <img src="https://i.imgur.com/kbOZGSz.jpeg" alt="Caneca de Porcelana AMIZADE" onerror="this.src='https://via.placeholder.com/260x220?text=Sem+Imagem'">
-          </div>
-          <div class="card-body" bis_skin_checked="1">
-            <h3 class="card-title">Caneca de Porcelana AMIZADE</h3>
-            <p class="card-desc">undefined</p>
-            <div class="card-footer-buy" bis_skin_checked="1">
-              <span class="price">R$ R$ 35,00</span>
-              <a href="https://wa.me/5592992914876?text=Ol%C3%A1!%20Gostaria%20de%20encomendar%20o%20produto%20*Caneca%20de%20Porcelana%20AMIZADE*%20(C%C3%B3digo%3A%20*CANECA%20N%C2%BA2*)." target="_blank" class="btn-buy" onclick="event.stopPropagation()"><i class="fa-brands fa-whatsapp"></i> Comprar</a>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="subcategories-bar" id="subcategories-bar"></div>
+    <div class="catalog-grid" id="catalog-grid"></div>
   </main>
 
   <!-- MODAL DE VISUALIZAÇÃO DO PRODUTO -->
-  <div class="modal-overlay" id="productModal" bis_skin_checked="1">
-    <div class="modal-card" bis_skin_checked="1">
+  <div class="modal-overlay" id="productModal">
+    <div class="modal-card">
       <button class="btn-close-modal" onclick="closeProductModal()"><i class="fa-solid fa-xmark"></i></button>
-      <div class="product-detail-container" id="productModalContent" bis_skin_checked="1"></div>
+      <div class="product-detail-container" id="productModalContent"></div>
     </div>
   </div>
 
   <!-- MODAL ADM -->
-  <div class="modal-overlay" id="adminModal" onclick="checkCloseAdminPopup(event)" bis_skin_checked="1">
-    <div class="modal-card" id="adminModalCard" bis_skin_checked="1">
+  <div class="modal-overlay" id="adminModal" onclick="checkCloseAdminPopup(event)" style="display: none;">
+    <div class="modal-card" id="adminModalCard">
       <button class="btn-close-modal" onclick="closeAdminModal()"><i class="fa-solid fa-xmark"></i></button>
       
       <!-- LOGIN SEGURO -->
-      <div id="adminLoginForm" style="display: block;" bis_skin_checked="1">
+      <div id="adminLoginForm" style="display: block;">
         <h3 class="modal-title" style="margin-bottom: 1rem;"><i class="fa-solid fa-shield-halved"></i> Login Seguro - ADM</h3>
         <form onsubmit="handleFirebaseLogin(event)">
-          <div class="form-group" bis_skin_checked="1">
+          <div class="form-group">
             <label>E-mail do Administrador:</label>
             <input type="email" id="adminEmailInput" placeholder="seu-email@dominio.com" required="">
           </div>
-          <div class="form-group" bis_skin_checked="1">
+          <div class="form-group">
             <label>Senha:</label>
             <input type="password" id="adminPasswordInput" placeholder="Sua senha secreta" required="">
           </div>
@@ -696,53 +572,53 @@
       </div>
 
       <!-- PAINEL ADM -->
-      <div id="adminMainPanel" style="display: none;" bis_skin_checked="1">
-        <div class="admin-panel-header" bis_skin_checked="1">
+      <div id="adminMainPanel" style="display: none;">
+        <div class="admin-panel-header">
           <h3><i class="fa-solid fa-user-gear"></i> Painel de Controle</h3>
           <button class="btn-logout-admin" onclick="handleFirebaseLogout()"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
         </div>
         
-        <div class="admin-nav-tabs" bis_skin_checked="1">
-          <button class="admin-tab-btn" id="btnTabAdd" onclick="switchAdminTab('add')"><i class="fa-solid fa-plus"></i> Cadastrar Produto</button>
-          <button class="admin-tab-btn active" id="btnTabManageProd" onclick="switchAdminTab('manageProd')"><i class="fa-solid fa-boxes-stacked"></i> Gerenciar Produtos</button>
+        <div class="admin-nav-tabs">
+          <button class="admin-tab-btn active" id="btnTabAdd" onclick="switchAdminTab('add')"><i class="fa-solid fa-plus"></i> Cadastrar Produto</button>
+          <button class="admin-tab-btn" id="btnTabManageProd" onclick="switchAdminTab('manageProd')"><i class="fa-solid fa-boxes-stacked"></i> Gerenciar Produtos</button>
           <button class="admin-tab-btn" id="btnTabManageSubcat" onclick="switchAdminTab('manageSubcat')"><i class="fa-solid fa-tags"></i> Subcategorias</button>
           <button class="admin-tab-btn" id="btnTabManageCat" onclick="switchAdminTab('manageCat')"><i class="fa-solid fa-folder"></i> Categorias Principais</button>
           <button class="admin-tab-btn" id="btnTabGithub" onclick="switchAdminTab('github')"><i class="fa-brands fa-github"></i> Configurar GitHub</button>
         </div>
 
         <!-- CADASTRAR/EDITAR PRODUTO -->
-        <div id="adminSecAdd" style="display: none;" bis_skin_checked="1">
+        <div id="adminSecAdd" style="display: block;">
           <h4 id="formProductTitleHeader" style="font-size: 1rem; margin-bottom: 0.8rem;">Cadastrar Novo Produto</h4>
           <form onsubmit="handleSaveProduct(event)">
             <input type="hidden" id="pEditingId" value="">
             
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>Categoria Principal:</label>
               <input type="text" id="pCategory" placeholder="Ex: Camisas, Canecas..." required="">
             </div>
 
-            <div class="form-group" id="subcatFormGroup" bis_skin_checked="1">
+            <div class="form-group" id="subcatFormGroup">
               <label>Subcategoria / Tema:</label>
               <input type="text" id="pSubCategory" placeholder="Ex: Masculina, Infantil..." required="">
             </div>
 
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>Código do Produto:</label>
               <input type="text" id="pCode" placeholder="Ex: PROD Nº1" required="">
             </div>
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>Título do Produto:</label>
               <input type="text" id="pTitle" placeholder="Ex: Camisa Personalizada" required="">
             </div>
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>Preço:</label>
               <input type="text" id="pPrice" placeholder="Ex: 35,00" required="">
             </div>
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>Descrição:</label>
               <textarea id="pDesc" rows="2" placeholder="Digite a descrição..." required=""></textarea>
             </div>
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>URL da Imagem:</label>
               <input type="url" id="pImage" placeholder="https://..." required="" oninput="cleanImageUrl(this)">
             </div>
@@ -752,244 +628,63 @@
         </div>
 
         <!-- GERENCIAR PRODUTOS -->
-        <div id="adminSecManageProd" style="display: block;" bis_skin_checked="1">
+        <div id="adminSecManageProd" style="display: none;">
           <h4 style="font-size: 1rem; margin-bottom: 0.8rem;">Gerenciar / Editar / Excluir Produtos</h4>
           
-          <div class="admin-search-box" bis_skin_checked="1">
+          <div class="admin-search-box">
             <input type="text" id="adminProdSearchInput" oninput="renderAdminProductsList()" placeholder="🔍 Busque por código ou nome..." style="padding: 0.45rem; font-size: 0.85rem;">
           </div>
 
           <!-- AÇÕES EM MASSA -->
-          <div id="bulkActionsBar" style="display: none; align-items: center; justify-content: space-between; background: rgb(255, 243, 205); border: 1px solid rgb(255, 238, 186); padding: 0.5rem 0.8rem; border-radius: 8px; margin-bottom: 0.8rem;" bis_skin_checked="1">
-            <span id="selectedCountText" style="font-size: 0.8rem; font-weight: 600; color: #856404;">8 produto(s) selecionado(s)</span>
+          <div id="bulkActionsBar" style="display: none; align-items: center; justify-content: space-between; background: #fff3cd; border: 1px solid #ffeeba; padding: 0.5rem 0.8rem; border-radius: 8px; margin-bottom: 0.8rem;">
+            <span id="selectedCountText" style="font-size: 0.8rem; font-weight: 600; color: #856404;">0 selecionados</span>
             <button onclick="deleteSelectedProducts()" style="background: #dc3545; color: #fff; border: none; padding: 0.35rem 0.7rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer;">
               <i class="fa-solid fa-trash"></i> Excluir Selecionados
             </button>
           </div>
 
-          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; padding-left: 0.2rem;" bis_skin_checked="1">
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; padding-left: 0.2rem;">
             <input type="checkbox" id="selectAllProductsCheckbox" onchange="toggleSelectAllProducts(this)">
             <label for="selectAllProductsCheckbox" style="font-size: 0.78rem; font-weight: 600; color: #555; cursor: pointer; margin-bottom: 0;">Selecionar todos visíveis</label>
           </div>
           
-          <div id="adminProductListContainer" style="max-height: 270px; overflow-y: auto; padding-right: 0.3rem;" bis_skin_checked="1">
-        <div class="admin-manage-card" bis_skin_checked="1">
-          <div class="admin-manage-info" bis_skin_checked="1">
-            <input type="checkbox" class="product-select-item" value="5" onchange="updateBulkActionsBar()">
-            <img src="https://via.placeholder.com/400x300?text=Card+SUS+N1" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/45?text=Img'">
-            <div class="admin-manage-details" bis_skin_checked="1">
-              <strong>Cartão do SUS Personalizado (CARTÃO SUS Nº1)</strong>
-              <span>R$ R$ 15,00 | card-sus / INFANTIL</span>
-            </div>
-          </div>
-          <div class="admin-action-btns" bis_skin_checked="1">
-            <button class="btn-edit-adm" onclick="editProduct('5')"><i class="fa-solid fa-pen"></i> Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('5')"><i class="fa-solid fa-trash"></i> Excluir</button>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card" bis_skin_checked="1">
-          <div class="admin-manage-info" bis_skin_checked="1">
-            <input type="checkbox" class="product-select-item" value="6" onchange="updateBulkActionsBar()">
-            <img src="https://via.placeholder.com/400x300?text=Caderneta+N1" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/45?text=Img'">
-            <div class="admin-manage-details" bis_skin_checked="1">
-              <strong>Caderneta de Vacinação Luxo (CADERNETA DE VACINAÇÃO Nº1)</strong>
-              <span>R$ R$ 65,00 | cadernetas / MENINA</span>
-            </div>
-          </div>
-          <div class="admin-action-btns" bis_skin_checked="1">
-            <button class="btn-edit-adm" onclick="editProduct('6')"><i class="fa-solid fa-pen"></i> Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('6')"><i class="fa-solid fa-trash"></i> Excluir</button>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card" bis_skin_checked="1">
-          <div class="admin-manage-info" bis_skin_checked="1">
-            <input type="checkbox" class="product-select-item" value="7" onchange="updateBulkActionsBar()">
-            <img src="https://via.placeholder.com/400x300?text=Placa+MDF+N1" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/45?text=Img'">
-            <div class="admin-manage-details" bis_skin_checked="1">
-              <strong>Placa Decorativa MDF 20x30 (PLACA DECORATIVA Nº1)</strong>
-              <span>R$ R$ 25,00 | placas-mdf / DECORATIVAS</span>
-            </div>
-          </div>
-          <div class="admin-action-btns" bis_skin_checked="1">
-            <button class="btn-edit-adm" onclick="editProduct('7')"><i class="fa-solid fa-pen"></i> Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('7')"><i class="fa-solid fa-trash"></i> Excluir</button>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card" bis_skin_checked="1">
-          <div class="admin-manage-info" bis_skin_checked="1">
-            <input type="checkbox" class="product-select-item" value="8" onchange="updateBulkActionsBar()">
-            <img src="https://via.placeholder.com/400x300?text=Chaveiro+MDF+N1" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/45?text=Img'">
-            <div class="admin-manage-details" bis_skin_checked="1">
-              <strong>Chaveiro MDF Sublimado (CHAVEIRO MDF Nº1)</strong>
-              <span>R$ R$ 8,00 | chaveiros-mdf / PERSONALIZADOS</span>
-            </div>
-          </div>
-          <div class="admin-action-btns" bis_skin_checked="1">
-            <button class="btn-edit-adm" onclick="editProduct('8')"><i class="fa-solid fa-pen"></i> Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('8')"><i class="fa-solid fa-trash"></i> Excluir</button>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card" bis_skin_checked="1">
-          <div class="admin-manage-info" bis_skin_checked="1">
-            <input type="checkbox" class="product-select-item" value="9" onchange="updateBulkActionsBar()">
-            <img src="https://via.placeholder.com/400x300?text=Camisa+N1" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/45?text=Img'">
-            <div class="admin-manage-details" bis_skin_checked="1">
-              <strong>Camisa Poliéster Personalizada (CAMISA Nº1)</strong>
-              <span>R$ R$ 45,00 | camisas / MASCULINA</span>
-            </div>
-          </div>
-          <div class="admin-action-btns" bis_skin_checked="1">
-            <button class="btn-edit-adm" onclick="editProduct('9')"><i class="fa-solid fa-pen"></i> Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('9')"><i class="fa-solid fa-trash"></i> Excluir</button>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card" bis_skin_checked="1">
-          <div class="admin-manage-info" bis_skin_checked="1">
-            <input type="checkbox" class="product-select-item" value="10" onchange="updateBulkActionsBar()">
-            <img src="https://via.placeholder.com/400x300?text=Almofada+N1" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/45?text=Img'">
-            <div class="admin-manage-details" bis_skin_checked="1">
-              <strong>Almofada Personalizada 30x30 (OUTROS Nº1)</strong>
-              <span>R$ R$ 30,00 | outros / ALMOFADAS</span>
-            </div>
-          </div>
-          <div class="admin-action-btns" bis_skin_checked="1">
-            <button class="btn-edit-adm" onclick="editProduct('10')"><i class="fa-solid fa-pen"></i> Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('10')"><i class="fa-solid fa-trash"></i> Excluir</button>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card" bis_skin_checked="1">
-          <div class="admin-manage-info" bis_skin_checked="1">
-            <input type="checkbox" class="product-select-item" value="1786255491356" onchange="updateBulkActionsBar()">
-            <img src="https://i.imgur.com/a4l2nF8.jpeg" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/45?text=Img'">
-            <div class="admin-manage-details" bis_skin_checked="1">
-              <strong>Caneca de Porcelana AMIZADE (CANECA Nº1)</strong>
-              <span>R$ R$ 35,00 | canecas / AMIZADE</span>
-            </div>
-          </div>
-          <div class="admin-action-btns" bis_skin_checked="1">
-            <button class="btn-edit-adm" onclick="editProduct('1786255491356')"><i class="fa-solid fa-pen"></i> Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('1786255491356')"><i class="fa-solid fa-trash"></i> Excluir</button>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card" bis_skin_checked="1">
-          <div class="admin-manage-info" bis_skin_checked="1">
-            <input type="checkbox" class="product-select-item" value="1786256410038" onchange="updateBulkActionsBar()">
-            <img src="https://i.imgur.com/kbOZGSz.jpeg" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/45?text=Img'">
-            <div class="admin-manage-details" bis_skin_checked="1">
-              <strong>Caneca de Porcelana AMIZADE (CANECA Nº2)</strong>
-              <span>R$ R$ 35,00 | canecas / AMIZADE</span>
-            </div>
-          </div>
-          <div class="admin-action-btns" bis_skin_checked="1">
-            <button class="btn-edit-adm" onclick="editProduct('1786256410038')"><i class="fa-solid fa-pen"></i> Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('1786256410038')"><i class="fa-solid fa-trash"></i> Excluir</button>
-          </div>
-        </div>
-      </div>
+          <div id="adminProductListContainer" style="max-height: 270px; overflow-y: auto; padding-right: 0.3rem;"></div>
         </div>
 
         <!-- GERENCIAR SUBCATEGORIAS -->
-        <div id="adminSecManageSubcat" style="display: none;" bis_skin_checked="1">
+        <div id="adminSecManageSubcat" style="display: none;">
           <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Gerenciar Subcategorias</h4>
-          <div id="adminSubcatListContainer" style="max-height: 280px; overflow-y: auto;" bis_skin_checked="1">
+          <div id="adminSubcatListContainer" style="max-height: 280px; overflow-y: auto;">
             <p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Gerenciado automaticamente pelos produtos.</p>
           </div>
         </div>
 
         <!-- GERENCIAR CATEGORIAS -->
-        <div id="adminSecManageCat" style="display: none;" bis_skin_checked="1">
+        <div id="adminSecManageCat" style="display: none;">
           <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Categorias Principais</h4>
-          <div id="adminCatListContainer" style="max-height: 280px; overflow-y: auto;" bis_skin_checked="1">
-        <div class="admin-manage-card" bis_skin_checked="1">
-          <div class="admin-manage-info" bis_skin_checked="1">
-            <div class="admin-manage-details" bis_skin_checked="1">
-              <strong>CARD-SUS</strong>
-              <span>Produtos nesta categoria: 1</span>
-            </div>
+          <div id="adminCatListContainer" style="max-height: 280px; overflow-y: auto;">
+            <p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhuma categoria cadastrada.</p>
           </div>
-        </div>
-      
-        <div class="admin-manage-card" bis_skin_checked="1">
-          <div class="admin-manage-info" bis_skin_checked="1">
-            <div class="admin-manage-details" bis_skin_checked="1">
-              <strong>CADERNETAS</strong>
-              <span>Produtos nesta categoria: 1</span>
-            </div>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card" bis_skin_checked="1">
-          <div class="admin-manage-info" bis_skin_checked="1">
-            <div class="admin-manage-details" bis_skin_checked="1">
-              <strong>PLACAS-MDF</strong>
-              <span>Produtos nesta categoria: 1</span>
-            </div>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card" bis_skin_checked="1">
-          <div class="admin-manage-info" bis_skin_checked="1">
-            <div class="admin-manage-details" bis_skin_checked="1">
-              <strong>CHAVEIROS-MDF</strong>
-              <span>Produtos nesta categoria: 1</span>
-            </div>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card" bis_skin_checked="1">
-          <div class="admin-manage-info" bis_skin_checked="1">
-            <div class="admin-manage-details" bis_skin_checked="1">
-              <strong>CAMISAS</strong>
-              <span>Produtos nesta categoria: 1</span>
-            </div>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card" bis_skin_checked="1">
-          <div class="admin-manage-info" bis_skin_checked="1">
-            <div class="admin-manage-details" bis_skin_checked="1">
-              <strong>OUTROS</strong>
-              <span>Produtos nesta categoria: 1</span>
-            </div>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card" bis_skin_checked="1">
-          <div class="admin-manage-info" bis_skin_checked="1">
-            <div class="admin-manage-details" bis_skin_checked="1">
-              <strong>CANECAS</strong>
-              <span>Produtos nesta categoria: 2</span>
-            </div>
-          </div>
-        </div>
-      </div>
         </div>
 
         <!-- CONFIGURAR GITHUB -->
-        <div id="adminSecGithub" style="display: none;" bis_skin_checked="1">
+        <div id="adminSecGithub" style="display: none;">
           <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Conectar com o GitHub</h4>
           <p style="font-size: 0.8rem; color: #666; margin-bottom: 1rem;">Configure para atualizar o arquivo no GitHub automaticamente ao alterar produtos:</p>
           <form onsubmit="handleSaveGithubConfig(event)">
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>GitHub Username:</label>
               <input type="text" id="ghUsername" placeholder="Ex: adoniasdesigner" required="">
             </div>
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>Nome do Repositório:</label>
               <input type="text" id="ghRepo" placeholder="Ex: sublimart-catalogo" required="">
             </div>
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>Nome do Arquivo (ex: index.html):</label>
               <input type="text" id="ghFilename" value="index.html" required="">
             </div>
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>Personal Access Token (PAT):</label>
               <input type="password" id="ghToken" placeholder="ghp_..." required="">
             </div>
@@ -1004,102 +699,26 @@
   <!-- RODAPÉ -->
   <footer>
     <p><strong>SUBLIMArt Personalizados</strong> — Transformando suas ideias em arte.</p>
-    <div class="footer-contacts" bis_skin_checked="1">
+    <div class="footer-contacts">
       <a href="https://wa.me/5592992914876" target="_blank" class="wa-link"><i class="fa-brands fa-whatsapp"></i> (92) 99291-4876</a>
       <a href="https://wa.me/5592993522287" target="_blank" class="wa-link"><i class="fa-brands fa-whatsapp"></i> (92) 99352-2287</a>
       <a href="https://www.instagram.com/sublimart_ofc1" target="_blank" class="ig-link"><i class="fa-brands fa-instagram"></i> @sublimart_ofc1</a>
     </div>
   </footer>
 
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
   <script>
-    // CONFIGURE ESTES DADOS em Firebase Console > Configurações do projeto > Seus apps.
-    // Não coloque senha de usuário nem chave privada aqui. A configuração web do Firebase é pública por natureza;
-    // a proteção real dos dados é feita pelas regras do Firestore fornecidas em arquivo separado.
-    const firebaseConfig = {
-      apiKey: "COLE_SUA_API_KEY",
-      authDomain: "SEU_PROJETO.firebaseapp.com",
-      projectId: "SEU_PROJECT_ID",
-      storageBucket: "SEU_PROJETO.appspot.com",
-      messagingSenderId: "SEU_MESSAGING_SENDER_ID",
-      appId: "SEU_APP_ID"
-    };
-
-    // Informe o UID do administrador criado em Firebase Authentication > Usuários.
-    // O UID também deve constar nas regras do Firestore (arquivo de regras fornecido junto).
-    const ADMIN_UID = "COLE_AQUI_O_UID_DO_ADMINISTRADOR";
-    const PRODUCTS_COLLECTION = "products";
-
-    let firebaseReady = false;
-    let auth = null;
-    let db = null;
-    let products = [];
-    let productsUnsubscribe = null;
-    let legacyImportAttempted = false;
-
-    // Captura uma única vez os produtos que já estavam embutidos no HTML antigo/localStorage,
-    // para permitir uma migração inicial ao Firestore sem apagá-los silenciosamente.
-    function collectLegacyProducts() {
-      try {
-        const cached = JSON.parse(localStorage.getItem('sublimart_products') || 'null');
-        if (Array.isArray(cached) && cached.length) return cached;
-      } catch (_) {}
-      const grid = document.getElementById('catalog-grid');
-      if (!grid) return [];
-      return Array.from(grid.querySelectorAll(':scope > .card')).map((card, index) => {
-        const title = card.querySelector('.card-title')?.textContent?.trim() || '';
-        const code = card.querySelector('.card-code-badge')?.textContent?.trim() || `IMPORTADO-${index + 1}`;
-        const subcategory = card.querySelector('.card-subcat-badge')?.textContent?.trim() || 'GERAL';
-        const image = card.querySelector('img')?.getAttribute('src') || '';
-        const rawPrice = card.querySelector('.price')?.textContent?.trim() || '';
-        const price = rawPrice.replace(/^R\$\s*/i, '').replace(/^R\$\s*/i, '').trim();
-        const rawDesc = card.querySelector('.card-desc')?.textContent?.trim() || '';
-        const click = card.getAttribute('onclick') || '';
-        const match = click.match(/openProductDetail\(['"]([^'"]+)['"]\)/);
-        return {
-          id: match ? String(match[1]) : `legacy_${index + 1}`,
-          category: 'importados',
-          subcategory: subcategory.toUpperCase(), code, title, price,
-          desc: rawDesc === 'undefined' ? '' : rawDesc,
-          image
-        };
-      }).filter(product => product.title);
-    }
-    const legacyProducts = collectLegacyProducts();
-
-    try {
-      if (firebaseConfig.apiKey !== "COLE_SUA_API_KEY" && firebaseConfig.projectId !== "SEU_PROJECT_ID") {
-        firebase.initializeApp(firebaseConfig);
-        auth = firebase.auth();
-        db = firebase.firestore();
-        firebaseReady = true;
-      }
-    } catch (error) {
-      console.error("Falha ao inicializar Firebase:", error);
-    }
+    // --- ESTADO INICIAL ZERADO ---
+    let products = JSON.parse(localStorage.getItem('sublimart_products')) || [];
 
     document.addEventListener('DOMContentLoaded', () => {
-      // O painel nunca deve abrir automaticamente ao carregar/atualizar a página.
-      closeAdminModal();
       renderCatalog();
       renderAdminProductsList();
       renderCategoriesMenu();
-      if (!firebaseReady) {
-        console.error("Configure firebaseConfig no arquivo HTML antes de publicar.");
-      } else {
-        // O catálogo é público e deve sincronizar em todos os dispositivos, inclusive sem login.
-        subscribeToProducts();
-        auth.onAuthStateChanged((user) => {
-          const isAdmin = !!user && user.uid === ADMIN_UID;
-          checkAdminSessionSecurity(isAdmin);
-          if (isAdmin) {
-            renderAdminProductsList();
-            migrateLegacyProductsIfNeeded();
-          }
-        });
-      }
+      loadGithubConfig();
+      const panel = document.getElementById('adminMainPanel');
+      if (panel) panel.style.display = 'none';
+      const login = document.getElementById('adminLoginForm');
+      if (login) login.style.display = 'block';
     });
 
     function toggleCategoriesMenu() {
@@ -1111,7 +730,8 @@
       const modal = document.getElementById('adminModal');
       if (modal) {
         modal.style.display = 'flex';
-        checkAdminSessionSecurity(!!(auth && auth.currentUser && auth.currentUser.uid === ADMIN_UID));
+        document.getElementById('adminLoginForm').style.display = isAdminAuthenticated ? 'none' : 'block';
+        document.getElementById('adminMainPanel').style.display = isAdminAuthenticated ? 'block' : 'none';
       }
     }
 
@@ -1147,18 +767,10 @@
       if (tabName === 'manageCat') renderAdminCategoriesList();
     }
 
-    function checkAdminSessionSecurity(isAuthenticated = false) {
-      const loginForm = document.getElementById('adminLoginForm');
-      const mainPanel = document.getElementById('adminMainPanel');
-      if (loginForm) loginForm.style.display = isAuthenticated ? 'none' : 'block';
-      if (mainPanel) mainPanel.style.display = isAuthenticated ? 'block' : 'none';
-    }
-
     function requireAdmin() {
-      const user = auth && auth.currentUser;
-      if (!firebaseReady || !user || user.uid !== ADMIN_UID) {
-        alert('Acesso negado. Entre com a conta autorizada do administrador.');
-        checkAdminSessionSecurity(false);
+      if (!isAdminAuthenticated || !firebaseAuth || !firebaseAuth.currentUser ||
+          firebaseAuth.currentUser.uid !== ADMIN_UID) {
+        alert('Faça login com a conta administradora para continuar.');
         return false;
       }
       return true;
@@ -1166,83 +778,41 @@
 
     async function handleFirebaseLogin(event) {
       event.preventDefault();
-      if (!firebaseReady) {
-        alert('O Firebase ainda não foi configurado neste arquivo.');
-        return;
-      }
       const email = document.getElementById('adminEmailInput').value.trim();
       const password = document.getElementById('adminPasswordInput').value;
       const button = document.getElementById('btnLoginSubmit');
-      if (button) button.disabled = true;
+
+      if (!firebaseAuth) {
+        alert('O login ainda não está configurado. Preencha firebaseConfig e ADMIN_UID no HTML.');
+        return;
+      }
+      if (button) { button.disabled = true; button.textContent = 'ENTRANDO...'; }
       try {
-        const credential = await auth.signInWithEmailAndPassword(email, password);
-        if (credential.user.uid !== ADMIN_UID) {
-          await auth.signOut();
-          throw new Error('Esta conta não está autorizada como administradora.');
+        const credential = await firebaseAuth.signInWithEmailAndPassword(email, password);
+        if (!credential.user || credential.user.uid !== ADMIN_UID) {
+          await firebaseAuth.signOut();
+          isAdminAuthenticated = false;
+          alert('Conta sem autorização para acessar o painel administrativo.');
+          return;
         }
-        checkAdminSessionSecurity(true);
-        subscribeToProducts();
-      } catch (error) {
-        console.error('Erro de autenticação:', error);
-        alert('Não foi possível entrar: ' + (error.code === 'auth/invalid-credential' ? 'e-mail ou senha incorretos.' : error.message));
-        checkAdminSessionSecurity(false);
+        isAdminAuthenticated = true;
+        document.getElementById('adminLoginForm').style.display = 'none';
+        document.getElementById('adminMainPanel').style.display = 'block';
+        renderAdminProductsList();
+      } catch (err) {
+        console.error(err);
+        alert('Não foi possível entrar. Verifique o e-mail, a senha e a configuração do Firebase.');
       } finally {
-        if (button) button.disabled = false;
+        if (button) { button.disabled = false; button.textContent = 'ENTRAR'; }
       }
     }
 
     async function handleFirebaseLogout() {
-      try {
-        if (auth) await auth.signOut();
-      } catch (error) {
-        console.error('Erro ao sair:', error);
-      }
-      if (productsUnsubscribe) productsUnsubscribe();
-      productsUnsubscribe = null;
-      checkAdminSessionSecurity(false);
+      if (firebaseAuth) await firebaseAuth.signOut();
+      isAdminAuthenticated = false;
+      document.getElementById('adminLoginForm').style.display = 'block';
+      document.getElementById('adminMainPanel').style.display = 'none';
       closeAdminModal();
-    }
-
-    async function migrateLegacyProductsIfNeeded() {
-      if (legacyImportAttempted || !requireAdmin() || !legacyProducts.length) return;
-      legacyImportAttempted = true;
-      try {
-        const current = await db.collection(PRODUCTS_COLLECTION).limit(1).get();
-        if (!current.empty) return;
-        const shouldImport = confirm(`O catálogo do Firebase está vazio. Foram encontrados ${legacyProducts.length} produtos no HTML/localStorage antigo. Deseja importá-los para o catálogo sincronizado? Os produtos importados ficarão na categoria \"importados\" para você reorganizar depois.`);
-        if (!shouldImport) return;
-        for (let i = 0; i < legacyProducts.length; i += 400) {
-          const batch = db.batch();
-          legacyProducts.slice(i, i + 400).forEach((product, offset) => {
-            const { id, ...data } = product;
-            batch.set(db.collection(PRODUCTS_COLLECTION).doc(String(id || `legacy_${i + offset}`)), {
-              ...data,
-              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-              updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-            }, { merge: true });
-          });
-          await batch.commit();
-        }
-        alert('Migração concluída. Os produtos agora ficam sincronizados pelo Firebase. Revise a categoria “importados”.');
-      } catch (error) {
-        console.error('Falha ao migrar catálogo antigo:', error);
-        alert('Não foi possível importar os produtos antigos. Verifique a configuração e as regras do Firestore.');
-      }
-    }
-
-    function subscribeToProducts() {
-      if (!firebaseReady || !db || productsUnsubscribe) return;
-      productsUnsubscribe = db.collection(PRODUCTS_COLLECTION).onSnapshot((snapshot) => {
-        products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        localStorage.setItem('sublimart_products_cache', JSON.stringify(products));
-        renderCatalog();
-        renderAdminProductsList();
-        renderCategoriesMenu();
-        renderAdminCategoriesList();
-      }, (error) => {
-        console.error('Erro ao sincronizar produtos:', error);
-        alert('Não foi possível carregar o catálogo do Firebase. Confira as regras do Firestore.');
-      });
     }
 
     function cleanImageUrl(input) {
@@ -1252,75 +822,82 @@
     }
 
     // --- SALVAR E SINCRONIZAR COM GITHUB ---
-    async function handleSaveProduct(event) {
+    function handleSaveProduct(event) {
       event.preventDefault();
       if (!requireAdmin()) return;
+
       const editingId = document.getElementById('pEditingId').value;
-      const product = {
-        category: document.getElementById('pCategory').value.trim().toLowerCase(),
-        subcategory: document.getElementById('pSubCategory').value.trim().toUpperCase(),
-        code: document.getElementById('pCode').value.trim(),
-        title: document.getElementById('pTitle').value.trim(),
-        price: document.getElementById('pPrice').value.trim().replace(/^R\$\s*/i, ''),
-        desc: document.getElementById('pDesc').value.trim(),
-        image: document.getElementById('pImage').value.trim(),
-        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-      };
-      try {
-        if (editingId) {
-          await db.collection(PRODUCTS_COLLECTION).doc(String(editingId)).set(product, { merge: true });
-        } else {
-          product.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-          await db.collection(PRODUCTS_COLLECTION).add(product);
+      const category = document.getElementById('pCategory').value.trim().toLowerCase();
+      const subcategory = document.getElementById('pSubCategory').value.trim().toUpperCase();
+      const code = document.getElementById('pCode').value.trim();
+      const title = document.getElementById('pTitle').value.trim();
+      const price = document.getElementById('pPrice').value.trim();
+      const desc = document.getElementById('pDesc').value.trim();
+      const image = document.getElementById('pImage').value.trim();
+
+      if (editingId) {
+        const index = products.findIndex(p => String(p.id) === String(editingId));
+        if (index !== -1) {
+          products[index] = { id: editingId, category, subcategory, code, title, price, desc, image };
         }
-        alert(editingId ? 'Produto atualizado no catálogo para todos os dispositivos!' : 'Produto cadastrado no catálogo para todos os dispositivos!');
-        resetProductForm();
-      } catch (error) {
-        console.error('Erro ao salvar produto:', error);
-        alert('Não foi possível salvar o produto. Confira as regras do Firestore.');
+      } else {
+        const newProduct = {
+          id: 'prod_' + Date.now(),
+          category,
+          subcategory,
+          code,
+          title,
+          price,
+          desc,
+          image
+        };
+        products.push(newProduct);
       }
+
+      saveAndSyncData(editingId ? 'Produto atualizado com sucesso!' : 'Produto cadastrado com sucesso!');
+      resetProductForm();
     }
 
-    async function deleteProduct(id) {
+    function deleteProduct(id) {
       if (!requireAdmin()) return;
-      if (!confirm('Deseja realmente excluir este produto?')) return;
-      try {
-        await db.collection(PRODUCTS_COLLECTION).doc(String(id)).delete();
-        // onSnapshot atualiza o catálogo em todos os dispositivos automaticamente.
-      } catch (error) {
-        console.error('Erro ao excluir produto:', error);
-        alert('Não foi possível excluir o produto. Confira as regras do Firestore.');
+      if (confirm('Deseja realmente excluir este produto?')) {
+        products = products.filter(p => String(p.id) !== String(id));
+        saveAndSyncData('Produto excluído com sucesso!');
       }
     }
 
-    async function deleteSelectedProducts() {
+    function deleteSelectedProducts() {
       if (!requireAdmin()) return;
-      const checkedBoxes = document.querySelectorAll('.product-select-item:checked');
-      const idsToDelete = Array.from(checkedBoxes).map(cb => String(cb.value));
-      if (!idsToDelete.length) return;
-      if (!confirm('Deseja excluir os produtos selecionados?')) return;
-      try {
-        // Lotes do Firestore aceitam até 500 operações; dividir em lotes menores.
-        for (let i = 0; i < idsToDelete.length; i += 400) {
-          const batch = db.batch();
-          idsToDelete.slice(i, i + 400).forEach(id => batch.delete(db.collection(PRODUCTS_COLLECTION).doc(id)));
-          await batch.commit();
-        }
-      } catch (error) {
-        console.error('Erro ao excluir produtos selecionados:', error);
-        alert('Não foi possível excluir todos os produtos. Confira as regras do Firestore.');
+      if (confirm('Deseja excluir os produtos selecionados?')) {
+        const checkedBoxes = document.querySelectorAll('.product-select-item:checked');
+        const idsToDelete = Array.from(checkedBoxes).map(cb => cb.value);
+
+        products = products.filter(p => !idsToDelete.includes(String(p.id)));
+        saveAndSyncData('Produtos selecionados excluídos com sucesso!');
       }
     }
 
-    // Mantida por compatibilidade com funções de interface antigas; os dados agora são gravados no Firestore.
     function saveAndSyncData(successMsg) {
+      if (!requireAdmin()) return;
+      localStorage.setItem('sublimart_products', JSON.stringify(products));
+      const dataScript = document.getElementById('sublimart-catalog-data');
+      if (dataScript) {
+        // Marca o catálogo do HTML como fonte oficial, inclusive quando estiver vazio.
+        dataScript.setAttribute('data-initialized', 'true');
+        // Escapa "<" para impedir que texto do produto encerre a tag script.
+        dataScript.textContent = JSON.stringify(products).replace(/</g, '\\u003c');
+      }
       renderCatalog();
       renderAdminProductsList();
       renderCategoriesMenu();
       renderAdminCategoriesList();
+      
       const selectAllCheckbox = document.getElementById('selectAllProductsCheckbox');
       if (selectAllCheckbox) selectAllCheckbox.checked = false;
       updateBulkActionsBar();
+
+      // Tentar atualizar automaticamente no GitHub se configurado
+      syncToGithub(successMsg);
     }
 
     // --- RENDERIZAR TELA ---
@@ -1415,9 +992,9 @@
           </div>
           <div class="card-body">
             <h3 class="card-title">${prod.title}</h3>
-            <p class="card-desc">${prod.desc || ''}</p>
+            <p class="card-desc">${prod.desc}</p>
             <div class="card-footer-buy">
-              <span class="price">R$ ${String(prod.price || '').replace(/^R\$\s*/i, '')}</span>
+              <span class="price">R$ ${prod.price}</span>
               <a href="https://wa.me/5592992914876?text=Ol%C3%A1!%20Gostaria%20de%20encomendar%20o%20produto%20*${encodeURIComponent(prod.title)}*%20(C%C3%B3digo%3A%20*${encodeURIComponent(prod.code)}*)." target="_blank" class="btn-buy" onclick="event.stopPropagation()"><i class="fa-brands fa-whatsapp"></i> Comprar</a>
             </div>
           </div>
@@ -1437,8 +1014,8 @@
           <span class="product-detail-subcat">${prod.subcategory}</span>
         </div>
         <h2 class="product-detail-title">${prod.title}</h2>
-        <span class="product-detail-price">R$ ${String(prod.price || '').replace(/^R\$\s*/i, '')}</span>
-        <p class="product-detail-desc">${prod.desc || ''}</p>
+        <span class="product-detail-price">R$ ${prod.price}</span>
+        <p class="product-detail-desc">${prod.desc}</p>
         <a href="https://wa.me/5592992914876?text=Ol%C3%A1!%20Gostaria%20de%20encomendar%20o%20produto%20*${encodeURIComponent(prod.title)}*%20(C%C3%B3digo%3A%20*${encodeURIComponent(prod.code)}*)." target="_blank" class="btn-buy-modal">
           <i class="fa-brands fa-whatsapp"></i> ENCOMENDAR PELO WHATSAPP
         </a>
@@ -1469,7 +1046,7 @@
             <img src="${prod.image}" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/45?text=Img'">
             <div class="admin-manage-details">
               <strong>${prod.title} (${prod.code})</strong>
-              <span>R$ ${String(prod.price || '').replace(/^R\$\s*/i, '')} | ${prod.category} / ${prod.subcategory}</span>
+              <span>R$ ${prod.price} | ${prod.category} / ${prod.subcategory}</span>
             </div>
           </div>
           <div class="admin-action-btns">
@@ -1561,19 +1138,77 @@
     // --- CONFIGURAÇÃO E INTEGRAÇÃO AUTOMÁTICA COM GITHUB ---
     function handleSaveGithubConfig(e) {
       e.preventDefault();
-      alert('A sincronização do catálogo agora é feita pelo Firebase. Por segurança, não salve tokens pessoais do GitHub neste navegador.');
+      if (!requireAdmin()) return;
+      const config = {
+        username: document.getElementById('ghUsername').value.trim(),
+        repo: document.getElementById('ghRepo').value.trim(),
+        filename: document.getElementById('ghFilename').value.trim() || 'index.html',
+        token: document.getElementById('ghToken').value.trim()
+      };
+      localStorage.setItem('sublimart_github_config', JSON.stringify(config));
+      alert('Configuração do GitHub salva com sucesso!');
     }
 
     function loadGithubConfig() {
-      // Tokens de acesso do GitHub não são carregados nem armazenados no navegador.
+      const config = JSON.parse(localStorage.getItem('sublimart_github_config'));
+      if (config) {
+        if (document.getElementById('ghUsername')) document.getElementById('ghUsername').value = config.username || '';
+        if (document.getElementById('ghRepo')) document.getElementById('ghRepo').value = config.repo || '';
+        if (document.getElementById('ghFilename')) document.getElementById('ghFilename').value = config.filename || 'index.html';
+        if (document.getElementById('ghToken')) document.getElementById('ghToken').value = config.token || '';
+      }
     }
 
     async function syncToGithub(successMsg) {
-      // Compatibilidade com chamadas antigas. O Firestore é a fonte única de dados.
-      console.info('Catálogo sincronizado pelo Firebase; sincronização GitHub desativada no navegador.');
+      if (!requireAdmin()) return;
+      const config = JSON.parse(localStorage.getItem('sublimart_github_config'));
+      if (!config || !config.token || !config.username || !config.repo) {
+        alert(successMsg + ' (Aviso: O site foi atualizado localmente. Para atualizar no GitHub automaticamente, preencha os dados na aba "Configurar GitHub").');
+        return;
+      }
+
+      alert(successMsg + '\n\nEnviando atualização diretamente para o GitHub...');
+
+      try {
+        const fileApiUrl = `https://api.github.com/repos/${config.username}/${config.repo}/contents/${config.filename}`;
+        
+        // 1. Obter o SHA atual do arquivo no GitHub
+        const getRes = await fetch(fileApiUrl, {
+          headers: { 'Authorization': `token ${config.token}` }
+        });
+
+        if (!getRes.ok) throw new Error('Erro ao buscar o arquivo atual no GitHub. Verifique suas credenciais.');
+        const fileData = await getRes.json();
+        const fileSha = fileData.sha;
+
+        // 2. Gerar o HTML atualizado completo da página
+        const updatedHtml = document.documentElement.outerHTML;
+        const encodedContent = btoa(unescape(encodeURIComponent(updatedHtml)));
+
+        // 3. Fazer o commit via API do GitHub
+        const putRes = await fetch(fileApiUrl, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${config.token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: 'Atualização automática via Painel ADM SUBLIMArt',
+            content: encodedContent,
+            sha: fileSha
+          })
+        });
+
+        if (putRes.ok) {
+          alert('Site atualizado no GitHub com sucesso! O GitHub Pages atualizará em instantes.');
+        } else {
+          const errJson = await putRes.json();
+          throw new Error(errJson.message || 'Erro ao fazer commit no GitHub.');
+        }
+      } catch (err) {
+        alert('Aviso: Salvo localmente, mas ocorreu um erro ao sincronizar com o GitHub: ' + err.message);
+      }
     }
-
   </script>
-
-
-</body></html>
+</body>
+</html>
