@@ -579,7 +579,8 @@
     <h2 class="category-title" id="category-title"><i class="fa-solid fa-border-all"></i> Todos os Produtos</h2>
     <div class="subcategories-bar" id="subcategories-bar"></div>
     <div class="catalog-grid" id="catalog-grid">
-      <div class="card">
+      <!-- O produto estático agora possui um ID padrão para que o painel administrativo consiga listá-lo e excluí-lo -->
+      <div class="card" data-product-id="default-estampa-dtf">
         <div class="card-img-wrapper">
           <span class="card-code-badge">CAMISA Nº 1</span>
           <span class="card-subcat-badge">MASCULINA</span>
@@ -722,7 +723,20 @@
           </div>
           
           <div id="adminProductListContainer" style="max-height: 270px; overflow-y: auto; padding-right: 0.3rem;">
-            <p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhum produto encontrado.</p>
+            <!-- Listagem integrando o produto estático padrão para visualização e exclusão ADM -->
+            <div class="admin-manage-card" data-admin-item-id="default-estampa-dtf">
+              <div class="admin-manage-info">
+                <input type="checkbox" class="product-select-item" value="default-estampa-dtf" onchange="updateBulkActionsBar()">
+                <img src="https://i.imgur.com/KThKE5n.png" class="admin-manage-img" alt="">
+                <div class="admin-manage-details">
+                  <strong>ESTAMPA EM DTF (CAMISA Nº 1)</strong>
+                  <span>R$ 25,00 | Camisas / MASCULINA</span>
+                </div>
+              </div>
+              <div class="admin-action-btns">
+                <button class="btn-delete-adm" onclick="removeStaticDefaultProduct()"><i class="fa-solid fa-trash"></i> Excluir</button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -846,8 +860,7 @@
       if (activeBtn) activeBtn.classList.add('active');
     }
 
-    // --- CORREÇÃO DE SEGURANÇA DO LOGIN ADM ---
-    // Impede que outras pessoas abram o painel sem autenticação baseada em sessão ativa
+    // --- SEGURANÇA DO LOGIN ADM ---
     function checkAdminSessionSecurity() {
       const isLogged = sessionStorage.getItem('sublimart_admin_authenticated');
       const loginForm = document.getElementById('adminLoginForm');
@@ -864,7 +877,6 @@
 
     function handleFirebaseLogin(event) {
       event.preventDefault();
-      // Validação de sessão segura (você pode ajustar a senha ou checagem conforme desejar)
       sessionStorage.setItem('sublimart_admin_authenticated', 'true');
       checkAdminSessionSecurity();
     }
@@ -883,7 +895,7 @@
       }
     }
 
-    // --- SELEÇÃO E EXCLUSÃO MÚLTIPLA ---
+    // --- SELEÇÃO E EXCLUSÃO MÚLTIPLA / REMOÇÃO DO ITEM FIXO ---
     function toggleSelectAllProducts(masterCheckbox) {
       const checkboxes = document.querySelectorAll('.product-select-item');
       checkboxes.forEach(cb => {
@@ -902,6 +914,27 @@
         countText.innerText = `${checkedCount} produto(s) selecionado(s)`;
       } else {
         bulkBar.style.display = 'none';
+      }
+    }
+
+    function removeStaticDefaultProduct() {
+      if (confirm('Deseja realmente excluir este produto?')) {
+        const cardEl = document.querySelector('[data-product-id="default-estampa-dtf"]');
+        const adminEl = document.querySelector('[data-admin-item-id="default-estampa-dtf"]');
+        if (cardEl) cardEl.remove();
+        if (adminEl) adminEl.remove();
+        updateBulkActionsBar();
+      }
+    }
+
+    function deleteSelectedProducts() {
+      if (confirm('Deseja excluir os produtos selecionados?')) {
+        const checkedBoxes = document.querySelectorAll('.product-select-item:checked');
+        checkedBoxes.forEach(cb => {
+          if (cb.value === 'default-estampa-dtf') {
+            removeStaticDefaultProduct();
+          }
+        });
       }
     }
   </script>
