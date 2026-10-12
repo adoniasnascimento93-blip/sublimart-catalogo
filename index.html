@@ -565,7 +565,7 @@
         <button class="btn-categories-menu" onclick="toggleCategoriesMenu()">
           <i class="fa-solid fa-bars"></i> CATEGORIAS <i class="fa-solid fa-chevron-down" style="font-size: 0.75rem;"></i>
         </button>
-        <div class="dropdown-content" id="navTabsContainer" bis_skin_checked="1"><button class="tab-btn active"><i class="fa-solid fa-border-all"></i> Todos</button><button class="tab-btn "><i class="fa-solid fa-folder"></i> Canecas</button><button class="tab-btn "><i class="fa-solid fa-folder"></i> Camisas</button></div>
+        <div class="dropdown-content" id="navTabsContainer" bis_skin_checked="1"><button class="tab-btn active"><i class="fa-solid fa-border-all"></i> Todos</button><button class="tab-btn "><i class="fa-solid fa-folder"></i> Camisas</button></div>
       </div>
     </div>
   </nav>
@@ -615,9 +615,9 @@
         
         <div class="admin-nav-tabs" bis_skin_checked="1">
           <button class="admin-tab-btn" id="btnTabAdd" onclick="switchAdminTab('add')"><i class="fa-solid fa-plus"></i> Cadastrar Produto</button>
-          <button class="admin-tab-btn active" id="btnTabManageProd" onclick="switchAdminTab('manageProd')"><i class="fa-solid fa-boxes-stacked"></i> Gerenciar Produtos</button>
+          <button class="admin-tab-btn" id="btnTabManageProd" onclick="switchAdminTab('manageProd')"><i class="fa-solid fa-boxes-stacked"></i> Gerenciar Produtos</button>
           <button class="admin-tab-btn" id="btnTabManageSubcat" onclick="switchAdminTab('manageSubcat')"><i class="fa-solid fa-tags"></i> Subcategorias</button>
-          <button class="admin-tab-btn" id="btnTabManageCat" onclick="switchAdminTab('manageCat')"><i class="fa-solid fa-folder"></i> Categorias Principais</button>
+          <button class="admin-tab-btn active" id="btnTabManageCat" onclick="switchAdminTab('manageCat')"><i class="fa-solid fa-folder"></i> Categorias Principais</button>
           <button class="admin-tab-btn" id="btnTabGithub" onclick="switchAdminTab('github')"><i class="fa-brands fa-github"></i> Configurar GitHub</button>
         </div>
 
@@ -670,7 +670,7 @@
         </div>
 
         <!-- GERENCIAR PRODUTOS -->
-        <div id="adminSecManageProd" style="display: block;" bis_skin_checked="1">
+        <div id="adminSecManageProd" style="display: none;" bis_skin_checked="1">
           <h4 style="font-size: 1rem; margin-bottom: 0.8rem;">Gerenciar / Editar / Excluir Produtos</h4>
           
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.8rem;" bis_skin_checked="1">
@@ -742,24 +742,14 @@
         </div>
 
         <!-- GERENCIAR CATEGORIAS -->
-        <div id="adminSecManageCat" style="display: none;" bis_skin_checked="1">
+        <div id="adminSecManageCat" style="display: block;" bis_skin_checked="1">
           <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Editar ou Excluir Categorias Principais</h4>
           <p style="font-size: 0.8rem; color: #666; margin-bottom: 1rem;">Gerencie as abas do topo do site:</p>
           <div id="adminCatListContainer" style="max-height: 280px; overflow-y: auto;" bis_skin_checked="1"><div class="admin-manage-card" bis_skin_checked="1">
           <div class="admin-manage-info" bis_skin_checked="1">
             <div class="admin-manage-details" bis_skin_checked="1">
-              <strong>Canecas</strong>
-              <span>Subcategorias: 4 | Produtos: 0</span>
-            </div>
-          </div>
-          <div class="admin-action-btns" bis_skin_checked="1">
-            <button class="btn-delete-adm" onclick="deleteCategory('canecas')"><i class="fa-solid fa-trash"></i> Excluir</button>
-          </div>
-        </div><div class="admin-manage-card" bis_skin_checked="1">
-          <div class="admin-manage-info" bis_skin_checked="1">
-            <div class="admin-manage-details" bis_skin_checked="1">
               <strong>Camisas</strong>
-              <span>Subcategorias: 2 | Produtos: 9</span>
+              <span>Subcategorias: 2 | Produtos: 0</span>
             </div>
           </div>
           <div class="admin-action-btns" bis_skin_checked="1">
@@ -873,17 +863,10 @@
 
     /*START_DATA*/
     window.appCatNames = {
-  "canecas": "Canecas",
   "camisas": "Camisas"
 };
 
     window.appSubcats = {
-  "canecas": [
-    "AMIZADE",
-    "ANIVERSÁRIO",
-    "DESENHOS",
-    "FILMES"
-  ],
   "camisas": [
     "MASCULINA",
     "FEMININA"
