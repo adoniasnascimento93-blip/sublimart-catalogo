@@ -567,8 +567,8 @@
           <i class="fa-solid fa-bars"></i> CATEGORIAS <i class="fa-solid fa-chevron-down" style="font-size: 0.75rem;"></i>
         </button>
         <div class="dropdown-content" id="navTabsContainer">
-          <button class="tab-btn active"><i class="fa-solid fa-border-all"></i> Todos</button>
-          <button class="tab-btn"><i class="fa-solid fa-folder"></i> Camisas</button>
+          <button class="tab-btn active" onclick="filterCategory('todos')"><i class="fa-solid fa-border-all"></i> Todos</button>
+          <button class="tab-btn" onclick="filterCategory('camisas')"><i class="fa-solid fa-folder"></i> Camisas</button>
         </div>
       </div>
     </div>
@@ -578,24 +578,7 @@
   <main>
     <h2 class="category-title" id="category-title"><i class="fa-solid fa-border-all"></i> Todos os Produtos</h2>
     <div class="subcategories-bar" id="subcategories-bar"></div>
-    <div class="catalog-grid" id="catalog-grid">
-      <!-- O produto estático agora possui um ID padrão para que o painel administrativo consiga listá-lo e excluí-lo -->
-      <div class="card" data-product-id="default-estampa-dtf">
-        <div class="card-img-wrapper">
-          <span class="card-code-badge">CAMISA Nº 1</span>
-          <span class="card-subcat-badge">MASCULINA</span>
-          <img src="https://i.imgur.com/KThKE5n.png" alt="ESTAMPA EM DTF" onerror="this.src='https://via.placeholder.com/260x220?text=Sem+Imagem'">
-        </div>
-        <div class="card-body">
-          <h3 class="card-title">ESTAMPA EM DTF</h3>
-          <p class="card-desc">"Estampa" em DTF a pronta entrega.</p>
-          <div class="card-footer-buy">
-            <span class="price">R$ 25,00</span>
-            <a href="https://wa.me/5592992914876?text=Ol%C3%A1!%20Gostaria%20de%20encomendar%20o%20produto%20*ESTAMPA%20EM%20DTF*%20(C%C3%B3digo%3A%20*CAMISA%20N%C2%BA%201*)." target="_blank" class="btn-buy" onclick="event.stopPropagation()"><i class="fa-brands fa-whatsapp"></i> Comprar</a>
-          </div>
-        </div>
-      </div>
-    </div>
+    <div class="catalog-grid" id="catalog-grid"></div>
   </main>
 
   <!-- MODAL DE VISUALIZAÇÃO DO PRODUTO -->
@@ -650,12 +633,18 @@
             
             <div class="form-group">
               <label>Categoria Principal:</label>
-              <select id="pCategory" onchange="toggleSubcatSelect()" required=""><option value="camisas">Camisas</option></select>
+              <select id="pCategory" onchange="toggleSubcatSelect()" required="">
+                <option value="camisas">Camisas</option>
+              </select>
             </div>
 
             <div class="form-group" id="subcatFormGroup">
               <label>Subcategoria / Tema:</label>
-              <select id="pSubCategory" onchange="checkCustomSubcat()"><option value="MASCULINA">MASCULINA</option><option value="FEMININA">FEMININA</option><option value="nova_subcat_custom">+ Adicionar Nova Subcategoria...</option></select>
+              <select id="pSubCategory" onchange="checkCustomSubcat()">
+                <option value="MASCULINA">MASCULINA</option>
+                <option value="FEMININA">FEMININA</option>
+                <option value="nova_subcat_custom">+ Adicionar Nova Subcategoria...</option>
+              </select>
             </div>
 
             <div class="form-group" id="customSubcatGroup" style="display: none;">
@@ -696,11 +685,16 @@
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.8rem;">
             <div class="form-group" style="margin-bottom: 0;">
               <label style="font-size: 0.75rem;">Filtrar Categoria:</label>
-              <select id="adminProdCatFilter" onchange="updateAdminProdSubcatFilter()" style="padding: 0.4rem; font-size: 0.8rem;"><option value="todos">Todas as Categorias</option><option value="camisas">Camisas</option></select>
+              <select id="adminProdCatFilter" onchange="renderAdminProductsList()" style="padding: 0.4rem; font-size: 0.8rem;">
+                <option value="todos">Todas as Categorias</option>
+                <option value="camisas">Camisas</option>
+              </select>
             </div>
             <div class="form-group" style="margin-bottom: 0;">
               <label style="font-size: 0.75rem;">Filtrar Subcategoria:</label>
-              <select id="adminProdSubcatFilter" onchange="renderAdminProductsList()" style="padding: 0.4rem; font-size: 0.8rem;"><option value="todos">Todas as Subcategorias</option></select>
+              <select id="adminProdSubcatFilter" onchange="renderAdminProductsList()" style="padding: 0.4rem; font-size: 0.8rem;">
+                <option value="todos">Todas as Subcategorias</option>
+              </select>
             </div>
           </div>
 
@@ -708,7 +702,7 @@
             <input type="text" id="adminProdSearchInput" oninput="renderAdminProductsList()" placeholder="🔍 Ou busque por código ou nome..." style="padding: 0.45rem; font-size: 0.85rem;">
           </div>
 
-          <!-- AÇÕES EM MASSA (EXCLUIR SELECIONADOS) -->
+          <!-- AÇÕES EM MASSA -->
           <div id="bulkActionsBar" style="display: none; align-items: center; justify-content: space-between; background: #fff3cd; border: 1px solid #ffeeba; padding: 0.5rem 0.8rem; border-radius: 8px; margin-bottom: 0.8rem;">
             <span id="selectedCountText" style="font-size: 0.8rem; font-weight: 600; color: #856404;">0 selecionados</span>
             <button onclick="deleteSelectedProducts()" style="background: #dc3545; color: #fff; border: none; padding: 0.35rem 0.7rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer;">
@@ -716,28 +710,12 @@
             </button>
           </div>
 
-          <!-- OPÇÃO SELECIONAR TODOS -->
           <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; padding-left: 0.2rem;">
             <input type="checkbox" id="selectAllProductsCheckbox" onchange="toggleSelectAllProducts(this)">
             <label for="selectAllProductsCheckbox" style="font-size: 0.78rem; font-weight: 600; color: #555; cursor: pointer; margin-bottom: 0;">Selecionar todos visíveis</label>
           </div>
           
-          <div id="adminProductListContainer" style="max-height: 270px; overflow-y: auto; padding-right: 0.3rem;">
-            <!-- Listagem integrando o produto estático padrão para visualização e exclusão ADM -->
-            <div class="admin-manage-card" data-admin-item-id="default-estampa-dtf">
-              <div class="admin-manage-info">
-                <input type="checkbox" class="product-select-item" value="default-estampa-dtf" onchange="updateBulkActionsBar()">
-                <img src="https://i.imgur.com/KThKE5n.png" class="admin-manage-img" alt="">
-                <div class="admin-manage-details">
-                  <strong>ESTAMPA EM DTF (CAMISA Nº 1)</strong>
-                  <span>R$ 25,00 | Camisas / MASCULINA</span>
-                </div>
-              </div>
-              <div class="admin-action-btns">
-                <button class="btn-delete-adm" onclick="removeStaticDefaultProduct()"><i class="fa-solid fa-trash"></i> Excluir</button>
-              </div>
-            </div>
-          </div>
+          <div id="adminProductListContainer" style="max-height: 270px; overflow-y: auto; padding-right: 0.3rem;"></div>
         </div>
 
         <!-- GERENCIAR SUBCATEGORIAS -->
@@ -745,9 +723,11 @@
           <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Editar ou Excluir Subcategorias</h4>
           <p style="font-size: 0.8rem; color: #666; margin-bottom: 1rem;">Selecione a categoria principal:</p>
           <div class="form-group">
-            <select id="adminSubcatCatFilter" onchange="renderAdminSubcatsList()"><option value="camisas">Camisas</option></select>
+            <select id="adminSubcatCatFilter"><option value="camisas">Camisas</option></select>
           </div>
-          <div id="adminSubcatListContainer" style="max-height: 280px; overflow-y: auto;"><p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhuma subcategoria.</p></div>
+          <div id="adminSubcatListContainer" style="max-height: 280px; overflow-y: auto;">
+            <p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhuma subcategoria.</p>
+          </div>
         </div>
 
         <!-- GERENCIAR CATEGORIAS -->
@@ -759,11 +739,7 @@
               <div class="admin-manage-info">
                 <div class="admin-manage-details">
                   <strong>Camisas</strong>
-                  <span>Subcategorias: 2 | Produtos: 0</span>
                 </div>
-              </div>
-              <div class="admin-action-btns">
-                <button class="btn-delete-adm" onclick="deleteCategory('camisas')"><i class="fa-solid fa-trash"></i> Excluir</button>
               </div>
             </div>
           </div>
@@ -809,12 +785,19 @@
   </footer>
 
   <script>
-    // --- CONTROLE DE INTERFACE (MENU E MODAIS) ---
+    // --- ESTADO INICIAL E DADOS ---
+    let products = JSON.parse(localStorage.getItem('sublimart_products')) || [];
+
+    // Carregar catálogo ao abrir a página
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCatalog();
+      renderAdminProductsList();
+    });
+
+    // --- CONTROLE DE INTERFACE ---
     function toggleCategoriesMenu() {
       const dropdown = document.getElementById('navTabsContainer');
-      if (dropdown) {
-        dropdown.classList.toggle('show');
-      }
+      if (dropdown) dropdown.classList.toggle('show');
     }
 
     function openAdminModal() {
@@ -827,22 +810,16 @@
 
     function closeAdminModal() {
       const modal = document.getElementById('adminModal');
-      if (modal) {
-        modal.style.display = 'none';
-      }
+      if (modal) modal.style.display = 'none';
     }
 
     function checkCloseAdminPopup(event) {
-      if (event.target.id === 'adminModal') {
-        closeAdminModal();
-      }
+      if (event.target.id === 'adminModal') closeAdminModal();
     }
 
     function closeProductModal() {
       const modal = document.getElementById('productModal');
-      if (modal) {
-        modal.style.display = 'none';
-      }
+      if (modal) modal.style.display = 'none';
     }
 
     function switchAdminTab(tabName) {
@@ -858,9 +835,13 @@
       const activeBtn = document.getElementById('btnTab' + tabName.charAt(0).toUpperCase() + tabName.slice(1));
       if (activeSec) activeSec.style.display = 'block';
       if (activeBtn) activeBtn.classList.add('active');
+
+      if (tabName === 'manageProd') {
+        renderAdminProductsList();
+      }
     }
 
-    // --- SEGURANÇA DO LOGIN ADM ---
+    // --- SEGURANÇA ADM ---
     function checkAdminSessionSecurity() {
       const isLogged = sessionStorage.getItem('sublimart_admin_authenticated');
       const loginForm = document.getElementById('adminLoginForm');
@@ -886,21 +867,197 @@
       checkAdminSessionSecurity();
     }
 
-    // --- LIMPAR TAGS [IMG] NA URL ---
     function cleanImageUrl(input) {
       let val = input.value.trim();
       val = val.replace(/^\[img\]/i, '').replace(/\[\/img\]$/i, '').trim();
-      if (input.value !== val) {
-        input.value = val;
+      if (input.value !== val) input.value = val;
+    }
+
+    function checkCustomSubcat() {
+      const select = document.getElementById('pSubCategory');
+      const customGroup = document.getElementById('customSubcatGroup');
+      if (select && customGroup) {
+        customGroup.style.display = select.value === 'nova_subcat_custom' ? 'block' : 'none';
       }
     }
 
-    // --- SELEÇÃO E EXCLUSÃO MÚLTIPLA / REMOÇÃO DO ITEM FIXO ---
+    function toggleSubcatSelect() {}
+
+    function showDescSuggestions() {}
+
+    // --- CADASTRAR / SALVAR PRODUTO ---
+    function handleSaveProduct(event) {
+      event.preventDefault();
+
+      const editingId = document.getElementById('pEditingId').value;
+      const category = document.getElementById('pCategory').value;
+      let subcategory = document.getElementById('pSubCategory').value;
+      
+      if (subcategory === 'nova_subcat_custom') {
+        subcategory = document.getElementById('pCustomSubcat').value.trim().toUpperCase() || 'GERAL';
+      }
+
+      const code = document.getElementById('pCode').value.trim();
+      const title = document.getElementById('pTitle').value.trim();
+      const price = document.getElementById('pPrice').value.trim();
+      const desc = document.getElementById('pDesc').value.trim();
+      const image = document.getElementById('pImage').value.trim();
+
+      if (editingId) {
+        // Atualizar produto existente
+        const index = products.findIndex(p => p.id === editingId);
+        if (index !== -1) {
+          products[index] = { id: editingId, category, subcategory, code, title, price, desc, image };
+        }
+      } else {
+        // Criar novo produto
+        const newProduct = {
+          id: 'prod_' + Date.now(),
+          category,
+          subcategory,
+          code,
+          title,
+          price,
+          desc,
+          image
+        };
+        products.push(newProduct);
+      }
+
+      // Salvar no localStorage e atualizar a tela
+      localStorage.setItem('sublimart_products', JSON.stringify(products));
+      renderCatalog();
+      renderAdminProductsList();
+      resetProductForm();
+
+      alert(editingId ? 'Produto atualizado com sucesso!' : 'Produto cadastrado com sucesso!');
+    }
+
+    function resetProductForm() {
+      document.getElementById('pEditingId').value = '';
+      document.getElementById('pCode').value = '';
+      document.getElementById('pTitle').value = '';
+      document.getElementById('pPrice').value = '';
+      document.getElementById('pDesc').value = '';
+      document.getElementById('pImage').value = '';
+      document.getElementById('formProductTitleHeader').innerText = 'Cadastrar Novo Produto';
+      document.getElementById('btnSubmitFormProd').innerText = 'CADASTRAR PRODUTO';
+      document.getElementById('btnCancelEditProd').style.display = 'none';
+      document.getElementById('customSubcatGroup').style.display = 'none';
+    }
+
+    // --- RENDERIZAR CATÁLOGO PRINCIPAL ---
+    function renderCatalog() {
+      const grid = document.getElementById('catalog-grid');
+      if (!grid) return;
+
+      if (products.length === 0) {
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #777; padding: 2rem;">Nenhum produto cadastrado no catálogo.</p>';
+        return;
+      }
+
+      grid.innerHTML = products.map(prod => `
+        <div class="card" onclick="openProductDetail('${prod.id}')">
+          <div class="card-img-wrapper">
+            <span class="card-code-badge">${prod.code}</span>
+            <span class="card-subcat-badge">${prod.subcategory}</span>
+            <img src="${prod.image}" alt="${prod.title}" onerror="this.src='https://via.placeholder.com/260x220?text=Sem+Imagem'">
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">${prod.title}</h3>
+            <p class="card-desc">${prod.desc}</p>
+            <div class="card-footer-buy">
+              <span class="price">R$ ${prod.price}</span>
+              <a href="https://wa.me/5592992914876?text=Ol%C3%A1!%20Gostaria%20de%20encomendar%20o%20produto%20*${encodeURIComponent(prod.title)}*%20(C%C3%B3digo%3A%20*${encodeURIComponent(prod.code)}*)." target="_blank" class="btn-buy" onclick="event.stopPropagation()"><i class="fa-brands fa-whatsapp"></i> Comprar</a>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // --- EXIBIR DETALHES EM MODAL ---
+    function openProductDetail(id) {
+      const prod = products.find(p => p.id === id);
+      if (!prod) return;
+
+      const content = document.getElementById('productModalContent');
+      content.innerHTML = `
+        <img src="${prod.image}" class="product-detail-img" onerror="this.src='https://via.placeholder.com/600x380?text=Sem+Imagem'">
+        <div class="product-detail-badges">
+          <span class="product-detail-code">${prod.code}</span>
+          <span class="product-detail-subcat">${prod.subcategory}</span>
+        </div>
+        <h2 class="product-detail-title">${prod.title}</h2>
+        <span class="product-detail-price">R$ ${prod.price}</span>
+        <p class="product-detail-desc">${prod.desc}</p>
+        <a href="https://wa.me/5592992914876?text=Ol%C3%A1!%20Gostaria%20de%20encomendar%20o%20produto%20*${encodeURIComponent(prod.title)}*%20(C%C3%B3digo%3A%20*${encodeURIComponent(prod.code)}*)." target="_blank" class="btn-buy-modal">
+          <i class="fa-brands fa-whatsapp"></i> ENCOMENDAR PELO WHATSAPP
+        </a>
+      `;
+
+      document.getElementById('productModal').style.display = 'flex';
+    }
+
+    // --- GERENCIAR PRODUTOS NA ÁREA ADM ---
+    function renderAdminProductsList() {
+      const container = document.getElementById('adminProductListContainer');
+      if (!container) return;
+
+      if (products.length === 0) {
+        container.innerHTML = '<p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhum produto cadastrado.</p>';
+        return;
+      }
+
+      container.innerHTML = products.map(prod => `
+        <div class="admin-manage-card">
+          <div class="admin-manage-info">
+            <input type="checkbox" class="product-select-item" value="${prod.id}" onchange="updateBulkActionsBar()">
+            <img src="${prod.image}" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/45?text=Img'">
+            <div class="admin-manage-details">
+              <strong>${prod.title} (${prod.code})</strong>
+              <span>R$ ${prod.price} | ${prod.category} / ${prod.subcategory}</span>
+            </div>
+          </div>
+          <div class="admin-action-btns">
+            <button class="btn-edit-adm" onclick="editProduct('${prod.id}')"><i class="fa-solid fa-pen"></i> Editar</button>
+            <button class="btn-delete-adm" onclick="deleteProduct('${prod.id}')"><i class="fa-solid fa-trash"></i> Excluir</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function editProduct(id) {
+      const prod = products.find(p => p.id === id);
+      if (!prod) return;
+
+      document.getElementById('pEditingId').value = prod.id;
+      document.getElementById('pCategory').value = prod.category;
+      document.getElementById('pSubCategory').value = prod.subcategory;
+      document.getElementById('pCode').value = prod.code;
+      document.getElementById('pTitle').value = prod.title;
+      document.getElementById('pPrice').value = prod.price;
+      document.getElementById('pDesc').value = prod.desc;
+      document.getElementById('pImage').value = prod.image;
+
+      document.getElementById('formProductTitleHeader').innerText = 'Editar Produto';
+      document.getElementById('btnSubmitFormProd').innerText = 'SALVAR ALTERAÇÕES';
+      document.getElementById('btnCancelEditProd').style.display = 'block';
+
+      switchAdminTab('add');
+    }
+
+    function deleteProduct(id) {
+      if (confirm('Deseja realmente excluir este produto?')) {
+        products = products.filter(p => p.id !== id);
+        localStorage.setItem('sublimart_products', JSON.stringify(products));
+        renderCatalog();
+        renderAdminProductsList();
+      }
+    }
+
     function toggleSelectAllProducts(masterCheckbox) {
       const checkboxes = document.querySelectorAll('.product-select-item');
-      checkboxes.forEach(cb => {
-        cb.checked = masterCheckbox.checked;
-      });
+      checkboxes.forEach(cb => cb.checked = masterCheckbox.checked);
       updateBulkActionsBar();
     }
 
@@ -917,26 +1074,25 @@
       }
     }
 
-    function removeStaticDefaultProduct() {
-      if (confirm('Deseja realmente excluir este produto?')) {
-        const cardEl = document.querySelector('[data-product-id="default-estampa-dtf"]');
-        const adminEl = document.querySelector('[data-admin-item-id="default-estampa-dtf"]');
-        if (cardEl) cardEl.remove();
-        if (adminEl) adminEl.remove();
+    function deleteSelectedProducts() {
+      if (confirm('Deseja excluir os produtos selecionados?')) {
+        const checkedBoxes = document.querySelectorAll('.product-select-item:checked');
+        const idsToDelete = Array.from(checkedBoxes).map(cb => cb.value);
+
+        products = products.filter(p => !idsToDelete.includes(p.id));
+        localStorage.setItem('sublimart_products', JSON.stringify(products));
+        
+        renderCatalog();
+        renderAdminProductsList();
         updateBulkActionsBar();
       }
     }
 
-    function deleteSelectedProducts() {
-      if (confirm('Deseja excluir os produtos selecionados?')) {
-        const checkedBoxes = document.querySelectorAll('.product-select-item:checked');
-        checkedBoxes.forEach(cb => {
-          if (cb.value === 'default-estampa-dtf') {
-            removeStaticDefaultProduct();
-          }
-        });
-      }
+    function filterCategory(cat) {
+      toggleCategoriesMenu();
     }
+
+    function handleSaveGithubConfig(e) { e.preventDefault(); }
   </script>
 </body>
 </html>
