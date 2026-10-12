@@ -1,4 +1,5 @@
-<html lang="pt-BR"><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/content/location/location.js" id="eppiocemhmnlbhjplcgkofciiegomcon"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/extend-native-history-api.js"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/requests.js"></script><head><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/content/location/location.js" id="eppiocemhmnlbhjplcgkofciiegomcon"></script><script bis_use="true" type="text/javascript" charset="utf-8" nonce="" data-dynamic-id="b6732dd8-a1c8-4505-ab28-a178976e1ca6" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/200.js"></script><script bis_use="true" type="text/javascript" charset="utf-8" nonce="" data-dynamic-id="b6732dd8-a1c8-4505-ab28-a178976e1ca6" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/101.js"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/extend-native-history-api.js"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/requests.js"></script>
+<html lang="pt-BR">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Catálogo Digital | SUBLIMArt Personalizados</title>
@@ -124,7 +125,7 @@
       background: rgba(0, 0, 0, 0.7);
     }
 
-    /* NAVEGAÇÃO & MENU DROPDOWN DE CATEGORIAS (ALINHADO À ESQUERDA) */
+    /* NAVEGAÇÃO & MENU DROPDOWN DE CATEGORIAS */
     nav {
       background: #ffffff;
       padding: 1rem;
@@ -532,8 +533,8 @@
       .admin-panel-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
     }
   </style>
-<script bis_use="true" type="text/javascript" charset="utf-8" nonce="" data-dynamic-id="b6732dd8-a1c8-4505-ab28-a178976e1ca6" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/200.js"></script><script bis_use="true" type="text/javascript" charset="utf-8" nonce="" data-dynamic-id="b6732dd8-a1c8-4505-ab28-a178976e1ca6" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/101.js"></script></head>
-<body __processed_964d2725-9696-44ca-99df-ae0c55590abe__="true" bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWllZ29tY29uIiwiYWRibG9ja2VyU3RhdHVzIjp7IkRJU1BMQVkiOiJlbmFibGVkIiwiRkFDRUJPT0siOiJlbmFibGVkIiwiVFdJVFRFUiI6ImVuYWJsZWQiLCJSRURESVQiOiJlbmFibGVkIiwiUElOVEVSRVNUIjoiZW5hYmxlZCIsIklOU1RBR1JBTSI6ImVuYWJsZWQiLCJUSUtUT0siOiJlbmFibGVkIiwiTElOS0VESU4iOiJlbmFibGVkIiwiQ09ORklHIjoiZGlzYWJsZWQifSwidmVyc2lvbiI6IjIuMy4wIiwic2NvcmUiOjIwMzAwMH1d" __processed_cff4f10f-447c-48f1-afd8-f655256409ee__="true">
+</head>
+<body>
 
   <!-- BOTÃO FLUTUANTE ADM -->
   <button class="btn-admin-trigger" onclick="openAdminModal()">
@@ -545,7 +546,7 @@
     <h1>SUBLIMArt</h1>
     <p>Personalizados e Sublimação de Alta Qualidade</p>
     
-    <div class="contacts-header" bis_skin_checked="1">
+    <div class="contacts-header">
       <a href="https://wa.me/5592992914876" target="_blank" class="contact-btn-head wa">
         <i class="fa-brands fa-whatsapp"></i> (92) 99291-4876
       </a>
@@ -558,14 +559,17 @@
     </div>
   </header>
 
-  <!-- MENU DROPDOWN DE CATEGORIAS (ALINHADO À ESQUERDA) -->
+  <!-- MENU DROPDOWN DE CATEGORIAS -->
   <nav>
-    <div class="nav-container" bis_skin_checked="1">
-      <div class="categories-dropdown" bis_skin_checked="1">
+    <div class="nav-container">
+      <div class="categories-dropdown">
         <button class="btn-categories-menu" onclick="toggleCategoriesMenu()">
           <i class="fa-solid fa-bars"></i> CATEGORIAS <i class="fa-solid fa-chevron-down" style="font-size: 0.75rem;"></i>
         </button>
-        <div class="dropdown-content" id="navTabsContainer" bis_skin_checked="1"><button class="tab-btn active"><i class="fa-solid fa-border-all"></i> Todos</button><button class="tab-btn "><i class="fa-solid fa-folder"></i> Camisas</button></div>
+        <div class="dropdown-content" id="navTabsContainer">
+          <button class="tab-btn active"><i class="fa-solid fa-border-all"></i> Todos</button>
+          <button class="tab-btn"><i class="fa-solid fa-folder"></i> Camisas</button>
+        </div>
       </div>
     </div>
   </nav>
@@ -573,46 +577,48 @@
   <!-- CONTEÚDO DO CATÁLOGO -->
   <main>
     <h2 class="category-title" id="category-title"><i class="fa-solid fa-border-all"></i> Todos os Produtos</h2>
-    <div class="subcategories-bar" id="subcategories-bar" bis_skin_checked="1"></div>
-    <div class="catalog-grid" id="catalog-grid" bis_skin_checked="1"><div class="card" bis_skin_checked="1">
-          <div class="card-img-wrapper" bis_skin_checked="1">
-            <span class="card-code-badge">CAMISA Nº 1</span>
-            <span class="card-subcat-badge">MASCULINA</span>
-            <img src="https://i.imgur.com/KThKE5n.png" alt="ESTAMPA EM DTF" onerror="this.src='https://via.placeholder.com/260x220?text=Sem+Imagem'">
+    <div class="subcategories-bar" id="subcategories-bar"></div>
+    <div class="catalog-grid" id="catalog-grid">
+      <div class="card">
+        <div class="card-img-wrapper">
+          <span class="card-code-badge">CAMISA Nº 1</span>
+          <span class="card-subcat-badge">MASCULINA</span>
+          <img src="https://i.imgur.com/KThKE5n.png" alt="ESTAMPA EM DTF" onerror="this.src='https://via.placeholder.com/260x220?text=Sem+Imagem'">
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">ESTAMPA EM DTF</h3>
+          <p class="card-desc">"Estampa" em DTF a pronta entrega.</p>
+          <div class="card-footer-buy">
+            <span class="price">R$ 25,00</span>
+            <a href="https://wa.me/5592992914876?text=Ol%C3%A1!%20Gostaria%20de%20encomendar%20o%20produto%20*ESTAMPA%20EM%20DTF*%20(C%C3%B3digo%3A%20*CAMISA%20N%C2%BA%201*)." target="_blank" class="btn-buy" onclick="event.stopPropagation()"><i class="fa-brands fa-whatsapp"></i> Comprar</a>
           </div>
-          <div class="card-body" bis_skin_checked="1">
-            <h3 class="card-title">ESTAMPA EM DTF</h3>
-            <p class="card-desc">"Estampa" em DTF a pronta entrega.</p>
-            <div class="card-footer-buy" bis_skin_checked="1">
-              <span class="price">R$ 25,00</span>
-              <a href="https://wa.me/5592992914876?text=Ol%C3%A1!%20Gostaria%20de%20encomendar%20o%20produto%20*ESTAMPA%20EM%20DTF*%20(C%C3%B3digo%3A%20*CAMISA%20N%C2%BA%201*)." target="_blank" class="btn-buy" onclick="event.stopPropagation()"><i class="fa-brands fa-whatsapp"></i> Comprar</a>
-            </div>
-          </div>
-        </div></div>
+        </div>
+      </div>
+    </div>
   </main>
 
   <!-- MODAL DE VISUALIZAÇÃO DO PRODUTO -->
-  <div class="modal-overlay" id="productModal" bis_skin_checked="1">
-    <div class="modal-card" bis_skin_checked="1">
+  <div class="modal-overlay" id="productModal">
+    <div class="modal-card">
       <button class="btn-close-modal" onclick="closeProductModal()"><i class="fa-solid fa-xmark"></i></button>
-      <div class="product-detail-container" id="productModalContent" bis_skin_checked="1"></div>
+      <div class="product-detail-container" id="productModalContent"></div>
     </div>
   </div>
 
   <!-- MODAL ADM -->
-  <div class="modal-overlay" id="adminModal" onclick="checkCloseAdminPopup(event)" style="display: none;" bis_skin_checked="1">
-    <div class="modal-card" id="adminModalCard" bis_skin_checked="1">
+  <div class="modal-overlay" id="adminModal" onclick="checkCloseAdminPopup(event)" style="display: none;">
+    <div class="modal-card" id="adminModalCard">
       <button class="btn-close-modal" onclick="closeAdminModal()"><i class="fa-solid fa-xmark"></i></button>
       
       <!-- LOGIN FIREBASE -->
-      <div id="adminLoginForm" bis_skin_checked="1" style="display: none;">
+      <div id="adminLoginForm" style="display: none;">
         <h3 class="modal-title" style="margin-bottom: 1rem;"><i class="fa-solid fa-shield-halved"></i> Login Seguro - ADM</h3>
         <form onsubmit="handleFirebaseLogin(event)">
-          <div class="form-group" bis_skin_checked="1">
+          <div class="form-group">
             <label>E-mail do Administrador:</label>
             <input type="email" id="adminEmailInput" placeholder="seu-email@dominio.com" required="">
           </div>
-          <div class="form-group" bis_skin_checked="1">
+          <div class="form-group">
             <label>Senha:</label>
             <input type="password" id="adminPasswordInput" placeholder="Sua senha secreta" required="">
           </div>
@@ -621,13 +627,13 @@
       </div>
 
       <!-- PAINEL ADM -->
-      <div id="adminMainPanel" style="display: block;" bis_skin_checked="1">
-        <div class="admin-panel-header" bis_skin_checked="1">
+      <div id="adminMainPanel" style="display: block;">
+        <div class="admin-panel-header">
           <h3><i class="fa-solid fa-user-gear"></i> Painel de Controle</h3>
           <button class="btn-logout-admin" onclick="handleFirebaseLogout()"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
         </div>
         
-        <div class="admin-nav-tabs" bis_skin_checked="1">
+        <div class="admin-nav-tabs">
           <button class="admin-tab-btn active" id="btnTabAdd" onclick="switchAdminTab('add')"><i class="fa-solid fa-plus"></i> Cadastrar Produto</button>
           <button class="admin-tab-btn" id="btnTabManageProd" onclick="switchAdminTab('manageProd')"><i class="fa-solid fa-boxes-stacked"></i> Gerenciar Produtos</button>
           <button class="admin-tab-btn" id="btnTabManageSubcat" onclick="switchAdminTab('manageSubcat')"><i class="fa-solid fa-tags"></i> Subcategorias</button>
@@ -636,45 +642,44 @@
         </div>
 
         <!-- CADASTRAR/EDITAR PRODUTO -->
-        <div id="adminSecAdd" bis_skin_checked="1" style="display: block;">
+        <div id="adminSecAdd" style="display: block;">
           <h4 id="formProductTitleHeader" style="font-size: 1rem; margin-bottom: 0.8rem;">Cadastrar Novo Produto</h4>
           <form onsubmit="handleSaveProduct(event)">
             <input type="hidden" id="pEditingId" value="">
             
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>Categoria Principal:</label>
               <select id="pCategory" onchange="toggleSubcatSelect()" required=""><option value="camisas">Camisas</option></select>
             </div>
 
-            <div class="form-group" id="subcatFormGroup" bis_skin_checked="1">
+            <div class="form-group" id="subcatFormGroup">
               <label>Subcategoria / Tema:</label>
               <select id="pSubCategory" onchange="checkCustomSubcat()"><option value="MASCULINA">MASCULINA</option><option value="FEMININA">FEMININA</option><option value="nova_subcat_custom">+ Adicionar Nova Subcategoria...</option></select>
             </div>
 
-            <div class="form-group" id="customSubcatGroup" style="display: none;" bis_skin_checked="1">
+            <div class="form-group" id="customSubcatGroup" style="display: none;">
               <label>Nome da Nova Subcategoria:</label>
               <input type="text" id="pCustomSubcat" placeholder="Ex: INFANTIL / DIA DOS NAMORADOS">
             </div>
 
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>Código do Produto:</label>
               <input type="text" id="pCode" placeholder="CANECA Nº3" required="">
             </div>
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>Título do Produto:</label>
               <input type="text" id="pTitle" placeholder="Ex: Caneca Porcelana 300ml - Tema Natal" required="">
             </div>
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>Preço:</label>
               <input type="text" id="pPrice" placeholder="Ex: 15 ou 35,50" required="">
             </div>
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>Descrição:</label>
               <textarea id="pDesc" rows="2" placeholder="Clique aqui para ver sugestões..." onclick="showDescSuggestions()" onfocus="showDescSuggestions()" required=""></textarea>
-              <!-- Pop-up de Sugestões -->
-              <div id="descSuggestionsPopup" class="desc-suggestions-popup" bis_skin_checked="1" style="display: none;"></div>
+              <div id="descSuggestionsPopup" class="desc-suggestions-popup" style="display: none;"></div>
             </div>
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>URL da Imagem:</label>
               <input type="url" id="pImage" placeholder="https://..." required="" oninput="cleanImageUrl(this)" onpaste="setTimeout(() => cleanImageUrl(this), 10)">
             </div>
@@ -684,21 +689,21 @@
         </div>
 
         <!-- GERENCIAR PRODUTOS -->
-        <div id="adminSecManageProd" style="display: none;" bis_skin_checked="1">
+        <div id="adminSecManageProd" style="display: none;">
           <h4 style="font-size: 1rem; margin-bottom: 0.8rem;">Gerenciar / Editar / Excluir Produtos</h4>
           
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.8rem;" bis_skin_checked="1">
-            <div class="form-group" style="margin-bottom: 0;" bis_skin_checked="1">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.8rem;">
+            <div class="form-group" style="margin-bottom: 0;">
               <label style="font-size: 0.75rem;">Filtrar Categoria:</label>
               <select id="adminProdCatFilter" onchange="updateAdminProdSubcatFilter()" style="padding: 0.4rem; font-size: 0.8rem;"><option value="todos">Todas as Categorias</option><option value="camisas">Camisas</option></select>
             </div>
-            <div class="form-group" style="margin-bottom: 0;" bis_skin_checked="1">
+            <div class="form-group" style="margin-bottom: 0;">
               <label style="font-size: 0.75rem;">Filtrar Subcategoria:</label>
               <select id="adminProdSubcatFilter" onchange="renderAdminProductsList()" style="padding: 0.4rem; font-size: 0.8rem;"><option value="todos">Todas as Subcategorias</option></select>
             </div>
           </div>
 
-          <div class="admin-search-box" bis_skin_checked="1">
+          <div class="admin-search-box">
             <input type="text" id="adminProdSearchInput" oninput="renderAdminProductsList()" placeholder="🔍 Ou busque por código ou nome..." style="padding: 0.45rem; font-size: 0.85rem;">
           </div>
 
@@ -716,54 +721,58 @@
             <label for="selectAllProductsCheckbox" style="font-size: 0.78rem; font-weight: 600; color: #555; cursor: pointer; margin-bottom: 0;">Selecionar todos visíveis</label>
           </div>
           
-          <div id="adminProductListContainer" style="max-height: 270px; overflow-y: auto; padding-right: 0.3rem;" bis_skin_checked="1"><p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhum produto encontrado.</p></div>
+          <div id="adminProductListContainer" style="max-height: 270px; overflow-y: auto; padding-right: 0.3rem;">
+            <p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhum produto encontrado.</p>
+          </div>
         </div>
 
         <!-- GERENCIAR SUBCATEGORIAS -->
-        <div id="adminSecManageSubcat" style="display: none;" bis_skin_checked="1">
+        <div id="adminSecManageSubcat" style="display: none;">
           <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Editar ou Excluir Subcategorias</h4>
           <p style="font-size: 0.8rem; color: #666; margin-bottom: 1rem;">Selecione a categoria principal:</p>
-          <div class="form-group" bis_skin_checked="1">
+          <div class="form-group">
             <select id="adminSubcatCatFilter" onchange="renderAdminSubcatsList()"><option value="camisas">Camisas</option></select>
           </div>
-          <div id="adminSubcatListContainer" style="max-height: 280px; overflow-y: auto;" bis_skin_checked="1"><p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhuma subcategoria.</p></div>
+          <div id="adminSubcatListContainer" style="max-height: 280px; overflow-y: auto;"><p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhuma subcategoria.</p></div>
         </div>
 
         <!-- GERENCIAR CATEGORIAS -->
-        <div id="adminSecManageCat" style="display: none;" bis_skin_checked="1">
+        <div id="adminSecManageCat" style="display: none;">
           <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Editar ou Excluir Categorias Principais</h4>
           <p style="font-size: 0.8rem; color: #666; margin-bottom: 1rem;">Gerencie as abas do topo do site:</p>
-          <div id="adminCatListContainer" style="max-height: 280px; overflow-y: auto;" bis_skin_checked="1"><div class="admin-manage-card" bis_skin_checked="1">
-          <div class="admin-manage-info" bis_skin_checked="1">
-            <div class="admin-manage-details" bis_skin_checked="1">
-              <strong>Camisas</strong>
-              <span>Subcategorias: 2 | Produtos: 0</span>
+          <div id="adminCatListContainer" style="max-height: 280px; overflow-y: auto;">
+            <div class="admin-manage-card">
+              <div class="admin-manage-info">
+                <div class="admin-manage-details">
+                  <strong>Camisas</strong>
+                  <span>Subcategorias: 2 | Produtos: 0</span>
+                </div>
+              </div>
+              <div class="admin-action-btns">
+                <button class="btn-delete-adm" onclick="deleteCategory('camisas')"><i class="fa-solid fa-trash"></i> Excluir</button>
+              </div>
             </div>
           </div>
-          <div class="admin-action-btns" bis_skin_checked="1">
-            <button class="btn-delete-adm" onclick="deleteCategory('camisas')"><i class="fa-solid fa-trash"></i> Excluir</button>
-          </div>
-        </div></div>
         </div>
 
         <!-- CONFIGURAR GITHUB -->
-        <div id="adminSecGithub" style="display: none;" bis_skin_checked="1">
+        <div id="adminSecGithub" style="display: none;">
           <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Conectar com o GitHub</h4>
           <p style="font-size: 0.8rem; color: #666; margin-bottom: 1rem;">Configure os dados para salvar alterações diretamente no arquivo no GitHub:</p>
           <form onsubmit="handleSaveGithubConfig(event)">
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>GitHub Username:</label>
               <input type="text" id="ghUsername" placeholder="Ex: adoniasdesigner" required="">
             </div>
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>Nome do Repositório:</label>
               <input type="text" id="ghRepo" placeholder="Ex: sublimart-catalogo" required="">
             </div>
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>Nome do Arquivo (ex: index.html):</label>
               <input type="text" id="ghFilename" value="index.html" required="">
             </div>
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>Personal Access Token (PAT):</label>
               <input type="password" id="ghToken" placeholder="ghp_..." required="">
             </div>
@@ -778,7 +787,7 @@
   <!-- RODAPÉ -->
   <footer>
     <p><strong>SUBLIMArt Personalizados</strong> — Transformando suas ideias em arte.</p>
-    <div class="footer-contacts" bis_skin_checked="1">
+    <div class="footer-contacts">
       <a href="https://wa.me/5592992914876" target="_blank" class="wa-link"><i class="fa-brands fa-whatsapp"></i> (92) 99291-4876</a>
       <a href="https://wa.me/5592993522287" target="_blank" class="wa-link"><i class="fa-brands fa-whatsapp"></i> (92) 99352-2287</a>
       <a href="https://www.instagram.com/sublimart_ofc1" target="_blank" class="ig-link"><i class="fa-brands fa-instagram"></i> @sublimart_ofc1</a>
@@ -786,7 +795,57 @@
   </footer>
 
   <script>
-    // Função para limpar as tags [img] e [/img] automaticamente ao colar ou digitar
+    // --- FUNÇÕES DE CONTROLE DE INTERFACE (MENU E MODAIS) ---
+    function toggleCategoriesMenu() {
+      const dropdown = document.getElementById('navTabsContainer');
+      if (dropdown) {
+        dropdown.classList.toggle('show');
+      }
+    }
+
+    function openAdminModal() {
+      const modal = document.getElementById('adminModal');
+      if (modal) {
+        modal.style.display = 'flex';
+      }
+    }
+
+    function closeAdminModal() {
+      const modal = document.getElementById('adminModal');
+      if (modal) {
+        modal.style.display = 'none';
+      }
+    }
+
+    function checkCloseAdminPopup(event) {
+      if (event.target.id === 'adminModal') {
+        closeAdminModal();
+      }
+    }
+
+    function closeProductModal() {
+      const modal = document.getElementById('productModal');
+      if (modal) {
+        modal.style.display = 'none';
+      }
+    }
+
+    function switchAdminTab(tabName) {
+      const sections = ['add', 'manageProd', 'manageSubcat', 'manageCat', 'github'];
+      sections.forEach(sec => {
+        const el = document.getElementById('adminSec' + sec.charAt(0).toUpperCase() + sec.slice(1));
+        const btn = document.getElementById('btnTab' + sec.charAt(0).toUpperCase() + sec.slice(1));
+        if (el) el.style.display = 'none';
+        if (btn) btn.classList.remove('active');
+      });
+
+      const activeSec = document.getElementById('adminSec' + tabName.charAt(0).toUpperCase() + tabName.slice(1));
+      const activeBtn = document.getElementById('btnTab' + tabName.charAt(0).toUpperCase() + tabName.slice(1));
+      if (activeSec) activeSec.style.display = 'block';
+      if (activeBtn) activeBtn.classList.add('active');
+    }
+
+    // --- FUNÇÃO PARA LIMPAR TAGS [IMG] NA URL ---
     function cleanImageUrl(input) {
       let val = input.value.trim();
       val = val.replace(/^[img]/i, '').replace(/\[\/img\]$/i, '').trim();
@@ -795,7 +854,7 @@
       }
     }
 
-    // Funções de Seleção e Exclusão Múltipla na Área Adm
+    // --- SELEÇÃO E EXCLUSÃO MÚLTIPLA NA ÁREA ADM ---
     function toggleSelectAllProducts(masterCheckbox) {
       const checkboxes = document.querySelectorAll('.product-select-item');
       checkboxes.forEach(cb => {
@@ -816,10 +875,6 @@
         bulkBar.style.display = 'none';
       }
     }
-
-    // NOTA: Certifique-se de que a função padrão "renderAdminProductsList" inclua o checkbox nos cards. 
-    // Exemplo do HTML injetado no card da listagem gerencial:
-    // <input type="checkbox" class="product-select-item" value="ID_DO_PRODUTO" onchange="updateBulkActionsBar()">
   </script>
 </body>
 </html>
