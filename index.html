@@ -1,5 +1,4 @@
-<html lang="pt-BR"><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/content/location/location.js" id="eppiocemhmnlbhjplcgkofciiegomcon"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/extend-native-history-api.js"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/requests.js"></script><head>
-  <meta charset="UTF-8">
+<html lang="pt-BR"><head><meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Catálogo Digital | SUBLIMArt Personalizados</title>
   <!-- Google Fonts & Font Awesome -->
@@ -494,8 +493,8 @@
       .admin-panel-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
     }
   </style>
-<script bis_use="true" type="text/javascript" charset="utf-8" nonce="" data-dynamic-id="68ce137d-49c1-4d80-b75f-0812181d4988" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/200.js"></script><script bis_use="true" type="text/javascript" charset="utf-8" nonce="" data-dynamic-id="68ce137d-49c1-4d80-b75f-0812181d4988" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/101.js"></script></head>
-<body __processed_945fe6d0-647c-4d73-b407-24f3303b0cd0__="true" bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWllZ29tY29uIiwiYWRibG9ja2VyU3RhdHVzIjp7IkRJU1BMQVkiOiJlbmFibGVkIiwiRkFDRUJPT0siOiJlbmFibGVkIiwiVFdJVFRFUiI6ImVuYWJsZWQiLCJSRURESVQiOiJlbmFibGVkIiwiUElOVEVSRVNUIjoiZW5hYmxlZCIsIklOU1RBR1JBTSI6ImVuYWJsZWQiLCJUSUtUT0siOiJlbmFibGVkIiwiTElOS0VESU4iOiJlbmFibGVkIiwiQ09ORklHIjoiZGlzYWJsZWQifSwidmVyc2lvbiI6IjIuMy4wIiwic2NvcmUiOjIwMzAwMH1d">
+<script bis_use="true" type="text/javascript" charset="utf-8" nonce="" data-dynamic-id="68ce137d-49c1-4d80-b75f-0812181d4988" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/200.js"></script><script bis_use="true" type="text/javascript" charset="utf-8" nonce="" data-dynamic-id="68ce137d-49c1-4d80-b75f-0812181d4988" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/101.js"></script><script bis_use="true" type="text/javascript" charset="utf-8" nonce="" data-dynamic-id="68ce137d-49c1-4d80-b75f-0812181d4988" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/101.js"></script></head>
+<body __processed_7da7c6d9-9c52-46c4-9665-7696b00c6299__="true" bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWllZ29tY29uIiwiYWRibG9ja2VyU3RhdHVzIjp7IkRJU1BMQVkiOiJlbmFibGVkIiwiRkFDRUJPT0siOiJlbmFibGVkIiwiVFdJVFRFUiI6ImVuYWJsZWQiLCJSRURESVQiOiJlbmFibGVkIiwiUElOVEVSRVNUIjoiZW5hYmxlZCIsIklOU1RBR1JBTSI6ImVuYWJsZWQiLCJUSUtUT0siOiJlbmFibGVkIiwiTElOS0VESU4iOiJlbmFibGVkIiwiQ09ORklHIjoiZGlzYWJsZWQifSwidmVyc2lvbiI6IjIuMy4wIiwic2NvcmUiOjIwMzAwMH1d" __processed_1fb8bd26-685e-4f37-b694-57d8087787ff__="true">
 
   <!-- BOTÃO FLUTUANTE ADM -->
   <button class="btn-admin-trigger" onclick="openAdminModal()">
@@ -676,12 +675,12 @@
   </div>
 
   <!-- MODAL ADM -->
-  <div class="modal-overlay" id="adminModal" onclick="checkCloseAdminPopup(event)" style="display: flex;" bis_skin_checked="1">
+  <div class="modal-overlay" id="adminModal" onclick="checkCloseAdminPopup(event)" bis_skin_checked="1">
     <div class="modal-card" id="adminModalCard" bis_skin_checked="1">
       <button class="btn-close-modal" onclick="closeAdminModal()"><i class="fa-solid fa-xmark"></i></button>
       
       <!-- LOGIN SEGURO -->
-      <div id="adminLoginForm" style="display: none;" bis_skin_checked="1">
+      <div id="adminLoginForm" style="display: block;" bis_skin_checked="1">
         <h3 class="modal-title" style="margin-bottom: 1rem;"><i class="fa-solid fa-shield-halved"></i> Login Seguro - ADM</h3>
         <form onsubmit="handleFirebaseLogin(event)">
           <div class="form-group" bis_skin_checked="1">
@@ -697,7 +696,7 @@
       </div>
 
       <!-- PAINEL ADM -->
-      <div id="adminMainPanel" style="display: block;" bis_skin_checked="1">
+      <div id="adminMainPanel" style="display: none;" bis_skin_checked="1">
         <div class="admin-panel-header" bis_skin_checked="1">
           <h3><i class="fa-solid fa-user-gear"></i> Painel de Controle</h3>
           <button class="btn-logout-admin" onclick="handleFirebaseLogout()"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
@@ -1012,15 +1011,95 @@
     </div>
   </footer>
 
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
   <script>
-    // --- ESTADO INICIAL ZERADO ---
-    let products = JSON.parse(localStorage.getItem('sublimart_products')) || [];
+    // CONFIGURE ESTES DADOS em Firebase Console > Configurações do projeto > Seus apps.
+    // Não coloque senha de usuário nem chave privada aqui. A configuração web do Firebase é pública por natureza;
+    // a proteção real dos dados é feita pelas regras do Firestore fornecidas em arquivo separado.
+    const firebaseConfig = {
+      apiKey: "COLE_SUA_API_KEY",
+      authDomain: "SEU_PROJETO.firebaseapp.com",
+      projectId: "SEU_PROJECT_ID",
+      storageBucket: "SEU_PROJETO.appspot.com",
+      messagingSenderId: "SEU_MESSAGING_SENDER_ID",
+      appId: "SEU_APP_ID"
+    };
+
+    // Informe o UID do administrador criado em Firebase Authentication > Usuários.
+    // O UID também deve constar nas regras do Firestore (arquivo de regras fornecido junto).
+    const ADMIN_UID = "COLE_AQUI_O_UID_DO_ADMINISTRADOR";
+    const PRODUCTS_COLLECTION = "products";
+
+    let firebaseReady = false;
+    let auth = null;
+    let db = null;
+    let products = [];
+    let productsUnsubscribe = null;
+    let legacyImportAttempted = false;
+
+    // Captura uma única vez os produtos que já estavam embutidos no HTML antigo/localStorage,
+    // para permitir uma migração inicial ao Firestore sem apagá-los silenciosamente.
+    function collectLegacyProducts() {
+      try {
+        const cached = JSON.parse(localStorage.getItem('sublimart_products') || 'null');
+        if (Array.isArray(cached) && cached.length) return cached;
+      } catch (_) {}
+      const grid = document.getElementById('catalog-grid');
+      if (!grid) return [];
+      return Array.from(grid.querySelectorAll(':scope > .card')).map((card, index) => {
+        const title = card.querySelector('.card-title')?.textContent?.trim() || '';
+        const code = card.querySelector('.card-code-badge')?.textContent?.trim() || `IMPORTADO-${index + 1}`;
+        const subcategory = card.querySelector('.card-subcat-badge')?.textContent?.trim() || 'GERAL';
+        const image = card.querySelector('img')?.getAttribute('src') || '';
+        const rawPrice = card.querySelector('.price')?.textContent?.trim() || '';
+        const price = rawPrice.replace(/^R\$\s*/i, '').replace(/^R\$\s*/i, '').trim();
+        const rawDesc = card.querySelector('.card-desc')?.textContent?.trim() || '';
+        const click = card.getAttribute('onclick') || '';
+        const match = click.match(/openProductDetail\(['"]([^'"]+)['"]\)/);
+        return {
+          id: match ? String(match[1]) : `legacy_${index + 1}`,
+          category: 'importados',
+          subcategory: subcategory.toUpperCase(), code, title, price,
+          desc: rawDesc === 'undefined' ? '' : rawDesc,
+          image
+        };
+      }).filter(product => product.title);
+    }
+    const legacyProducts = collectLegacyProducts();
+
+    try {
+      if (firebaseConfig.apiKey !== "COLE_SUA_API_KEY" && firebaseConfig.projectId !== "SEU_PROJECT_ID") {
+        firebase.initializeApp(firebaseConfig);
+        auth = firebase.auth();
+        db = firebase.firestore();
+        firebaseReady = true;
+      }
+    } catch (error) {
+      console.error("Falha ao inicializar Firebase:", error);
+    }
 
     document.addEventListener('DOMContentLoaded', () => {
+      // O painel nunca deve abrir automaticamente ao carregar/atualizar a página.
+      closeAdminModal();
       renderCatalog();
       renderAdminProductsList();
       renderCategoriesMenu();
-      loadGithubConfig();
+      if (!firebaseReady) {
+        console.error("Configure firebaseConfig no arquivo HTML antes de publicar.");
+      } else {
+        // O catálogo é público e deve sincronizar em todos os dispositivos, inclusive sem login.
+        subscribeToProducts();
+        auth.onAuthStateChanged((user) => {
+          const isAdmin = !!user && user.uid === ADMIN_UID;
+          checkAdminSessionSecurity(isAdmin);
+          if (isAdmin) {
+            renderAdminProductsList();
+            migrateLegacyProductsIfNeeded();
+          }
+        });
+      }
     });
 
     function toggleCategoriesMenu() {
@@ -1032,7 +1111,7 @@
       const modal = document.getElementById('adminModal');
       if (modal) {
         modal.style.display = 'flex';
-        checkAdminSessionSecurity();
+        checkAdminSessionSecurity(!!(auth && auth.currentUser && auth.currentUser.uid === ADMIN_UID));
       }
     }
 
@@ -1068,29 +1147,102 @@
       if (tabName === 'manageCat') renderAdminCategoriesList();
     }
 
-    function checkAdminSessionSecurity() {
-      const isLogged = sessionStorage.getItem('sublimart_admin_authenticated');
+    function checkAdminSessionSecurity(isAuthenticated = false) {
       const loginForm = document.getElementById('adminLoginForm');
       const mainPanel = document.getElementById('adminMainPanel');
+      if (loginForm) loginForm.style.display = isAuthenticated ? 'none' : 'block';
+      if (mainPanel) mainPanel.style.display = isAuthenticated ? 'block' : 'none';
+    }
 
-      if (isLogged === 'true') {
-        if (loginForm) loginForm.style.display = 'none';
-        if (mainPanel) mainPanel.style.display = 'block';
-      } else {
-        if (loginForm) loginForm.style.display = 'block';
-        if (mainPanel) mainPanel.style.display = 'none';
+    function requireAdmin() {
+      const user = auth && auth.currentUser;
+      if (!firebaseReady || !user || user.uid !== ADMIN_UID) {
+        alert('Acesso negado. Entre com a conta autorizada do administrador.');
+        checkAdminSessionSecurity(false);
+        return false;
+      }
+      return true;
+    }
+
+    async function handleFirebaseLogin(event) {
+      event.preventDefault();
+      if (!firebaseReady) {
+        alert('O Firebase ainda não foi configurado neste arquivo.');
+        return;
+      }
+      const email = document.getElementById('adminEmailInput').value.trim();
+      const password = document.getElementById('adminPasswordInput').value;
+      const button = document.getElementById('btnLoginSubmit');
+      if (button) button.disabled = true;
+      try {
+        const credential = await auth.signInWithEmailAndPassword(email, password);
+        if (credential.user.uid !== ADMIN_UID) {
+          await auth.signOut();
+          throw new Error('Esta conta não está autorizada como administradora.');
+        }
+        checkAdminSessionSecurity(true);
+        subscribeToProducts();
+      } catch (error) {
+        console.error('Erro de autenticação:', error);
+        alert('Não foi possível entrar: ' + (error.code === 'auth/invalid-credential' ? 'e-mail ou senha incorretos.' : error.message));
+        checkAdminSessionSecurity(false);
+      } finally {
+        if (button) button.disabled = false;
       }
     }
 
-    function handleFirebaseLogin(event) {
-      event.preventDefault();
-      sessionStorage.setItem('sublimart_admin_authenticated', 'true');
-      checkAdminSessionSecurity();
+    async function handleFirebaseLogout() {
+      try {
+        if (auth) await auth.signOut();
+      } catch (error) {
+        console.error('Erro ao sair:', error);
+      }
+      if (productsUnsubscribe) productsUnsubscribe();
+      productsUnsubscribe = null;
+      checkAdminSessionSecurity(false);
+      closeAdminModal();
     }
 
-    function handleFirebaseLogout() {
-      sessionStorage.removeItem('sublimart_admin_authenticated');
-      checkAdminSessionSecurity();
+    async function migrateLegacyProductsIfNeeded() {
+      if (legacyImportAttempted || !requireAdmin() || !legacyProducts.length) return;
+      legacyImportAttempted = true;
+      try {
+        const current = await db.collection(PRODUCTS_COLLECTION).limit(1).get();
+        if (!current.empty) return;
+        const shouldImport = confirm(`O catálogo do Firebase está vazio. Foram encontrados ${legacyProducts.length} produtos no HTML/localStorage antigo. Deseja importá-los para o catálogo sincronizado? Os produtos importados ficarão na categoria \"importados\" para você reorganizar depois.`);
+        if (!shouldImport) return;
+        for (let i = 0; i < legacyProducts.length; i += 400) {
+          const batch = db.batch();
+          legacyProducts.slice(i, i + 400).forEach((product, offset) => {
+            const { id, ...data } = product;
+            batch.set(db.collection(PRODUCTS_COLLECTION).doc(String(id || `legacy_${i + offset}`)), {
+              ...data,
+              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+              updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            }, { merge: true });
+          });
+          await batch.commit();
+        }
+        alert('Migração concluída. Os produtos agora ficam sincronizados pelo Firebase. Revise a categoria “importados”.');
+      } catch (error) {
+        console.error('Falha ao migrar catálogo antigo:', error);
+        alert('Não foi possível importar os produtos antigos. Verifique a configuração e as regras do Firestore.');
+      }
+    }
+
+    function subscribeToProducts() {
+      if (!firebaseReady || !db || productsUnsubscribe) return;
+      productsUnsubscribe = db.collection(PRODUCTS_COLLECTION).onSnapshot((snapshot) => {
+        products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        localStorage.setItem('sublimart_products_cache', JSON.stringify(products));
+        renderCatalog();
+        renderAdminProductsList();
+        renderCategoriesMenu();
+        renderAdminCategoriesList();
+      }, (error) => {
+        console.error('Erro ao sincronizar produtos:', error);
+        alert('Não foi possível carregar o catálogo do Firebase. Confira as regras do Firestore.');
+      });
     }
 
     function cleanImageUrl(input) {
@@ -1100,71 +1252,75 @@
     }
 
     // --- SALVAR E SINCRONIZAR COM GITHUB ---
-    function handleSaveProduct(event) {
+    async function handleSaveProduct(event) {
       event.preventDefault();
-
+      if (!requireAdmin()) return;
       const editingId = document.getElementById('pEditingId').value;
-      const category = document.getElementById('pCategory').value.trim().toLowerCase();
-      const subcategory = document.getElementById('pSubCategory').value.trim().toUpperCase();
-      const code = document.getElementById('pCode').value.trim();
-      const title = document.getElementById('pTitle').value.trim();
-      const price = document.getElementById('pPrice').value.trim();
-      const desc = document.getElementById('pDesc').value.trim();
-      const image = document.getElementById('pImage').value.trim();
-
-      if (editingId) {
-        const index = products.findIndex(p => p.id === editingId);
-        if (index !== -1) {
-          products[index] = { id: editingId, category, subcategory, code, title, price, desc, image };
+      const product = {
+        category: document.getElementById('pCategory').value.trim().toLowerCase(),
+        subcategory: document.getElementById('pSubCategory').value.trim().toUpperCase(),
+        code: document.getElementById('pCode').value.trim(),
+        title: document.getElementById('pTitle').value.trim(),
+        price: document.getElementById('pPrice').value.trim().replace(/^R\$\s*/i, ''),
+        desc: document.getElementById('pDesc').value.trim(),
+        image: document.getElementById('pImage').value.trim(),
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+      try {
+        if (editingId) {
+          await db.collection(PRODUCTS_COLLECTION).doc(String(editingId)).set(product, { merge: true });
+        } else {
+          product.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+          await db.collection(PRODUCTS_COLLECTION).add(product);
         }
-      } else {
-        const newProduct = {
-          id: 'prod_' + Date.now(),
-          category,
-          subcategory,
-          code,
-          title,
-          price,
-          desc,
-          image
-        };
-        products.push(newProduct);
-      }
-
-      saveAndSyncData(editingId ? 'Produto atualizado com sucesso!' : 'Produto cadastrado com sucesso!');
-      resetProductForm();
-    }
-
-    function deleteProduct(id) {
-      if (confirm('Deseja realmente excluir este produto?')) {
-        products = products.filter(p => p.id !== id);
-        saveAndSyncData('Produto excluído com sucesso!');
+        alert(editingId ? 'Produto atualizado no catálogo para todos os dispositivos!' : 'Produto cadastrado no catálogo para todos os dispositivos!');
+        resetProductForm();
+      } catch (error) {
+        console.error('Erro ao salvar produto:', error);
+        alert('Não foi possível salvar o produto. Confira as regras do Firestore.');
       }
     }
 
-    function deleteSelectedProducts() {
-      if (confirm('Deseja excluir os produtos selecionados?')) {
-        const checkedBoxes = document.querySelectorAll('.product-select-item:checked');
-        const idsToDelete = Array.from(checkedBoxes).map(cb => cb.value);
-
-        products = products.filter(p => !idsToDelete.includes(p.id));
-        saveAndSyncData('Produtos selecionados excluídos com sucesso!');
+    async function deleteProduct(id) {
+      if (!requireAdmin()) return;
+      if (!confirm('Deseja realmente excluir este produto?')) return;
+      try {
+        await db.collection(PRODUCTS_COLLECTION).doc(String(id)).delete();
+        // onSnapshot atualiza o catálogo em todos os dispositivos automaticamente.
+      } catch (error) {
+        console.error('Erro ao excluir produto:', error);
+        alert('Não foi possível excluir o produto. Confira as regras do Firestore.');
       }
     }
 
+    async function deleteSelectedProducts() {
+      if (!requireAdmin()) return;
+      const checkedBoxes = document.querySelectorAll('.product-select-item:checked');
+      const idsToDelete = Array.from(checkedBoxes).map(cb => String(cb.value));
+      if (!idsToDelete.length) return;
+      if (!confirm('Deseja excluir os produtos selecionados?')) return;
+      try {
+        // Lotes do Firestore aceitam até 500 operações; dividir em lotes menores.
+        for (let i = 0; i < idsToDelete.length; i += 400) {
+          const batch = db.batch();
+          idsToDelete.slice(i, i + 400).forEach(id => batch.delete(db.collection(PRODUCTS_COLLECTION).doc(id)));
+          await batch.commit();
+        }
+      } catch (error) {
+        console.error('Erro ao excluir produtos selecionados:', error);
+        alert('Não foi possível excluir todos os produtos. Confira as regras do Firestore.');
+      }
+    }
+
+    // Mantida por compatibilidade com funções de interface antigas; os dados agora são gravados no Firestore.
     function saveAndSyncData(successMsg) {
-      localStorage.setItem('sublimart_products', JSON.stringify(products));
       renderCatalog();
       renderAdminProductsList();
       renderCategoriesMenu();
       renderAdminCategoriesList();
-      
       const selectAllCheckbox = document.getElementById('selectAllProductsCheckbox');
       if (selectAllCheckbox) selectAllCheckbox.checked = false;
       updateBulkActionsBar();
-
-      // Tentar atualizar automaticamente no GitHub se configurado
-      syncToGithub(successMsg);
     }
 
     // --- RENDERIZAR TELA ---
@@ -1259,9 +1415,9 @@
           </div>
           <div class="card-body">
             <h3 class="card-title">${prod.title}</h3>
-            <p class="card-desc">${prod.desc}</p>
+            <p class="card-desc">${prod.desc || ''}</p>
             <div class="card-footer-buy">
-              <span class="price">R$ ${prod.price}</span>
+              <span class="price">R$ ${String(prod.price || '').replace(/^R\$\s*/i, '')}</span>
               <a href="https://wa.me/5592992914876?text=Ol%C3%A1!%20Gostaria%20de%20encomendar%20o%20produto%20*${encodeURIComponent(prod.title)}*%20(C%C3%B3digo%3A%20*${encodeURIComponent(prod.code)}*)." target="_blank" class="btn-buy" onclick="event.stopPropagation()"><i class="fa-brands fa-whatsapp"></i> Comprar</a>
             </div>
           </div>
@@ -1270,7 +1426,7 @@
     }
 
     function openProductDetail(id) {
-      const prod = products.find(p => p.id === id);
+      const prod = products.find(p => String(p.id) === String(id));
       if (!prod) return;
 
       const content = document.getElementById('productModalContent');
@@ -1281,8 +1437,8 @@
           <span class="product-detail-subcat">${prod.subcategory}</span>
         </div>
         <h2 class="product-detail-title">${prod.title}</h2>
-        <span class="product-detail-price">R$ ${prod.price}</span>
-        <p class="product-detail-desc">${prod.desc}</p>
+        <span class="product-detail-price">R$ ${String(prod.price || '').replace(/^R\$\s*/i, '')}</span>
+        <p class="product-detail-desc">${prod.desc || ''}</p>
         <a href="https://wa.me/5592992914876?text=Ol%C3%A1!%20Gostaria%20de%20encomendar%20o%20produto%20*${encodeURIComponent(prod.title)}*%20(C%C3%B3digo%3A%20*${encodeURIComponent(prod.code)}*)." target="_blank" class="btn-buy-modal">
           <i class="fa-brands fa-whatsapp"></i> ENCOMENDAR PELO WHATSAPP
         </a>
@@ -1313,7 +1469,7 @@
             <img src="${prod.image}" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/45?text=Img'">
             <div class="admin-manage-details">
               <strong>${prod.title} (${prod.code})</strong>
-              <span>R$ ${prod.price} | ${prod.category} / ${prod.subcategory}</span>
+              <span>R$ ${String(prod.price || '').replace(/^R\$\s*/i, '')} | ${prod.category} / ${prod.subcategory}</span>
             </div>
           </div>
           <div class="admin-action-btns">
@@ -1349,7 +1505,8 @@
     }
 
     function editProduct(id) {
-      const prod = products.find(p => p.id === id);
+      if (!requireAdmin()) return;
+      const prod = products.find(p => String(p.id) === String(id));
       if (!prod) return;
 
       document.getElementById('pEditingId').value = prod.id;
@@ -1404,75 +1561,18 @@
     // --- CONFIGURAÇÃO E INTEGRAÇÃO AUTOMÁTICA COM GITHUB ---
     function handleSaveGithubConfig(e) {
       e.preventDefault();
-      const config = {
-        username: document.getElementById('ghUsername').value.trim(),
-        repo: document.getElementById('ghRepo').value.trim(),
-        filename: document.getElementById('ghFilename').value.trim() || 'index.html',
-        token: document.getElementById('ghToken').value.trim()
-      };
-      localStorage.setItem('sublimart_github_config', JSON.stringify(config));
-      alert('Configuração do GitHub salva com sucesso!');
+      alert('A sincronização do catálogo agora é feita pelo Firebase. Por segurança, não salve tokens pessoais do GitHub neste navegador.');
     }
 
     function loadGithubConfig() {
-      const config = JSON.parse(localStorage.getItem('sublimart_github_config'));
-      if (config) {
-        if (document.getElementById('ghUsername')) document.getElementById('ghUsername').value = config.username || '';
-        if (document.getElementById('ghRepo')) document.getElementById('ghRepo').value = config.repo || '';
-        if (document.getElementById('ghFilename')) document.getElementById('ghFilename').value = config.filename || 'index.html';
-        if (document.getElementById('ghToken')) document.getElementById('ghToken').value = config.token || '';
-      }
+      // Tokens de acesso do GitHub não são carregados nem armazenados no navegador.
     }
 
     async function syncToGithub(successMsg) {
-      const config = JSON.parse(localStorage.getItem('sublimart_github_config'));
-      if (!config || !config.token || !config.username || !config.repo) {
-        alert(successMsg + ' (Aviso: O site foi atualizado localmente. Para atualizar no GitHub automaticamente, preencha os dados na aba "Configurar GitHub").');
-        return;
-      }
-
-      alert(successMsg + '\n\nEnviando atualização diretamente para o GitHub...');
-
-      try {
-        const fileApiUrl = `https://api.github.com/repos/${config.username}/${config.repo}/contents/${config.filename}`;
-        
-        // 1. Obter o SHA atual do arquivo no GitHub
-        const getRes = await fetch(fileApiUrl, {
-          headers: { 'Authorization': `token ${config.token}` }
-        });
-
-        if (!getRes.ok) throw new Error('Erro ao buscar o arquivo atual no GitHub. Verifique suas credenciais.');
-        const fileData = await getRes.json();
-        const fileSha = fileData.sha;
-
-        // 2. Gerar o HTML atualizado completo da página
-        const updatedHtml = document.documentElement.outerHTML;
-        const encodedContent = btoa(unescape(encodeURIComponent(updatedHtml)));
-
-        // 3. Fazer o commit via API do GitHub
-        const putRes = await fetch(fileApiUrl, {
-          method: 'PUT',
-          headers: {
-            'Authorization': `token ${config.token}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            message: 'Atualização automática via Painel ADM SUBLIMArt',
-            content: encodedContent,
-            sha: fileSha
-          })
-        });
-
-        if (putRes.ok) {
-          alert('Site atualizado no GitHub com sucesso! O GitHub Pages atualizará em instantes.');
-        } else {
-          const errJson = await putRes.json();
-          throw new Error(errJson.message || 'Erro ao fazer commit no GitHub.');
-        }
-      } catch (err) {
-        alert('Aviso: Salvo localmente, mas ocorreu um erro ao sincronizar com o GitHub: ' + err.message);
-      }
+      // Compatibilidade com chamadas antigas. O Firestore é a fonte única de dados.
+      console.info('Catálogo sincronizado pelo Firebase; sincronização GitHub desativada no navegador.');
     }
+
   </script>
 
 
