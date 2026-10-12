@@ -706,10 +706,35 @@
     </div>
   </footer>
 
+  <script id="sublimart-catalog-data" type="application/json" data-initialized="false">[]</script>
+
   <script>
-    // --- ESTADO INICIAL ZERADO E BLINDADO DE DADOS FANTASMAS ---
-    // Removemos qualquer cache antigo. Se não houver produtos limpos salvos, começa vazio.
-    let products = JSON.parse(localStorage.getItem('sublimart_products')) || [];
+    // --- DADOS DO CATÁLOGO ---
+    // O catálogo publicado fica embutido no próprio HTML para que o GitHub Pages
+    // mostre os produtos após a sincronização. O localStorage é usado como legado
+    // apenas antes da primeira publicação do catálogo embutido.
+    const catalogDataElement = document.getElementById('sublimart-catalog-data');
+    function readCatalogProducts() {
+      try {
+        if (catalogDataElement && catalogDataElement.dataset.initialized === 'true') {
+          const embedded = JSON.parse(catalogDataElement.textContent || '[]');
+          return Array.isArray(embedded) ? embedded : [];
+        }
+        const saved = JSON.parse(localStorage.getItem('sublimart_products') || '[]');
+        return Array.isArray(saved) ? saved : [];
+      } catch (error) {
+        console.error('Não foi possível carregar os produtos:', error);
+        return [];
+      }
+    }
+    let products = readCatalogProducts();
+
+    function persistCatalogInHtml() {
+      const dataElement = document.getElementById('sublimart-catalog-data');
+      if (!dataElement) return;
+      dataElement.textContent = JSON.stringify(products).replace(/</g, '\\u003c');
+      dataElement.dataset.initialized = 'true';
+    }
 
     document.addEventListener('DOMContentLoaded', () => {
       // GARANTE SEGURANÇA TOTAL AO CARREGAR: Remove qualquer sessão ativa anterior
@@ -823,7 +848,7 @@
       const image = document.getElementById('pImage').value.trim();
 
       if (editingId) {
-        const index = products.findIndex(p => p.id === editingId);
+        const index = products.findIndex(p => String(p.id) === String(editingId));
         if (index !== -1) {
           products[index] = { id: editingId, category, subcategory, code, title, price, desc, image };
         }
@@ -847,7 +872,7 @@
 
     function deleteProduct(id) {
       if (confirm('Deseja realmente excluir este produto?')) {
-        products = products.filter(p => p.id !== id);
+        products = products.filter(p => String(p.id) !== String(id));
         saveAndSyncData('Produto excluído com sucesso!');
       }
     }
@@ -857,13 +882,18 @@
         const checkedBoxes = document.querySelectorAll('.product-select-item:checked');
         const idsToDelete = Array.from(checkedBoxes).map(cb => cb.value);
 
-        products = products.filter(p => !idsToDelete.includes(p.id));
+        products = products.filter(p => !idsToDelete.includes(String(p.id)));
         saveAndSyncData('Produtos selecionados excluídos com sucesso!');
       }
     }
 
     function saveAndSyncData(successMsg) {
-      localStorage.setItem('sublimart_products', JSON.stringify(products));
+      try {
+        localStorage.setItem('sublimart_products', JSON.stringify(products));
+      } catch (error) {
+        console.warn('Não foi possível salvar uma cópia local dos produtos:', error);
+      }
+      persistCatalogInHtml();
       renderCatalog();
       renderAdminProductsList();
       renderCategoriesMenu();
@@ -980,7 +1010,7 @@
     }
 
     function openProductDetail(id) {
-      const prod = products.find(p => p.id === id);
+      const prod = products.find(p => String(p.id) === String(id));
       if (!prod) return;
 
       const content = document.getElementById('productModalContent');
@@ -1059,7 +1089,7 @@
     }
 
     function editProduct(id) {
-      const prod = products.find(p => p.id === id);
+      const prod = products.find(p => String(p.id) === String(id));
       if (!prod) return;
 
       document.getElementById('pEditingId').value = prod.id;
