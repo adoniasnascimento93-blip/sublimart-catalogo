@@ -633,7 +633,7 @@
             
             <div class="form-group">
               <label>Categoria Principal:</label>
-              <select id="pCategory" onchange="toggleSubcatSelect()" required="">
+              <select id="pCategory" required="">
                 <option value="camisas">Camisas</option>
               </select>
             </div>
@@ -666,12 +666,11 @@
             </div>
             <div class="form-group">
               <label>Descrição:</label>
-              <textarea id="pDesc" rows="2" placeholder="Clique aqui para ver sugestões..." onclick="showDescSuggestions()" onfocus="showDescSuggestions()" required=""></textarea>
-              <div id="descSuggestionsPopup" class="desc-suggestions-popup" style="display: none;"></div>
+              <textarea id="pDesc" rows="2" placeholder="Digite a descrição do produto..." required=""></textarea>
             </div>
             <div class="form-group">
               <label>URL da Imagem:</label>
-              <input type="url" id="pImage" placeholder="https://..." required="" oninput="cleanImageUrl(this)" onpaste="setTimeout(() => cleanImageUrl(this), 10)">
+              <input type="url" id="pImage" placeholder="https://..." required="" oninput="cleanImageUrl(this)">
             </div>
             <button type="submit" class="btn-submit-admin" id="btnSubmitFormProd">CADASTRAR PRODUTO</button>
             <button type="button" class="btn-cancel-edit" id="btnCancelEditProd" style="display: none;" onclick="resetProductForm()">CANCELAR EDIÇÃO</button>
@@ -682,24 +681,8 @@
         <div id="adminSecManageProd" style="display: none;">
           <h4 style="font-size: 1rem; margin-bottom: 0.8rem;">Gerenciar / Editar / Excluir Produtos</h4>
           
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.8rem;">
-            <div class="form-group" style="margin-bottom: 0;">
-              <label style="font-size: 0.75rem;">Filtrar Categoria:</label>
-              <select id="adminProdCatFilter" onchange="renderAdminProductsList()" style="padding: 0.4rem; font-size: 0.8rem;">
-                <option value="todos">Todas as Categorias</option>
-                <option value="camisas">Camisas</option>
-              </select>
-            </div>
-            <div class="form-group" style="margin-bottom: 0;">
-              <label style="font-size: 0.75rem;">Filtrar Subcategoria:</label>
-              <select id="adminProdSubcatFilter" onchange="renderAdminProductsList()" style="padding: 0.4rem; font-size: 0.8rem;">
-                <option value="todos">Todas as Subcategorias</option>
-              </select>
-            </div>
-          </div>
-
           <div class="admin-search-box">
-            <input type="text" id="adminProdSearchInput" oninput="renderAdminProductsList()" placeholder="🔍 Ou busque por código ou nome..." style="padding: 0.45rem; font-size: 0.85rem;">
+            <input type="text" id="adminProdSearchInput" oninput="renderAdminProductsList()" placeholder="🔍 Busque por código ou nome..." style="padding: 0.45rem; font-size: 0.85rem;">
           </div>
 
           <!-- AÇÕES EM MASSA -->
@@ -720,20 +703,15 @@
 
         <!-- GERENCIAR SUBCATEGORIAS -->
         <div id="adminSecManageSubcat" style="display: none;">
-          <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Editar ou Excluir Subcategorias</h4>
-          <p style="font-size: 0.8rem; color: #666; margin-bottom: 1rem;">Selecione a categoria principal:</p>
-          <div class="form-group">
-            <select id="adminSubcatCatFilter"><option value="camisas">Camisas</option></select>
-          </div>
+          <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Gerenciar Subcategorias</h4>
           <div id="adminSubcatListContainer" style="max-height: 280px; overflow-y: auto;">
-            <p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhuma subcategoria.</p>
+            <p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Gerenciado automaticamente pelos produtos.</p>
           </div>
         </div>
 
         <!-- GERENCIAR CATEGORIAS -->
         <div id="adminSecManageCat" style="display: none;">
-          <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Editar ou Excluir Categorias Principais</h4>
-          <p style="font-size: 0.8rem; color: #666; margin-bottom: 1rem;">Gerencie as abas do topo do site:</p>
+          <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Categorias Principais</h4>
           <div id="adminCatListContainer" style="max-height: 280px; overflow-y: auto;">
             <div class="admin-manage-card">
               <div class="admin-manage-info">
@@ -881,10 +859,6 @@
       }
     }
 
-    function toggleSubcatSelect() {}
-
-    function showDescSuggestions() {}
-
     // --- CADASTRAR / SALVAR PRODUTO ---
     function handleSaveProduct(event) {
       event.preventDefault();
@@ -904,13 +878,11 @@
       const image = document.getElementById('pImage').value.trim();
 
       if (editingId) {
-        // Atualizar produto existente
         const index = products.findIndex(p => p.id === editingId);
         if (index !== -1) {
           products[index] = { id: editingId, category, subcategory, code, title, price, desc, image };
         }
       } else {
-        // Criar novo produto
         const newProduct = {
           id: 'prod_' + Date.now(),
           category,
@@ -924,7 +896,6 @@
         products.push(newProduct);
       }
 
-      // Salvar no localStorage e atualizar a tela
       localStorage.setItem('sublimart_products', JSON.stringify(products));
       renderCatalog();
       renderAdminProductsList();
@@ -1003,12 +974,20 @@
       const container = document.getElementById('adminProductListContainer');
       if (!container) return;
 
-      if (products.length === 0) {
-        container.innerHTML = '<p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhum produto cadastrado.</p>';
+      const searchInput = document.getElementById('adminProdSearchInput');
+      const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+
+      const filteredProducts = products.filter(prod => {
+        return prod.title.toLowerCase().includes(searchTerm) || prod.code.toLowerCase().includes(searchTerm);
+      });
+
+      if (filteredProducts.length === 0) {
+        container.innerHTML = '<p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhum produto encontrado.</p>';
+        updateBulkActionsBar();
         return;
       }
 
-      container.innerHTML = products.map(prod => `
+      container.innerHTML = filteredProducts.map(prod => `
         <div class="admin-manage-card">
           <div class="admin-manage-info">
             <input type="checkbox" class="product-select-item" value="${prod.id}" onchange="updateBulkActionsBar()">
@@ -1024,6 +1003,8 @@
           </div>
         </div>
       `).join('');
+      
+      updateBulkActionsBar();
     }
 
     function editProduct(id) {
@@ -1067,10 +1048,10 @@
       const countText = document.getElementById('selectedCountText');
       
       if (checkedCount > 0) {
-        bulkBar.style.display = 'flex';
-        countText.innerText = `${checkedCount} produto(s) selecionado(s)`;
+        if (bulkBar) bulkBar.style.display = 'flex';
+        if (countText) countText.innerText = `${checkedCount} produto(s) selecionado(s)`;
       } else {
-        bulkBar.style.display = 'none';
+        if (bulkBar) bulkBar.style.display = 'none';
       }
     }
 
@@ -1084,6 +1065,9 @@
         
         renderCatalog();
         renderAdminProductsList();
+        
+        const selectAllCheckbox = document.getElementById('selectAllProductsCheckbox');
+        if (selectAllCheckbox) selectAllCheckbox.checked = false;
         updateBulkActionsBar();
       }
     }
@@ -1092,7 +1076,7 @@
       toggleCategoriesMenu();
     }
 
-    function handleSaveGithubConfig(e) { e.preventDefault(); }
+    function handleSaveGithubConfig(e) { e.preventDefault(); alert('Configuração do GitHub salva.'); }
   </script>
 </body>
 </html>
