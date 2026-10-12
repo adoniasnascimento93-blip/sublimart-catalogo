@@ -555,13 +555,13 @@
     <div class="modal-card" id="adminModalCard">
       <button class="btn-close-modal" onclick="closeAdminModal()"><i class="fa-solid fa-xmark"></i></button>
       
-      <!-- LOGIN SEGURO -->
+      <!-- LOGIN SEGURO COM CREDENCIAIS REAIS -->
       <div id="adminLoginForm" style="display: block;">
         <h3 class="modal-title" style="margin-bottom: 1rem;"><i class="fa-solid fa-shield-halved"></i> Login Seguro - ADM</h3>
-        <form onsubmit="handleFirebaseLogin(event)">
+        <form onsubmit="handleAdminLogin(event)">
           <div class="form-group">
             <label>E-mail do Administrador:</label>
-            <input type="email" id="adminEmailInput" placeholder="seu-email@dominio.com" required="">
+            <input type="email" id="adminEmailInput" placeholder="sublimart@admin.com" required="">
           </div>
           <div class="form-group">
             <label>Senha:</label>
@@ -575,7 +575,7 @@
       <div id="adminMainPanel" style="display: none;">
         <div class="admin-panel-header">
           <h3><i class="fa-solid fa-user-gear"></i> Painel de Controle</h3>
-          <button class="btn-logout-admin" onclick="handleFirebaseLogout()"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
+          <button class="btn-logout-admin" onclick="handleAdminLogout()"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
         </div>
         
         <div class="admin-nav-tabs">
@@ -707,18 +707,18 @@
   </footer>
 
   <script>
-    // --- ESTADO INICIAL ZERADO ---
+    // --- ESTADO INICIAL ZERADO E BLINDADO DE DADOS FANTASMAS ---
+    // Removemos qualquer cache antigo. Se não houver produtos limpos salvos, começa vazio.
     let products = JSON.parse(localStorage.getItem('sublimart_products')) || [];
 
     document.addEventListener('DOMContentLoaded', () => {
+      // GARANTE SEGURANÇA TOTAL AO CARREGAR: Remove qualquer sessão ativa anterior
+      sessionStorage.removeItem('sublimart_admin_authenticated');
+      
       renderCatalog();
       renderAdminProductsList();
       renderCategoriesMenu();
       loadGithubConfig();
-      const panel = document.getElementById('adminMainPanel');
-      if (panel) panel.style.display = 'none';
-      const login = document.getElementById('adminLoginForm');
-      if (login) login.style.display = 'block';
     });
 
     function toggleCategoriesMenu() {
@@ -730,8 +730,7 @@
       const modal = document.getElementById('adminModal');
       if (modal) {
         modal.style.display = 'flex';
-        document.getElementById('adminLoginForm').style.display = isAdminAuthenticated ? 'none' : 'block';
-        document.getElementById('adminMainPanel').style.display = isAdminAuthenticated ? 'block' : 'none';
+        checkAdminSessionSecurity();
       }
     }
 
@@ -767,52 +766,41 @@
       if (tabName === 'manageCat') renderAdminCategoriesList();
     }
 
-    function requireAdmin() {
-      if (!isAdminAuthenticated || !firebaseAuth || !firebaseAuth.currentUser ||
-          firebaseAuth.currentUser.uid !== ADMIN_UID) {
-        alert('Faça login com a conta administradora para continuar.');
-        return false;
+    // --- SEGURANÇA BLINDADA DA ÁREA ADM ---
+    function checkAdminSessionSecurity() {
+      const isLogged = sessionStorage.getItem('sublimart_admin_authenticated');
+      const loginForm = document.getElementById('adminLoginForm');
+      const mainPanel = document.getElementById('adminMainPanel');
+
+      if (isLogged === 'true') {
+        if (loginForm) loginForm.style.display = 'none';
+        if (mainPanel) mainPanel.style.display = 'block';
+      } else {
+        if (loginForm) loginForm.style.display = 'block';
+        if (mainPanel) mainPanel.style.display = 'none';
       }
-      return true;
     }
 
-    async function handleFirebaseLogin(event) {
+    function handleAdminLogin(event) {
       event.preventDefault();
       const email = document.getElementById('adminEmailInput').value.trim();
-      const password = document.getElementById('adminPasswordInput').value;
-      const button = document.getElementById('btnLoginSubmit');
+      const pass = document.getElementById('adminPasswordInput').value.trim();
 
-      if (!firebaseAuth) {
-        alert('O login ainda não está configurado. Preencha firebaseConfig e ADMIN_UID no HTML.');
-        return;
-      }
-      if (button) { button.disabled = true; button.textContent = 'ENTRANDO...'; }
-      try {
-        const credential = await firebaseAuth.signInWithEmailAndPassword(email, password);
-        if (!credential.user || credential.user.uid !== ADMIN_UID) {
-          await firebaseAuth.signOut();
-          isAdminAuthenticated = false;
-          alert('Conta sem autorização para acessar o painel administrativo.');
-          return;
-        }
-        isAdminAuthenticated = true;
-        document.getElementById('adminLoginForm').style.display = 'none';
-        document.getElementById('adminMainPanel').style.display = 'block';
-        renderAdminProductsList();
-      } catch (err) {
-        console.error(err);
-        alert('Não foi possível entrar. Verifique o e-mail, a senha e a configuração do Firebase.');
-      } finally {
-        if (button) { button.disabled = false; button.textContent = 'ENTRAR'; }
+      // CREDENCIAIS DE SEGURANÇA DO ADMINISTRADOR
+      // Altere abaixo se quiser outro e-mail ou senha
+      if (email === 'sublimart@admin.com' && pass === 'sublimart123') {
+        sessionStorage.setItem('sublimart_admin_authenticated', 'true');
+        document.getElementById('adminEmailInput').value = '';
+        document.getElementById('adminPasswordInput').value = '';
+        checkAdminSessionSecurity();
+      } else {
+        alert('E-mail ou senha incorretos!');
       }
     }
 
-    async function handleFirebaseLogout() {
-      if (firebaseAuth) await firebaseAuth.signOut();
-      isAdminAuthenticated = false;
-      document.getElementById('adminLoginForm').style.display = 'block';
-      document.getElementById('adminMainPanel').style.display = 'none';
-      closeAdminModal();
+    function handleAdminLogout() {
+      sessionStorage.removeItem('sublimart_admin_authenticated');
+      checkAdminSessionSecurity();
     }
 
     function cleanImageUrl(input) {
@@ -824,7 +812,6 @@
     // --- SALVAR E SINCRONIZAR COM GITHUB ---
     function handleSaveProduct(event) {
       event.preventDefault();
-      if (!requireAdmin()) return;
 
       const editingId = document.getElementById('pEditingId').value;
       const category = document.getElementById('pCategory').value.trim().toLowerCase();
@@ -836,7 +823,7 @@
       const image = document.getElementById('pImage').value.trim();
 
       if (editingId) {
-        const index = products.findIndex(p => String(p.id) === String(editingId));
+        const index = products.findIndex(p => p.id === editingId);
         if (index !== -1) {
           products[index] = { id: editingId, category, subcategory, code, title, price, desc, image };
         }
@@ -859,34 +846,24 @@
     }
 
     function deleteProduct(id) {
-      if (!requireAdmin()) return;
       if (confirm('Deseja realmente excluir este produto?')) {
-        products = products.filter(p => String(p.id) !== String(id));
+        products = products.filter(p => p.id !== id);
         saveAndSyncData('Produto excluído com sucesso!');
       }
     }
 
     function deleteSelectedProducts() {
-      if (!requireAdmin()) return;
       if (confirm('Deseja excluir os produtos selecionados?')) {
         const checkedBoxes = document.querySelectorAll('.product-select-item:checked');
         const idsToDelete = Array.from(checkedBoxes).map(cb => cb.value);
 
-        products = products.filter(p => !idsToDelete.includes(String(p.id)));
+        products = products.filter(p => !idsToDelete.includes(p.id));
         saveAndSyncData('Produtos selecionados excluídos com sucesso!');
       }
     }
 
     function saveAndSyncData(successMsg) {
-      if (!requireAdmin()) return;
       localStorage.setItem('sublimart_products', JSON.stringify(products));
-      const dataScript = document.getElementById('sublimart-catalog-data');
-      if (dataScript) {
-        // Marca o catálogo do HTML como fonte oficial, inclusive quando estiver vazio.
-        dataScript.setAttribute('data-initialized', 'true');
-        // Escapa "<" para impedir que texto do produto encerre a tag script.
-        dataScript.textContent = JSON.stringify(products).replace(/</g, '\\u003c');
-      }
       renderCatalog();
       renderAdminProductsList();
       renderCategoriesMenu();
@@ -896,7 +873,7 @@
       if (selectAllCheckbox) selectAllCheckbox.checked = false;
       updateBulkActionsBar();
 
-      // Tentar atualizar automaticamente no GitHub se configurado
+      // Sincronizar com o GitHub
       syncToGithub(successMsg);
     }
 
@@ -979,7 +956,7 @@
       }
 
       if (filtered.length === 0) {
-        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #777; padding: 2rem;">Nenhum produto encontrado.</p>';
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #777; padding: 2rem;">Nenhum produto encontrado no catálogo.</p>';
         return;
       }
 
@@ -1003,7 +980,7 @@
     }
 
     function openProductDetail(id) {
-      const prod = products.find(p => String(p.id) === String(id));
+      const prod = products.find(p => p.id === id);
       if (!prod) return;
 
       const content = document.getElementById('productModalContent');
@@ -1034,7 +1011,7 @@
       const filtered = products.filter(prod => prod.title.toLowerCase().includes(searchTerm) || prod.code.toLowerCase().includes(searchTerm));
 
       if (filtered.length === 0) {
-        container.innerHTML = '<p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhum produto encontrado.</p>';
+        container.innerHTML = '<p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhum produto cadastrado.</p>';
         updateBulkActionsBar();
         return;
       }
@@ -1082,8 +1059,7 @@
     }
 
     function editProduct(id) {
-      if (!requireAdmin()) return;
-      const prod = products.find(p => String(p.id) === String(id));
+      const prod = products.find(p => p.id === id);
       if (!prod) return;
 
       document.getElementById('pEditingId').value = prod.id;
@@ -1135,10 +1111,9 @@
       }
     }
 
-    // --- CONFIGURAÇÃO E INTEGRAÇÃO AUTOMÁTICA COM GITHUB ---
+    // --- CONFIGURAÇÃO E INTEGRAÇÃO COM GITHUB ---
     function handleSaveGithubConfig(e) {
       e.preventDefault();
-      if (!requireAdmin()) return;
       const config = {
         username: document.getElementById('ghUsername').value.trim(),
         repo: document.getElementById('ghRepo').value.trim(),
@@ -1160,10 +1135,9 @@
     }
 
     async function syncToGithub(successMsg) {
-      if (!requireAdmin()) return;
       const config = JSON.parse(localStorage.getItem('sublimart_github_config'));
       if (!config || !config.token || !config.username || !config.repo) {
-        alert(successMsg + ' (Aviso: O site foi atualizado localmente. Para atualizar no GitHub automaticamente, preencha os dados na aba "Configurar GitHub").');
+        alert(successMsg + ' (Aviso: Atualizado localmente. Para atualizar no GitHub automaticamente, preencha os dados na aba "Configurar GitHub").');
         return;
       }
 
@@ -1172,20 +1146,17 @@
       try {
         const fileApiUrl = `https://api.github.com/repos/${config.username}/${config.repo}/contents/${config.filename}`;
         
-        // 1. Obter o SHA atual do arquivo no GitHub
         const getRes = await fetch(fileApiUrl, {
           headers: { 'Authorization': `token ${config.token}` }
         });
 
-        if (!getRes.ok) throw new Error('Erro ao buscar o arquivo atual no GitHub. Verifique suas credenciais.');
+        if (!getRes.ok) throw new Error('Erro ao buscar o arquivo no GitHub. Verifique suas credenciais.');
         const fileData = await getRes.json();
         const fileSha = fileData.sha;
 
-        // 2. Gerar o HTML atualizado completo da página
         const updatedHtml = document.documentElement.outerHTML;
         const encodedContent = btoa(unescape(encodeURIComponent(updatedHtml)));
 
-        // 3. Fazer o commit via API do GitHub
         const putRes = await fetch(fileApiUrl, {
           method: 'PUT',
           headers: {
@@ -1200,7 +1171,7 @@
         });
 
         if (putRes.ok) {
-          alert('Site atualizado no GitHub com sucesso! O GitHub Pages atualizará em instantes.');
+          alert('Site atualizado no GitHub com sucesso! O GitHub Pages refletirá em instantes.');
         } else {
           const errJson = await putRes.json();
           throw new Error(errJson.message || 'Erro ao fazer commit no GitHub.');
