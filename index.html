@@ -387,7 +387,7 @@
       gap: 0.4rem;
     }
 
-    /* MODAIS & ZOOM DE IMAGEM */
+    /* MODAIS */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -433,42 +433,7 @@
     }
 
     .product-detail-container { display: flex; flex-direction: column; gap: 1.2rem; }
-    
-    .product-detail-img-wrapper {
-      position: relative;
-      width: 100%;
-      max-height: 380px;
-      border-radius: 12px;
-      overflow: hidden;
-      cursor: zoom-in;
-      background: #000;
-    }
-
-    .product-detail-img {
-      width: 100%;
-      max-height: 380px;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.3s ease;
-    }
-
-    .product-detail-img.zoomed {
-      transform: scale(1.8);
-      cursor: zoom-out;
-    }
-
-    .zoom-hint {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      background: rgba(0, 0, 0, 0.6);
-      color: #fff;
-      font-size: 0.7rem;
-      padding: 0.3rem 0.6rem;
-      border-radius: 6px;
-      pointer-events: none;
-    }
-
+    .product-detail-img { width: 100%; max-height: 380px; object-fit: cover; border-radius: 12px; }
     .product-detail-badges { display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem; }
     .product-detail-code { background: var(--dark-color); color: #fff; font-size: 0.8rem; font-weight: 700; padding: 0.3rem 0.6rem; border-radius: 6px; }
     .product-detail-subcat { background: var(--accent-magenta); color: #fff; font-size: 0.8rem; font-weight: 600; padding: 0.3rem 0.6rem; border-radius: 6px; }
@@ -1200,10 +1165,7 @@
 
       const content = document.getElementById('productModalContent');
       content.innerHTML = `
-        <div class="product-detail-img-wrapper" onclick="toggleImageZoom(this)">
-          <img src="${p.image}" class="product-detail-img" id="modalProductImg" onerror="this.src='https://via.placeholder.com/600x380?text=Sem+Imagem'">
-          <span class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> Clique para zoom</span>
-        </div>
+        <img src="${p.image}" class="product-detail-img" onerror="this.src='https://via.placeholder.com/600x380?text=Sem+Imagem'">
         <div class="product-detail-badges">
           <span class="product-detail-code">${p.code}</span>
           ${p.subcategory ? `<span class="product-detail-subcat">${p.subcategory}</span>` : ''}
@@ -1215,17 +1177,6 @@
       `;
 
       document.getElementById('productModal').style.display = 'flex';
-    };
-
-    window.toggleImageZoom = function(wrapper) {
-      const img = wrapper.querySelector('.product-detail-img');
-      const hint = wrapper.querySelector('.zoom-hint');
-      img.classList.toggle('zoomed');
-      if (img.classList.contains('zoomed')) {
-        hint.innerHTML = '<i class="fa-solid fa-magnifying-glass-minus"></i> Clique para afastar';
-      } else {
-        hint.innerHTML = '<i class="fa-solid fa-magnifying-glass-plus"></i> Clique para zoom';
-      }
     };
 
     window.closeProductModal = function() {
