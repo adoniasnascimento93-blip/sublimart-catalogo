@@ -530,7 +530,6 @@
         </button>
         <div class="dropdown-content" id="navTabsContainer">
           <button class="tab-btn active" onclick="filterCategory('todos')"><i class="fa-solid fa-border-all"></i> Todos</button>
-          <button class="tab-btn" onclick="filterCategory('camisas')"><i class="fa-solid fa-folder"></i> Camisas</button>
         </div>
       </div>
     </div>
@@ -595,40 +594,29 @@
             
             <div class="form-group">
               <label>Categoria Principal:</label>
-              <select id="pCategory" required="">
-                <option value="camisas">Camisas</option>
-              </select>
+              <input type="text" id="pCategory" placeholder="Ex: Camisas, Canecas..." required="">
             </div>
 
             <div class="form-group" id="subcatFormGroup">
               <label>Subcategoria / Tema:</label>
-              <select id="pSubCategory" onchange="checkCustomSubcat()">
-                <option value="MASCULINA">MASCULINA</option>
-                <option value="FEMININA">FEMININA</option>
-                <option value="nova_subcat_custom">+ Adicionar Nova Subcategoria...</option>
-              </select>
-            </div>
-
-            <div class="form-group" id="customSubcatGroup" style="display: none;">
-              <label>Nome da Nova Subcategoria:</label>
-              <input type="text" id="pCustomSubcat" placeholder="Ex: INFANTIL / DIA DOS NAMORADOS">
+              <input type="text" id="pSubCategory" placeholder="Ex: Masculina, Infantil..." required="">
             </div>
 
             <div class="form-group">
               <label>Código do Produto:</label>
-              <input type="text" id="pCode" placeholder="CANECA Nº3" required="">
+              <input type="text" id="pCode" placeholder="Ex: PROD Nº1" required="">
             </div>
             <div class="form-group">
               <label>Título do Produto:</label>
-              <input type="text" id="pTitle" placeholder="Ex: Caneca Porcelana 300ml - Tema Natal" required="">
+              <input type="text" id="pTitle" placeholder="Ex: Camisa Personalizada" required="">
             </div>
             <div class="form-group">
               <label>Preço:</label>
-              <input type="text" id="pPrice" placeholder="Ex: 15 ou 35,50" required="">
+              <input type="text" id="pPrice" placeholder="Ex: 35,00" required="">
             </div>
             <div class="form-group">
               <label>Descrição:</label>
-              <textarea id="pDesc" rows="2" placeholder="Digite a descrição do produto..." required=""></textarea>
+              <textarea id="pDesc" rows="2" placeholder="Digite a descrição..." required=""></textarea>
             </div>
             <div class="form-group">
               <label>URL da Imagem:</label>
@@ -675,20 +663,14 @@
         <div id="adminSecManageCat" style="display: none;">
           <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Categorias Principais</h4>
           <div id="adminCatListContainer" style="max-height: 280px; overflow-y: auto;">
-            <div class="admin-manage-card">
-              <div class="admin-manage-info">
-                <div class="admin-manage-details">
-                  <strong>Camisas</strong>
-                </div>
-              </div>
-            </div>
+            <p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhuma categoria cadastrada.</p>
           </div>
         </div>
 
         <!-- CONFIGURAR GITHUB -->
         <div id="adminSecGithub" style="display: none;">
           <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Conectar com o GitHub</h4>
-          <p style="font-size: 0.8rem; color: #666; margin-bottom: 1rem;">Configure os dados para salvar alterações diretamente no arquivo no GitHub:</p>
+          <p style="font-size: 0.8rem; color: #666; margin-bottom: 1rem;">Configure para atualizar o arquivo no GitHub automaticamente ao alterar produtos:</p>
           <form onsubmit="handleSaveGithubConfig(event)">
             <div class="form-group">
               <label>GitHub Username:</label>
@@ -725,16 +707,16 @@
   </footer>
 
   <script>
-    // --- ESTADO INICIAL E DADOS ---
+    // --- ESTADO INICIAL ZERADO ---
     let products = JSON.parse(localStorage.getItem('sublimart_products')) || [];
 
-    // Carregar catálogo ao abrir a página
     document.addEventListener('DOMContentLoaded', () => {
       renderCatalog();
       renderAdminProductsList();
+      renderCategoriesMenu();
+      loadGithubConfig();
     });
 
-    // --- CONTROLE DE INTERFACE ---
     function toggleCategoriesMenu() {
       const dropdown = document.getElementById('navTabsContainer');
       if (dropdown) dropdown.classList.toggle('show');
@@ -776,12 +758,10 @@
       if (activeSec) activeSec.style.display = 'block';
       if (activeBtn) activeBtn.classList.add('active');
 
-      if (tabName === 'manageProd') {
-        renderAdminProductsList();
-      }
+      if (tabName === 'manageProd') renderAdminProductsList();
+      if (tabName === 'manageCat') renderAdminCategoriesList();
     }
 
-    // --- SEGURANÇA ADM ---
     function checkAdminSessionSecurity() {
       const isLogged = sessionStorage.getItem('sublimart_admin_authenticated');
       const loginForm = document.getElementById('adminLoginForm');
@@ -813,26 +793,13 @@
       if (input.value !== val) input.value = val;
     }
 
-    function checkCustomSubcat() {
-      const select = document.getElementById('pSubCategory');
-      const customGroup = document.getElementById('customSubcatGroup');
-      if (select && customGroup) {
-        customGroup.style.display = select.value === 'nova_subcat_custom' ? 'block' : 'none';
-      }
-    }
-
-    // --- CADASTRAR / SALVAR PRODUTO ---
+    // --- SALVAR E SINCRONIZAR COM GITHUB ---
     function handleSaveProduct(event) {
       event.preventDefault();
 
       const editingId = document.getElementById('pEditingId').value;
-      const category = document.getElementById('pCategory').value;
-      let subcategory = document.getElementById('pSubCategory').value;
-      
-      if (subcategory === 'nova_subcat_custom') {
-        subcategory = document.getElementById('pCustomSubcat').value.trim().toUpperCase() || 'GERAL';
-      }
-
+      const category = document.getElementById('pCategory').value.trim().toLowerCase();
+      const subcategory = document.getElementById('pSubCategory').value.trim().toUpperCase();
       const code = document.getElementById('pCode').value.trim();
       const title = document.getElementById('pTitle').value.trim();
       const price = document.getElementById('pPrice').value.trim();
@@ -858,38 +825,126 @@
         products.push(newProduct);
       }
 
+      saveAndSyncData(editingId ? 'Produto atualizado com sucesso!' : 'Produto cadastrado com sucesso!');
+      resetProductForm();
+    }
+
+    function deleteProduct(id) {
+      if (confirm('Deseja realmente excluir este produto?')) {
+        products = products.filter(p => p.id !== id);
+        saveAndSyncData('Produto excluído com sucesso!');
+      }
+    }
+
+    function deleteSelectedProducts() {
+      if (confirm('Deseja excluir os produtos selecionados?')) {
+        const checkedBoxes = document.querySelectorAll('.product-select-item:checked');
+        const idsToDelete = Array.from(checkedBoxes).map(cb => cb.value);
+
+        products = products.filter(p => !idsToDelete.includes(p.id));
+        saveAndSyncData('Produtos selecionados excluídos com sucesso!');
+      }
+    }
+
+    function saveAndSyncData(successMsg) {
       localStorage.setItem('sublimart_products', JSON.stringify(products));
       renderCatalog();
       renderAdminProductsList();
-      resetProductForm();
+      renderCategoriesMenu();
+      renderAdminCategoriesList();
+      
+      const selectAllCheckbox = document.getElementById('selectAllProductsCheckbox');
+      if (selectAllCheckbox) selectAllCheckbox.checked = false;
+      updateBulkActionsBar();
 
-      alert(editingId ? 'Produto atualizado com sucesso!' : 'Produto cadastrado com sucesso!');
+      // Tentar atualizar automaticamente no GitHub se configurado
+      syncToGithub(successMsg);
     }
 
-    function resetProductForm() {
-      document.getElementById('pEditingId').value = '';
-      document.getElementById('pCode').value = '';
-      document.getElementById('pTitle').value = '';
-      document.getElementById('pPrice').value = '';
-      document.getElementById('pDesc').value = '';
-      document.getElementById('pImage').value = '';
-      document.getElementById('formProductTitleHeader').innerText = 'Cadastrar Novo Produto';
-      document.getElementById('btnSubmitFormProd').innerText = 'CADASTRAR PRODUTO';
-      document.getElementById('btnCancelEditProd').style.display = 'none';
-      document.getElementById('customSubcatGroup').style.display = 'none';
+    // --- RENDERIZAR TELA ---
+    let currentCategoryFilter = 'todos';
+    let currentSubcategoryFilter = 'todos';
+
+    function renderCategoriesMenu() {
+      const container = document.getElementById('navTabsContainer');
+      if (!container) return;
+
+      const categories = [...new Set(products.map(p => p.category))];
+
+      let html = `<button class="tab-btn ${currentCategoryFilter === 'todos' ? 'active' : ''}" onclick="filterCategory('todos')"><i class="fa-solid fa-border-all"></i> Todos</button>`;
+      
+      categories.forEach(cat => {
+        const formattedCat = cat.charAt(0).toUpperCase() + cat.slice(1);
+        html += `<button class="tab-btn ${currentCategoryFilter === cat ? 'active' : ''}" onclick="filterCategory('${cat}')"><i class="fa-solid fa-folder"></i> ${formattedCat}</button>`;
+      });
+
+      container.innerHTML = html;
+      renderSubcategoriesBar();
     }
 
-    // --- RENDERIZAR CATÁLOGO PRINCIPAL ---
-    function renderCatalog() {
-      const grid = document.getElementById('catalog-grid');
-      if (!grid) return;
+    function renderSubcategoriesBar() {
+      const bar = document.getElementById('subcategories-bar');
+      if (!bar) return;
 
-      if (products.length === 0) {
-        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #777; padding: 2rem;">Nenhum produto cadastrado no catálogo.</p>';
+      if (currentCategoryFilter === 'todos') {
+        bar.style.display = 'none';
         return;
       }
 
-      grid.innerHTML = products.map(prod => `
+      const subcategories = [...new Set(products.filter(p => p.category === currentCategoryFilter).map(p => p.subcategory))];
+
+      if (subcategories.length === 0) {
+        bar.style.display = 'none';
+        return;
+      }
+
+      bar.style.display = 'flex';
+      let html = `<button class="sub-btn ${currentSubcategoryFilter === 'todos' ? 'active' : ''}" onclick="filterSubcategory('todos')">Todas</button>`;
+      
+      subcategories.forEach(sub => {
+        html += `<button class="sub-btn ${currentSubcategoryFilter === sub ? 'active' : ''}" onclick="filterSubcategory('${sub}')">${sub}</button>`;
+      });
+
+      bar.innerHTML = html;
+    }
+
+    function filterCategory(cat) {
+      currentCategoryFilter = cat;
+      currentSubcategoryFilter = 'todos';
+      toggleCategoriesMenu();
+      renderCategoriesMenu();
+      renderCatalog();
+    }
+
+    function filterSubcategory(sub) {
+      currentSubcategoryFilter = sub;
+      renderSubcategoriesBar();
+      renderCatalog();
+    }
+
+    function renderCatalog() {
+      const grid = document.getElementById('catalog-grid');
+      const titleEl = document.getElementById('category-title');
+      if (!grid) return;
+
+      let filtered = products;
+      if (currentCategoryFilter !== 'todos') {
+        filtered = filtered.filter(p => p.category === currentCategoryFilter);
+        if (titleEl) titleEl.innerHTML = `<i class="fa-solid fa-folder"></i> ${currentCategoryFilter.toUpperCase()}`;
+      } else {
+        if (titleEl) titleEl.innerHTML = `<i class="fa-solid fa-border-all"></i> Todos os Produtos`;
+      }
+
+      if (currentSubcategoryFilter !== 'todos') {
+        filtered = filtered.filter(p => p.subcategory === currentSubcategoryFilter);
+      }
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #777; padding: 2rem;">Nenhum produto encontrado.</p>';
+        return;
+      }
+
+      grid.innerHTML = filtered.map(prod => `
         <div class="card" onclick="openProductDetail('${prod.id}')">
           <div class="card-img-wrapper">
             <span class="card-code-badge">${prod.code}</span>
@@ -908,7 +963,6 @@
       `).join('');
     }
 
-    // --- EXIBIR DETALHES EM MODAL ---
     function openProductDetail(id) {
       const prod = products.find(p => p.id === id);
       if (!prod) return;
@@ -931,7 +985,6 @@
       document.getElementById('productModal').style.display = 'flex';
     }
 
-    // --- GERENCIAR PRODUTOS NA ÁREA ADM ---
     function renderAdminProductsList() {
       const container = document.getElementById('adminProductListContainer');
       if (!container) return;
@@ -939,17 +992,15 @@
       const searchInput = document.getElementById('adminProdSearchInput');
       const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
 
-      const filteredProducts = products.filter(prod => {
-        return prod.title.toLowerCase().includes(searchTerm) || prod.code.toLowerCase().includes(searchTerm);
-      });
+      const filtered = products.filter(prod => prod.title.toLowerCase().includes(searchTerm) || prod.code.toLowerCase().includes(searchTerm));
 
-      if (filteredProducts.length === 0) {
+      if (filtered.length === 0) {
         container.innerHTML = '<p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhum produto encontrado.</p>';
         updateBulkActionsBar();
         return;
       }
 
-      container.innerHTML = filteredProducts.map(prod => `
+      container.innerHTML = filtered.map(prod => `
         <div class="admin-manage-card">
           <div class="admin-manage-info">
             <input type="checkbox" class="product-select-item" value="${prod.id}" onchange="updateBulkActionsBar()">
@@ -967,6 +1018,28 @@
       `).join('');
       
       updateBulkActionsBar();
+    }
+
+    function renderAdminCategoriesList() {
+      const container = document.getElementById('adminCatListContainer');
+      if (!container) return;
+
+      const categories = [...new Set(products.map(p => p.category))];
+      if (categories.length === 0) {
+        container.innerHTML = '<p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhuma categoria cadastrada.</p>';
+        return;
+      }
+
+      container.innerHTML = categories.map(cat => `
+        <div class="admin-manage-card">
+          <div class="admin-manage-info">
+            <div class="admin-manage-details">
+              <strong>${cat.toUpperCase()}</strong>
+              <span>Produtos nesta categoria: ${products.filter(p => p.category === cat).length}</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
     }
 
     function editProduct(id) {
@@ -989,13 +1062,18 @@
       switchAdminTab('add');
     }
 
-    function deleteProduct(id) {
-      if (confirm('Deseja realmente excluir este produto?')) {
-        products = products.filter(p => p.id !== id);
-        localStorage.setItem('sublimart_products', JSON.stringify(products));
-        renderCatalog();
-        renderAdminProductsList();
-      }
+    function resetProductForm() {
+      document.getElementById('pEditingId').value = '';
+      document.getElementById('pCategory').value = '';
+      document.getElementById('pSubCategory').value = '';
+      document.getElementById('pCode').value = '';
+      document.getElementById('pTitle').value = '';
+      document.getElementById('pPrice').value = '';
+      document.getElementById('pDesc').value = '';
+      document.getElementById('pImage').value = '';
+      document.getElementById('formProductTitleHeader').innerText = 'Cadastrar Novo Produto';
+      document.getElementById('btnSubmitFormProd').innerText = 'CADASTRAR PRODUTO';
+      document.getElementById('btnCancelEditProd').style.display = 'none';
     }
 
     function toggleSelectAllProducts(masterCheckbox) {
@@ -1017,28 +1095,78 @@
       }
     }
 
-    function deleteSelectedProducts() {
-      if (confirm('Deseja excluir os produtos selecionados?')) {
-        const checkedBoxes = document.querySelectorAll('.product-select-item:checked');
-        const idsToDelete = Array.from(checkedBoxes).map(cb => cb.value);
+    // --- CONFIGURAÇÃO E INTEGRAÇÃO AUTOMÁTICA COM GITHUB ---
+    function handleSaveGithubConfig(e) {
+      e.preventDefault();
+      const config = {
+        username: document.getElementById('ghUsername').value.trim(),
+        repo: document.getElementById('ghRepo').value.trim(),
+        filename: document.getElementById('ghFilename').value.trim() || 'index.html',
+        token: document.getElementById('ghToken').value.trim()
+      };
+      localStorage.setItem('sublimart_github_config', JSON.stringify(config));
+      alert('Configuração do GitHub salva com sucesso!');
+    }
 
-        products = products.filter(p => !idsToDelete.includes(p.id));
-        localStorage.setItem('sublimart_products', JSON.stringify(products));
-        
-        renderCatalog();
-        renderAdminProductsList();
-        
-        const selectAllCheckbox = document.getElementById('selectAllProductsCheckbox');
-        if (selectAllCheckbox) selectAllCheckbox.checked = false;
-        updateBulkActionsBar();
+    function loadGithubConfig() {
+      const config = JSON.parse(localStorage.getItem('sublimart_github_config'));
+      if (config) {
+        if (document.getElementById('ghUsername')) document.getElementById('ghUsername').value = config.username || '';
+        if (document.getElementById('ghRepo')) document.getElementById('ghRepo').value = config.repo || '';
+        if (document.getElementById('ghFilename')) document.getElementById('ghFilename').value = config.filename || 'index.html';
+        if (document.getElementById('ghToken')) document.getElementById('ghToken').value = config.token || '';
       }
     }
 
-    function filterCategory(cat) {
-      toggleCategoriesMenu();
-    }
+    async function syncToGithub(successMsg) {
+      const config = JSON.parse(localStorage.getItem('sublimart_github_config'));
+      if (!config || !config.token || !config.username || !config.repo) {
+        alert(successMsg + ' (Aviso: O site foi atualizado localmente. Para atualizar no GitHub automaticamente, preencha os dados na aba "Configurar GitHub").');
+        return;
+      }
 
-    function handleSaveGithubConfig(e) { e.preventDefault(); alert('Configuração do GitHub salva.'); }
+      alert(successMsg + '\n\nEnviando atualização diretamente para o GitHub...');
+
+      try {
+        const fileApiUrl = `https://api.github.com/repos/${config.username}/${config.repo}/contents/${config.filename}`;
+        
+        // 1. Obter o SHA atual do arquivo no GitHub
+        const getRes = await fetch(fileApiUrl, {
+          headers: { 'Authorization': `token ${config.token}` }
+        });
+
+        if (!getRes.ok) throw new Error('Erro ao buscar o arquivo atual no GitHub. Verifique suas credenciais.');
+        const fileData = await getRes.json();
+        const fileSha = fileData.sha;
+
+        // 2. Gerar o HTML atualizado completo da página
+        const updatedHtml = document.documentElement.outerHTML;
+        const encodedContent = btoa(unescape(encodeURIComponent(updatedHtml)));
+
+        // 3. Fazer o commit via API do GitHub
+        const putRes = await fetch(fileApiUrl, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${config.token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: 'Atualização automática via Painel ADM SUBLIMArt',
+            content: encodedContent,
+            sha: fileSha
+          })
+        });
+
+        if (putRes.ok) {
+          alert('Site atualizado no GitHub com sucesso! O GitHub Pages atualizará em instantes.');
+        } else {
+          const errJson = await putRes.json();
+          throw new Error(errJson.message || 'Erro ao fazer commit no GitHub.');
+        }
+      } catch (err) {
+        alert('Aviso: Salvo localmente, mas ocorreu um erro ao sincronizar com o GitHub: ' + err.message);
+      }
+    }
   </script>
 </body>
 </html>
