@@ -628,20 +628,6 @@
     <div class="subcategories-bar" id="subcategories-bar" bis_skin_checked="1"></div>
     <div class="catalog-grid" id="catalog-grid" bis_skin_checked="1"><div class="card" bis_skin_checked="1">
           <div class="card-img-wrapper" bis_skin_checked="1">
-            <span class="card-code-badge">CAMISA Nº 6</span>
-            <span class="card-subcat-badge">MASCULINA</span>
-            <img src="https://i.postimg.cc/wTkFBJjW/Camisa-n%C2%BA-17.png" alt="ESTAMPA EM DTF" onerror="this.src='https://via.placeholder.com/260x220?text=Sem+Imagem'">
-          </div>
-          <div class="card-body" bis_skin_checked="1">
-            <h3 class="card-title">ESTAMPA EM DTF</h3>
-            <p class="card-desc">"Estampa" em DTF a pronta entrega.</p>
-            <div class="card-footer-buy" bis_skin_checked="1">
-              <span class="price">R$ 20,00</span>
-              <a href="https://wa.me/5592992914876?text=Ol%C3%A1!%20Gostaria%20de%20encomendar%20o%20produto%20*ESTAMPA%20EM%20DTF*%20(C%C3%B3digo%3A%20*CAMISA%20N%C2%BA%206*)." target="_blank" class="btn-buy" onclick="event.stopPropagation()"><i class="fa-brands fa-whatsapp"></i> Comprar</a>
-            </div>
-          </div>
-        </div><div class="card" bis_skin_checked="1">
-          <div class="card-img-wrapper" bis_skin_checked="1">
             <span class="card-code-badge">CAMISA Nº 7</span>
             <span class="card-subcat-badge">MASCULINA</span>
             <img src="https://i.postimg.cc/pXBkd8L6/Camisa-n%C2%BA-18.png" alt="ESTAMPA EM DTF" onerror="this.src='https://via.placeholder.com/260x220?text=Sem+Imagem'">
@@ -714,10 +700,23 @@
   </main>
 
   <!-- MODAL DE VISUALIZAÇÃO DO PRODUTO -->
-  <div class="modal-overlay" id="productModal" bis_skin_checked="1">
+  <div class="modal-overlay" id="productModal" bis_skin_checked="1" style="display: none;">
     <div class="modal-card" bis_skin_checked="1">
       <button class="btn-close-modal" onclick="closeProductModal()"><i class="fa-solid fa-xmark"></i></button>
-      <div class="product-detail-container" id="productModalContent" bis_skin_checked="1"></div>
+      <div class="product-detail-container" id="productModalContent" bis_skin_checked="1">
+        <div class="product-detail-img-wrapper zoomed" id="imgWrapper" onclick="toggleImageZoom(this)" bis_skin_checked="1">
+          <img src="https://i.postimg.cc/7YNXL7ZR/Camisa-n%C2%BA-19.png" class="product-detail-img" id="modalProductImg" onerror="this.src='https://via.placeholder.com/600x380?text=Sem+Imagem'">
+          <span class="zoom-hint" id="zoomHint"><i class="fa-solid fa-magnifying-glass-minus"></i> Clique para afastar</span>
+        </div>
+        <div class="product-detail-badges" bis_skin_checked="1">
+          <span class="product-detail-code">CAMISA Nº 8</span>
+          <span class="product-detail-subcat">MASCULINA</span>
+        </div>
+        <h2 class="product-detail-title">ESTAMPA EM DTF</h2>
+        <div class="product-detail-price" bis_skin_checked="1">R$ 20,00</div>
+        <p class="product-detail-desc">"Estampa" em DTF a pronta entrega.</p>
+        <a href="https://wa.me/5592992914876?text=Ol%C3%A1!%20Gostaria%20de%20encomendar%20o%20produto%20*ESTAMPA%20EM%20DTF*%20(C%C3%B3digo%3A%20*CAMISA%20N%C2%BA%208*)." target="_blank" class="btn-buy-modal"><i class="fa-brands fa-whatsapp"></i> Encomendar via WhatsApp</a>
+      </div>
     </div>
   </div>
 
@@ -825,18 +824,6 @@
           </div>
           
           <div id="adminProductListContainer" style="max-height: 270px; overflow-y: auto; padding-right: 0.3rem;" bis_skin_checked="1"><div class="admin-manage-card" bis_skin_checked="1">
-          <div class="admin-manage-info" bis_skin_checked="1">
-            <img src="https://i.postimg.cc/wTkFBJjW/Camisa-n%C2%BA-17.png" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/45'">
-            <div class="admin-manage-details" bis_skin_checked="1">
-              <strong>[CAMISA Nº 6] ESTAMPA EM DTF</strong>
-              <span>Cat: Camisas / Sub: MASCULINA - R$ 20,00</span>
-            </div>
-          </div>
-          <div class="admin-action-btns" bis_skin_checked="1">
-            <button class="btn-edit-adm" onclick="editProduct(1791756071957)"><i class="fa-solid fa-pen"></i> Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct(1791756071957)"><i class="fa-solid fa-trash"></i> Excluir</button>
-          </div>
-        </div><div class="admin-manage-card" bis_skin_checked="1">
           <div class="admin-manage-info" bis_skin_checked="1">
             <img src="https://i.postimg.cc/pXBkd8L6/Camisa-n%C2%BA-18.png" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/45'">
             <div class="admin-manage-details" bis_skin_checked="1">
@@ -967,7 +954,7 @@
           <div class="admin-manage-info" bis_skin_checked="1">
             <div class="admin-manage-details" bis_skin_checked="1">
               <strong>Camisas</strong>
-              <span>Subcategorias: 2 | Produtos: 9</span>
+              <span>Subcategorias: 2 | Produtos: 6</span>
             </div>
           </div>
           <div class="admin-action-btns" bis_skin_checked="1">
@@ -1099,16 +1086,6 @@
 };
 
     window.appProducts = [
-  {
-    "id": 1791756071957,
-    "code": "CAMISA Nº 6",
-    "title": "ESTAMPA EM DTF",
-    "category": "camisas",
-    "subcategory": "MASCULINA",
-    "price": "R$ 20,00",
-    "description": "\"Estampa\" em DTF a pronta entrega.",
-    "image": "https://i.postimg.cc/wTkFBJjW/Camisa-n%C2%BA-17.png"
-  },
   {
     "id": 1791756071958,
     "code": "CAMISA Nº 7",
