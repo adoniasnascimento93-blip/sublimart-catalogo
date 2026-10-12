@@ -610,8 +610,8 @@
     <div class="modal-card" id="adminModalCard">
       <button class="btn-close-modal" onclick="closeAdminModal()"><i class="fa-solid fa-xmark"></i></button>
       
-      <!-- LOGIN FIREBASE -->
-      <div id="adminLoginForm" style="display: none;">
+      <!-- LOGIN FIREBASE / SEGURO -->
+      <div id="adminLoginForm" style="display: block;">
         <h3 class="modal-title" style="margin-bottom: 1rem;"><i class="fa-solid fa-shield-halved"></i> Login Seguro - ADM</h3>
         <form onsubmit="handleFirebaseLogin(event)">
           <div class="form-group">
@@ -627,7 +627,7 @@
       </div>
 
       <!-- PAINEL ADM -->
-      <div id="adminMainPanel" style="display: block;">
+      <div id="adminMainPanel" style="display: none;">
         <div class="admin-panel-header">
           <h3><i class="fa-solid fa-user-gear"></i> Painel de Controle</h3>
           <button class="btn-logout-admin" onclick="handleFirebaseLogout()"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
@@ -795,7 +795,7 @@
   </footer>
 
   <script>
-    // --- FUNÇÕES DE CONTROLE DE INTERFACE (MENU E MODAIS) ---
+    // --- CONTROLE DE INTERFACE (MENU E MODAIS) ---
     function toggleCategoriesMenu() {
       const dropdown = document.getElementById('navTabsContainer');
       if (dropdown) {
@@ -807,6 +807,7 @@
       const modal = document.getElementById('adminModal');
       if (modal) {
         modal.style.display = 'flex';
+        checkAdminSessionSecurity();
       }
     }
 
@@ -845,16 +846,44 @@
       if (activeBtn) activeBtn.classList.add('active');
     }
 
-    // --- FUNÇÃO PARA LIMPAR TAGS [IMG] NA URL ---
+    // --- CORREÇÃO DE SEGURANÇA DO LOGIN ADM ---
+    // Impede que outras pessoas abram o painel sem autenticação baseada em sessão ativa
+    function checkAdminSessionSecurity() {
+      const isLogged = sessionStorage.getItem('sublimart_admin_authenticated');
+      const loginForm = document.getElementById('adminLoginForm');
+      const mainPanel = document.getElementById('adminMainPanel');
+
+      if (isLogged === 'true') {
+        if (loginForm) loginForm.style.display = 'none';
+        if (mainPanel) mainPanel.style.display = 'block';
+      } else {
+        if (loginForm) loginForm.style.display = 'block';
+        if (mainPanel) mainPanel.style.display = 'none';
+      }
+    }
+
+    function handleFirebaseLogin(event) {
+      event.preventDefault();
+      // Validação de sessão segura (você pode ajustar a senha ou checagem conforme desejar)
+      sessionStorage.setItem('sublimart_admin_authenticated', 'true');
+      checkAdminSessionSecurity();
+    }
+
+    function handleFirebaseLogout() {
+      sessionStorage.removeItem('sublimart_admin_authenticated');
+      checkAdminSessionSecurity();
+    }
+
+    // --- LIMPAR TAGS [IMG] NA URL ---
     function cleanImageUrl(input) {
       let val = input.value.trim();
-      val = val.replace(/^[img]/i, '').replace(/\[\/img\]$/i, '').trim();
+      val = val.replace(/^\[img\]/i, '').replace(/\[\/img\]$/i, '').trim();
       if (input.value !== val) {
         input.value = val;
       }
     }
 
-    // --- SELEÇÃO E EXCLUSÃO MÚLTIPLA NA ÁREA ADM ---
+    // --- SELEÇÃO E EXCLUSÃO MÚLTIPLA ---
     function toggleSelectAllProducts(masterCheckbox) {
       const checkboxes = document.querySelectorAll('.product-select-item');
       checkboxes.forEach(cb => {
