@@ -735,20 +735,6 @@
               <a href="https://wa.me/5592992914876?text=Ol%C3%A1!%20Gostaria%20de%20encomendar%20o%20produto%20*ESTAMPA%20EM%20DTF*%20(C%C3%B3digo%3A%20*CAMISA%20N%C2%BA%2011*)." target="_blank" class="btn-buy" onclick="event.stopPropagation()"><i class="fa-brands fa-whatsapp"></i> Comprar</a>
             </div>
           </div>
-        </div><div class="card" bis_skin_checked="1">
-          <div class="card-img-wrapper" bis_skin_checked="1">
-            <span class="card-code-badge">CANECA Nº144</span>
-            <span class="card-subcat-badge">MASCULINA</span>
-            <img src="https://via.placeholder.com/260x220?text=Sem+Imagem" alt="ESTAMPA EM DTF" onerror="this.src='https://via.placeholder.com/260x220?text=Sem+Imagem'">
-          </div>
-          <div class="card-body" bis_skin_checked="1">
-            <h3 class="card-title">ESTAMPA EM DTF</h3>
-            <p class="card-desc">"Estampa" em DTF a pronta entrega.</p>
-            <div class="card-footer-buy" bis_skin_checked="1">
-              <span class="price">R$ 20,00</span>
-              <a href="https://wa.me/5592992914876?text=Ol%C3%A1!%20Gostaria%20de%20encomendar%20o%20produto%20*ESTAMPA%20EM%20DTF*%20(C%C3%B3digo%3A%20*CANECA%20N%C2%BA144*)." target="_blank" class="btn-buy" onclick="event.stopPropagation()"><i class="fa-brands fa-whatsapp"></i> Comprar</a>
-            </div>
-          </div>
         </div></div>
   </main>
 
@@ -758,17 +744,17 @@
       <button class="btn-close-modal" onclick="closeProductModal()"><i class="fa-solid fa-xmark"></i></button>
       <div class="product-detail-container" id="productModalContent" bis_skin_checked="1">
         <div class="product-detail-img-wrapper" onclick="toggleImageZoom(this)" bis_skin_checked="1">
-          <img src="https://i.postimg.cc/sDJK2SgJ/Camisa-n%C2%BA-15.png" class="product-detail-img" id="modalProductImg" onerror="this.src='https://via.placeholder.com/600x380?text=Sem+Imagem'">
+          <img src="https://via.placeholder.com/600x380?text=Sem+Imagem" class="product-detail-img" id="modalProductImg" onerror="this.src='https://via.placeholder.com/600x380?text=Sem+Imagem'">
           <span class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> Clique para zoom</span>
         </div>
         <div class="product-detail-badges" bis_skin_checked="1">
-          <span class="product-detail-code">CAMISA Nº 4</span>
+          <span class="product-detail-code">CANECA Nº144</span>
           <span class="product-detail-subcat">MASCULINA</span>
         </div>
         <h2 class="product-detail-title">ESTAMPA EM DTF</h2>
         <div class="product-detail-price" bis_skin_checked="1">R$ 20,00</div>
         <p class="product-detail-desc">"Estampa" em DTF a pronta entrega.</p>
-        <a href="https://wa.me/5592992914876?text=Ol%C3%A1!%20Gostaria%20de%20encomendar%20o%20produto%20*ESTAMPA%20EM%20DTF*%20(C%C3%B3digo%3A%20*CAMISA%20N%C2%BA%204*)." target="_blank" class="btn-buy-modal"><i class="fa-brands fa-whatsapp"></i> Encomendar via WhatsApp</a>
+        <a href="https://wa.me/5592992914876?text=Ol%C3%A1!%20Gostaria%20de%20encomendar%20o%20produto%20*ESTAMPA%20EM%20DTF*%20(C%C3%B3digo%3A%20*CANECA%20N%C2%BA144*)." target="_blank" class="btn-buy-modal"><i class="fa-brands fa-whatsapp"></i> Encomendar via WhatsApp</a>
       </div>
     </div>
   </div>
@@ -802,15 +788,15 @@
         </div>
         
         <div class="admin-nav-tabs" bis_skin_checked="1">
-          <button class="admin-tab-btn active" id="btnTabAdd" onclick="switchAdminTab('add')"><i class="fa-solid fa-plus"></i> Cadastrar Produto</button>
-          <button class="admin-tab-btn" id="btnTabManageProd" onclick="switchAdminTab('manageProd')"><i class="fa-solid fa-boxes-stacked"></i> Gerenciar Produtos</button>
+          <button class="admin-tab-btn" id="btnTabAdd" onclick="switchAdminTab('add')"><i class="fa-solid fa-plus"></i> Cadastrar Produto</button>
+          <button class="admin-tab-btn active" id="btnTabManageProd" onclick="switchAdminTab('manageProd')"><i class="fa-solid fa-boxes-stacked"></i> Gerenciar Produtos</button>
           <button class="admin-tab-btn" id="btnTabManageSubcat" onclick="switchAdminTab('manageSubcat')"><i class="fa-solid fa-tags"></i> Subcategorias</button>
           <button class="admin-tab-btn" id="btnTabManageCat" onclick="switchAdminTab('manageCat')"><i class="fa-solid fa-folder"></i> Categorias Principais</button>
           <button class="admin-tab-btn" id="btnTabGithub" onclick="switchAdminTab('github')"><i class="fa-brands fa-github"></i> Configurar GitHub</button>
         </div>
 
         <!-- CADASTRAR/EDITAR PRODUTO -->
-        <div id="adminSecAdd" bis_skin_checked="1" style="display: block;">
+        <div id="adminSecAdd" bis_skin_checked="1" style="display: none;">
           <h4 id="formProductTitleHeader" style="font-size: 1rem; margin-bottom: 0.8rem;">Cadastrar Novo Produto</h4>
           <form onsubmit="handleSaveProduct(event)">
             <input type="hidden" id="pEditingId" value="">
@@ -822,7 +808,7 @@
 
             <div class="form-group" id="subcatFormGroup" bis_skin_checked="1">
               <label>Subcategoria / Tema:</label>
-              <select id="pSubCategory" onchange="checkCustomSubcat()"><option value="MASCULINA">MASCULINA</option><option value="FEMININA">FEMININA</option><option value="nova_subcat_custom">+ Adicionar Nova Subcategoria...</option></select>
+              <select id="pSubCategory" onchange="checkCustomSubcat()"><option value="AMIZADE">AMIZADE</option><option value="ANIVERSÁRIO">ANIVERSÁRIO</option><option value="DESENHOS">DESENHOS</option><option value="FILMES">FILMES</option><option value="nova_subcat_custom">+ Adicionar Nova Subcategoria...</option></select>
             </div>
 
             <div class="form-group" id="customSubcatGroup" style="display: none;" bis_skin_checked="1">
@@ -858,7 +844,7 @@
         </div>
 
         <!-- GERENCIAR PRODUTOS -->
-        <div id="adminSecManageProd" style="display: none;" bis_skin_checked="1">
+        <div id="adminSecManageProd" style="display: block;" bis_skin_checked="1">
           <h4 style="font-size: 1rem; margin-bottom: 0.8rem;">Gerenciar / Editar / Excluir Produtos</h4>
           
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.8rem;" bis_skin_checked="1">
@@ -1055,7 +1041,7 @@
           <div class="admin-manage-info" bis_skin_checked="1">
             <div class="admin-manage-details" bis_skin_checked="1">
               <strong>Camisas</strong>
-              <span>Subcategorias: 2 | Produtos: 9</span>
+              <span>Subcategorias: 2 | Produtos: 10</span>
             </div>
           </div>
           <div class="admin-action-btns" bis_skin_checked="1">
@@ -1276,16 +1262,6 @@
     "price": "R$ 20,00",
     "description": "\"Estampa\" em DTF a pronta entrega.",
     "image": "https://i.postimg.cc/J4QKhJzD/Camisa-n%C2%BA-11.png"
-  },
-  {
-    "id": 1791776080824,
-    "code": "CANECA Nº144",
-    "title": "ESTAMPA EM DTF",
-    "category": "camisas",
-    "subcategory": "MASCULINA",
-    "price": "R$ 20,00",
-    "description": "\"Estampa\" em DTF a pronta entrega.",
-    "image": "blob:https://web.telegram.org/f4e6163c-33d1-4258-bcae-7d6307ca8259"
   }
 ];
     /*END_DATA*/
