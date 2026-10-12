@@ -387,7 +387,7 @@
       gap: 0.4rem;
     }
 
-    /* MODAIS & ZOOM COM SUPORTE A ROLAGEM/MOVIMENTAÇÃO */
+    /* MODAIS & ZOOM DE IMAGEM */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -437,53 +437,36 @@
     .product-detail-img-wrapper {
       position: relative;
       width: 100%;
-      height: 380px;
+      max-height: 380px;
       border-radius: 12px;
       overflow: hidden;
       cursor: zoom-in;
       background: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* Quando ativado o zoom, a caixa ganha scroll para permitir ver os detalhes */
-    .product-detail-img-wrapper.zoomed {
-      overflow: auto;
-      cursor: grab;
-    }
-    .product-detail-img-wrapper.zoomed:active {
-      cursor: grabbing;
     }
 
     .product-detail-img {
-      max-width: 100%;
+      width: 100%;
       max-height: 380px;
-      object-fit: contain;
+      object-fit: cover;
       display: block;
-      transition: transform 0.25s ease;
-      transform-origin: center center;
+      transition: transform 0.3s ease;
     }
 
-    .product-detail-img-wrapper.zoomed .product-detail-img {
-      transform: scale(2.2);
-      max-width: none;
-      max-height: none;
-      width: auto;
-      height: auto;
+    .product-detail-img.zoomed {
+      transform: scale(1.8);
+      cursor: zoom-out;
     }
 
     .zoom-hint {
       position: absolute;
       bottom: 10px;
       right: 10px;
-      background: rgba(0, 0, 0, 0.65);
+      background: rgba(0, 0, 0, 0.6);
       color: #fff;
       font-size: 0.7rem;
       padding: 0.3rem 0.6rem;
       border-radius: 6px;
       pointer-events: none;
-      z-index: 5;
     }
 
     .product-detail-badges { display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem; }
@@ -1184,4 +1167,439 @@
       filtered.forEach(p => {
         const card = document.createElement('div');
         card.className = 'card';
-        card.onclick = () => openProduct
+        card.onclick = () => openProductModal(p.id);
+
+        const waText = encodeURIComponent(`Olá! Gostaria de encomendar o produto *${p.title}* (Código: *${p.code}*).`);
+        const waLink = `https://wa.me/${WA_BUY_NUMBER}?text=${waText}`;
+
+        card.innerHTML = `
+          <div class="card-img-wrapper">
+            <span class="card-code-badge">${p.code}</span>
+            ${p.subcategory ? `<span class="card-subcat-badge">${p.subcategory}</span>` : ''}
+            <img src="${p.image}" alt="${p.title}" onerror="this.src='https://via.placeholder.com/260x220?text=Sem+Imagem'">
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">${p.title}</h3>
+            <p class="card-desc">${p.description}</p>
+            <div class="card-footer-buy">
+              <span class="price">${p.price}</span>
+              <a href="${waLink}" target="_blank" class="btn-buy" onclick="event.stopPropagation()"><i class="fa-brands fa-whatsapp"></i> Comprar</a>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    };
+
+    window.openProductModal = function(id) {
+      const p = window.appProducts.find(item => Number(item.id) === Number(id));
+      if (!p) return;
+
+      const waText = encodeURIComponent(`Olá! Gostaria de encomendar o produto *${p.title}* (Código: *${p.code}*).`);
+      const waLink = `https://wa.me/${WA_BUY_NUMBER}?text=${waText}`;
+
+      const content = document.getElementById('productModalContent');
+      content.innerHTML = `
+        <div class="product-detail-img-wrapper" onclick="toggleImageZoom(this)">
+          <img src="${p.image}" class="product-detail-img" id="modalProductImg" onerror="this.src='https://via.placeholder.com/600x380?text=Sem+Imagem'">
+          <span class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> Clique para zoom</span>
+        </div>
+        <div class="product-detail-badges">
+          <span class="product-detail-code">${p.code}</span>
+          ${p.subcategory ? `<span class="product-detail-subcat">${p.subcategory}</span>` : ''}
+        </div>
+        <h2 class="product-detail-title">${p.title}</h2>
+        <div class="product-detail-price">${p.price}</div>
+        <p class="product-detail-desc">${p.description}</p>
+        <a href="${waLink}" target="_blank" class="btn-buy-modal"><i class="fa-brands fa-whatsapp"></i> Encomendar via WhatsApp</a>
+      `;
+
+      document.getElementById('productModal').style.display = 'flex';
+    };
+
+    window.toggleImageZoom = function(wrapper) {
+      const img = wrapper.querySelector('.product-detail-img');
+      const hint = wrapper.querySelector('.zoom-hint');
+      img.classList.toggle('zoomed');
+      if (img.classList.contains('zoomed')) {
+        hint.innerHTML = '<i class="fa-solid fa-magnifying-glass-minus"></i> Clique para afastar';
+      } else {
+        hint.innerHTML = '<i class="fa-solid fa-magnifying-glass-plus"></i> Clique para zoom';
+      }
+    };
+
+    window.closeProductModal = function() {
+      document.getElementById('productModal').style.display = 'none';
+    };
+
+    window.updateAdminProdSubcatFilter = function() {
+      const catSelect = document.getElementById('adminProdCatFilter');
+      const subcatSelect = document.getElementById('adminProdSubcatFilter');
+      if (!catSelect || !subcatSelect) return;
+
+      const selectedCat = catSelect.value;
+      subcatSelect.innerHTML = '<option value="todos">Todas as Subcategorias</option>';
+
+      if (selectedCat !== 'todos' && window.appSubcats[selectedCat]) {
+        window.appSubcats[selectedCat].forEach(sub => {
+          const opt = document.createElement('option');
+          opt.value = sub;
+          opt.textContent = sub;
+          subcatSelect.appendChild(opt);
+        });
+      }
+      renderAdminProductsList();
+    };
+
+    window.renderAdminProductsList = function() {
+      const container = document.getElementById('adminProductListContainer');
+      if (!container) return;
+
+      const catFilter = document.getElementById('adminProdCatFilter')?.value || 'todos';
+      const subcatFilter = document.getElementById('adminProdSubcatFilter')?.value || 'todos';
+      const searchTxt = document.getElementById('adminProdSearchInput')?.value.toLowerCase() || '';
+
+      container.innerHTML = '';
+
+      let filtered = window.appProducts.filter(p => {
+        const matchCat = (catFilter === 'todos' || p.category === catFilter);
+        const matchSubcat = (subcatFilter === 'todos' || p.subcategory === subcatFilter);
+        const matchSearch = (p.code.toLowerCase().includes(searchTxt) || p.title.toLowerCase().includes(searchTxt));
+        return matchCat && matchSubcat && matchSearch;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhum produto encontrado.</p>';
+        return;
+      }
+
+      filtered.forEach(p => {
+        const item = document.createElement('div');
+        item.className = 'admin-manage-card';
+        item.innerHTML = `
+          <div class="admin-manage-info">
+            <img src="${p.image}" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/45'">
+            <div class="admin-manage-details">
+              <strong>[${p.code}] ${p.title}</strong>
+              <span>Cat: ${window.appCatNames[p.category] || p.category} / Sub: ${p.subcategory || 'N/A'} - ${p.price}</span>
+            </div>
+          </div>
+          <div class="admin-action-btns">
+            <button class="btn-edit-adm" onclick="editProduct(${p.id})"><i class="fa-solid fa-pen"></i> Editar</button>
+            <button class="btn-delete-adm" onclick="deleteProduct(${p.id})"><i class="fa-solid fa-trash"></i> Excluir</button>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    };
+
+    window.deleteProduct = async function(id) {
+      if (!confirm("Deseja realmente excluir este produto?")) return;
+      
+      window.appProducts = window.appProducts.filter(p => Number(p.id) !== Number(id));
+
+      renderAdminProductsList();
+      renderNavTabs();
+      renderCatalog();
+
+      await saveToGitHubApi(`Excluir produto ID ${id}`);
+      alert("Produto excluído com sucesso!");
+    };
+
+    window.editProduct = function(id) {
+      const p = window.appProducts.find(item => Number(item.id) === Number(id));
+      if (!p) return;
+
+      document.getElementById('pEditingId').value = p.id;
+      document.getElementById('pCategory').value = p.category;
+      toggleSubcatSelect();
+      document.getElementById('pSubCategory').value = p.subcategory;
+      document.getElementById('pCode').value = p.code;
+      document.getElementById('pTitle').value = p.title;
+      document.getElementById('pPrice').value = p.price.replace('R$ ', '');
+      document.getElementById('pDesc').value = p.description;
+      document.getElementById('pImage').value = p.image;
+
+      document.getElementById('formProductTitleHeader').textContent = 'Editar Produto: ' + p.code;
+      document.getElementById('btnSubmitFormProd').textContent = 'SALVAR ALTERAÇÕES';
+      document.getElementById('btnCancelEditProd').style.display = 'block';
+
+      switchAdminTab('add');
+    };
+
+    window.resetProductForm = function() {
+      document.getElementById('pEditingId').value = '';
+      document.getElementById('formProductTitleHeader').textContent = 'Cadastrar Novo Produto';
+      document.getElementById('btnSubmitFormProd').textContent = 'CADASTRAR PRODUTO';
+      document.getElementById('btnCancelEditProd').style.display = 'none';
+      document.getElementById('pEditingId').form?.reset();
+    };
+
+    window.toggleSubcatSelect = function() {
+      const catKey = document.getElementById('pCategory').value;
+      const subSelect = document.getElementById('pSubCategory');
+      if (!subSelect) return;
+
+      subSelect.innerHTML = '';
+      const subs = window.appSubcats[catKey] || [];
+
+      subs.forEach(sub => {
+        const opt = document.createElement('option');
+        opt.value = sub;
+        opt.textContent = sub;
+        subSelect.appendChild(opt);
+      });
+
+      const optCustom = document.createElement('option');
+      optCustom.value = 'nova_subcat_custom';
+      optCustom.textContent = '+ Adicionar Nova Subcategoria...';
+      subSelect.appendChild(optCustom);
+
+      checkCustomSubcat();
+    };
+
+    window.checkCustomSubcat = function() {
+      const subSelect = document.getElementById('pSubCategory');
+      const customGroup = document.getElementById('customSubcatGroup');
+      if (!subSelect || !customGroup) return;
+
+      if (subSelect.value === 'nova_subcat_custom') {
+        customGroup.style.display = 'block';
+        document.getElementById('pCustomSubcat').required = true;
+      } else {
+        customGroup.style.display = 'none';
+        document.getElementById('pCustomSubcat').required = false;
+      }
+    };
+
+    window.handleSaveProduct = async function(e) {
+      e.preventDefault();
+      const editingId = document.getElementById('pEditingId').value;
+      const cat = document.getElementById('pCategory').value;
+      let subcat = document.getElementById('pSubCategory').value;
+
+      if (subcat === 'nova_subcat_custom') {
+        subcat = document.getElementById('pCustomSubcat').value.trim().toUpperCase();
+        if (subcat && window.appSubcats[cat] && !window.appSubcats[cat].includes(subcat)) {
+          window.appSubcats[cat].push(subcat);
+        }
+      }
+
+      const code = document.getElementById('pCode').value.trim();
+      const title = document.getElementById('pTitle').value.trim();
+      let priceVal = document.getElementById('pPrice').value.trim();
+      if (!priceVal.startsWith('R$')) priceVal = 'R$ ' + priceVal;
+      const desc = document.getElementById('pDesc').value.trim();
+      const img = document.getElementById('pImage').value.trim();
+
+      if (editingId) {
+        const idx = window.appProducts.findIndex(item => Number(item.id) === Number(editingId));
+        if (idx !== -1) {
+          window.appProducts[idx] = { id: Number(editingId), code, title, category: cat, subcategory: subcat, price: priceVal, description: desc, image: img };
+        }
+      } else {
+        const newProd = { id: Date.now(), code, title, category: cat, subcategory: subcat, price: priceVal, description: desc, image: img };
+        window.appProducts.push(newProd);
+      }
+
+      renderNavTabs();
+      renderCatalog();
+
+      await saveToGitHubApi(editingId ? `Editar produto ${code}` : `Adicionar produto ${code}`);
+      alert("Operação realizada e salva diretamente no GitHub!");
+
+      resetProductForm();
+      e.target.reset();
+      populateCategoryDropdowns();
+      closeAdminModal();
+    };
+
+    window.deleteSubcategory = async function(catKey, subcatName) {
+      if (!confirm(`Deseja excluir a subcategoria "${subcatName}"? Os produtos vinculados a ela serão removidos.`)) return;
+
+      if (window.appSubcats[catKey]) {
+        window.appSubcats[catKey] = window.appSubcats[catKey].filter(s => s !== subcatName);
+      }
+      window.appProducts = window.appProducts.filter(p => !(p.category === catKey && p.subcategory === subcatName));
+
+      renderNavTabs();
+      renderCatalog();
+      renderAdminSubcatsList();
+
+      await saveToGitHubApi(`Excluir subcategoria ${subcatName}`);
+      alert("Subcategoria excluída e alterada no GitHub!");
+      populateCategoryDropdowns();
+    };
+
+    window.deleteCategory = async function(catKey) {
+      const catName = window.appCatNames[catKey] || catKey;
+      if (!confirm(`Deseja excluir a categoria principal "${catName}" e tudo o que está nela?`)) return;
+
+      delete window.appCatNames[catKey];
+      delete window.appSubcats[catKey];
+      window.appProducts = window.appProducts.filter(p => p.category !== catKey);
+
+      renderNavTabs();
+      renderCatalog();
+      renderAdminCatList();
+
+      await saveToGitHubApi(`Excluir categoria principal ${catName}`);
+      alert("Categoria principal excluída e alterada no GitHub!");
+      populateCategoryDropdowns();
+    };
+
+    window.renderAdminSubcatsList = function() {
+      const catFilter = document.getElementById('adminSubcatCatFilter').value;
+      const container = document.getElementById('adminSubcatListContainer');
+      if (!container) return;
+
+      container.innerHTML = '';
+      if (!catFilter || !window.appSubcats[catFilter] || window.appSubcats[catFilter].length === 0) {
+        container.innerHTML = '<p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhuma subcategoria.</p>';
+        return;
+      }
+
+      window.appSubcats[catFilter].forEach(subcat => {
+        const item = document.createElement('div');
+        item.className = 'admin-manage-card';
+        item.innerHTML = `
+          <div class="admin-manage-info">
+            <div class="admin-manage-details">
+              <strong>${subcat}</strong>
+              <span>Categoria: ${window.appCatNames[catFilter] || catFilter}</span>
+            </div>
+          </div>
+          <div class="admin-action-btns">
+            <button class="btn-delete-adm" onclick="deleteSubcategory('${catFilter}', '${subcat}')"><i class="fa-solid fa-trash"></i> Excluir</button>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    };
+
+    window.renderAdminCatList = function() {
+      const container = document.getElementById('adminCatListContainer');
+      if (!container) return;
+
+      container.innerHTML = '';
+      const catKeys = Object.keys(window.appCatNames);
+      if (catKeys.length === 0) {
+        container.innerHTML = '<p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhuma categoria.</p>';
+        return;
+      }
+
+      catKeys.forEach(key => {
+        const name = window.appCatNames[key];
+        const subCount = window.appSubcats[key] ? window.appSubcats[key].length : 0;
+        const prodCount = window.appProducts.filter(p => p.category === key).length;
+
+        const item = document.createElement('div');
+        item.className = 'admin-manage-card';
+        item.innerHTML = `
+          <div class="admin-manage-info">
+            <div class="admin-manage-details">
+              <strong>${name}</strong>
+              <span>Subcategorias: ${subCount} | Produtos: ${prodCount}</span>
+            </div>
+          </div>
+          <div class="admin-action-btns">
+            <button class="btn-delete-adm" onclick="deleteCategory('${key}')"><i class="fa-solid fa-trash"></i> Excluir</button>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    };
+
+    window.populateCategoryDropdowns = function() {
+      const catSelects = [document.getElementById('pCategory'), document.getElementById('adminSubcatCatFilter')];
+      catSelects.forEach(select => {
+        if (!select) return;
+        const currentVal = select.value;
+        select.innerHTML = '';
+        for (const [key, name] of Object.entries(window.appCatNames)) {
+          const opt = document.createElement('option');
+          opt.value = key;
+          opt.textContent = name;
+          select.appendChild(opt);
+        }
+        if (currentVal) select.value = currentVal;
+      });
+      toggleSubcatSelect();
+
+      const adminProdCat = document.getElementById('adminProdCatFilter');
+      if (adminProdCat) {
+        const currentVal = adminProdCat.value;
+        adminProdCat.innerHTML = '<option value="todos">Todas as Categorias</option>';
+        for (const [key, name] of Object.entries(window.appCatNames)) {
+          const opt = document.createElement('option');
+          opt.value = key;
+          opt.textContent = name;
+          adminProdCat.appendChild(opt);
+        }
+        if (currentVal) adminProdCat.value = currentVal;
+        updateAdminProdSubcatFilter();
+      }
+
+      renderAdminSubcatsList();
+      renderAdminCatList();
+    };
+
+    window.switchAdminTab = function(tabName) {
+      document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('adminSecAdd').style.display = 'none';
+      document.getElementById('adminSecManageProd').style.display = 'none';
+      document.getElementById('adminSecManageSubcat').style.display = 'none';
+      document.getElementById('adminSecManageCat').style.display = 'none';
+      document.getElementById('adminSecGithub').style.display = 'none';
+
+      if (tabName === 'add') {
+        document.getElementById('btnTabAdd').classList.add('active');
+        document.getElementById('adminSecAdd').style.display = 'block';
+      } else if (tabName === 'manageProd') {
+        document.getElementById('btnTabManageProd').classList.add('active');
+        document.getElementById('adminSecManageProd').style.display = 'block';
+        renderAdminProductsList();
+      } else if (tabName === 'manageSubcat') {
+        document.getElementById('btnTabManageSubcat').classList.add('active');
+        document.getElementById('adminSecManageSubcat').style.display = 'block';
+        renderAdminSubcatsList();
+      } else if (tabName === 'manageCat') {
+        document.getElementById('btnTabManageCat').classList.add('active');
+        document.getElementById('adminSecManageCat').style.display = 'block';
+        renderAdminCatList();
+      } else if (tabName === 'github') {
+        document.getElementById('btnTabGithub').classList.add('active');
+        document.getElementById('adminSecGithub').style.display = 'block';
+        loadGithubConfigInputs();
+      }
+    };
+
+    window.openAdminModal = function() {
+      document.getElementById('adminModal').style.display = 'flex';
+      populateCategoryDropdowns();
+      if (window.isAdminLoggedIn) {
+        document.getElementById('adminLoginForm').style.display = 'none';
+        document.getElementById('adminMainPanel').style.display = 'block';
+      } else {
+        document.getElementById('adminLoginForm').style.display = 'block';
+        document.getElementById('adminMainPanel').style.display = 'none';
+      }
+    };
+
+    window.closeAdminModal = function() {
+      document.getElementById('adminModal').style.display = 'none';
+    };
+
+    window.checkCloseAdminPopup = function(e) {
+      if (e.target.id === 'adminModal') {
+        closeAdminModal();
+      }
+    };
+
+    window.onload = function() {
+      renderNavTabs();
+      renderCatalog();
+    };
+  </script>
+</body>
+</html>
