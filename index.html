@@ -1,13 +1,11 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
+<html lang="pt-BR"><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/content/location/location.js" id="eppiocemhmnlbhjplcgkofciiegomcon"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/extend-native-history-api.js"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/requests.js"></script><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Catálogo Digital | SUBLIMArt Personalizados</title>
   <!-- Google Fonts & Font Awesome -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
@@ -184,7 +182,7 @@
     }
   </style>
 </head>
-<body>
+<body __processed_eaf9b658-a3ad-4114-8bc4-c135fd10f85f__="true">
 
   <!-- BOTÃO FLUTUANTE ADM -->
   <button class="btn-admin-trigger" onclick="openAdminModal()">
@@ -217,8 +215,10 @@
           <i class="fa-solid fa-bars"></i> CATEGORIAS <i class="fa-solid fa-chevron-down" style="font-size: 0.75rem;"></i>
         </button>
         <div class="dropdown-content" id="navTabsContainer">
-          <button class="tab-btn active" onclick="filterCategory('todos')"><i class="fa-solid fa-border-all"></i> Todos</button>
-        </div>
+        <button class="tab-btn active" onclick="filterCategory('todos')">
+          <i class="fa-solid fa-border-all"></i> Todos
+        </button>
+      </div>
       </div>
     </div>
   </nav>
@@ -227,7 +227,7 @@
   <main>
     <h2 class="category-title" id="category-title"><i class="fa-solid fa-border-all"></i> Todos os Produtos</h2>
     <div class="subcategories-bar" id="subcategories-bar"></div>
-    <div class="catalog-grid" id="catalog-grid"></div>
+    <div class="catalog-grid" id="catalog-grid"><p style="grid-column: 1/-1; text-align: center; color: #777; padding: 2rem;">Nenhum produto cadastrado.</p></div>
   </main>
 
   <!-- MODAL DE VISUALIZAÇÃO DO PRODUTO -->
@@ -239,12 +239,12 @@
   </div>
 
   <!-- MODAL ADM -->
-  <div class="modal-overlay" id="adminModal" onclick="checkCloseAdminPopup(event)" style="display: none;">
+  <div class="modal-overlay" id="adminModal" onclick="checkCloseAdminPopup(event)" style="display: flex;">
     <div class="modal-card">
       <button class="btn-close-modal" onclick="closeAdminModal()"><i class="fa-solid fa-xmark"></i></button>
       
       <!-- LOGIN FIREBASE -->
-      <div id="adminLoginForm" style="display: block;">
+      <div id="adminLoginForm" style="display: none;">
         <h3 style="margin-bottom: 1rem;"><i class="fa-solid fa-shield-halved"></i> Login - Painel ADM</h3>
         <form onsubmit="handleAdminLogin(event)">
           <div class="form-group">
@@ -260,7 +260,7 @@
       </div>
 
       <!-- PAINEL ADM PRINCIPAL -->
-      <div id="adminMainPanel" style="display: none;">
+      <div id="adminMainPanel" style="display: block;">
         <div class="admin-panel-header">
           <h3><i class="fa-solid fa-user-gear"></i> Painel de Controle</h3>
           <button class="btn-logout-admin" onclick="handleAdminLogout()"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
@@ -320,13 +320,13 @@
           <div class="form-group" style="margin-bottom: 0.8rem;">
             <input type="text" id="adminProdSearchInput" oninput="renderAdminProductsList()" placeholder="🔍 Busque por código ou nome...">
           </div>
-          <div id="adminProductListContainer" style="max-height: 270px; overflow-y: auto;"></div>
+          <div id="adminProductListContainer" style="max-height: 270px; overflow-y: auto;"><p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhum produto cadastrado.</p></div>
         </div>
 
         <!-- GERENCIAR CATEGORIAS -->
         <div id="adminSecManageCat" style="display: none;">
           <h4 style="font-size: 1rem; margin-bottom: 0.8rem;">Categorias cadastradas</h4>
-          <div id="adminCatListContainer" style="max-height: 250px; overflow-y: auto;"></div>
+          <div id="adminCatListContainer" style="max-height: 250px; overflow-y: auto;"><p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhuma categoria.</p></div>
         </div>
 
         <!-- CONFIGURAR GITHUB -->
@@ -369,7 +369,7 @@
   </footer>
 
   <!-- DADOS EMBUTIDOS NO HTML -->
-  <script id="sublimart-catalog-data" type="application/json">[]</script>
+  <script id="sublimart-catalog-data" type="application/json">[{"id":"1791853759050","category":"estampas dtf","subcategory":"ESTAMPA MASC","code":"69400032","title":"ESTAMPA EM DTF","price":"R$ 20,00","desc":"ssss","image":"https://i.imgur.com/a4l2nF8.jpeg"}]</script>
 
   <!-- FIREBASE AUTH & GITHUB SYNC API -->
   <script type="module">
@@ -762,5 +762,6 @@
       }
     }
   </script>
-</body>
-</html>
+
+
+</body></html>
