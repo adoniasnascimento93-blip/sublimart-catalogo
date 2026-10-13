@@ -11,7 +11,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
-    /* VARIÁVEIS & CORES DA MARCA */
     :root {
       --primary-gradient: linear-gradient(135deg, #FF007A 0%, #7B2CBF 45%, #00B4D8 100%);
       --accent-magenta: #FF007A;
@@ -25,22 +24,9 @@
       --radius: 16px;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Poppins', sans-serif;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+    body { background-color: #F4F6F9; color: var(--dark-color); display: flex; flex-direction: column; min-height: 100vh; }
 
-    body {
-      background-color: #F4F6F9;
-      color: var(--dark-color);
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    /* HEADER */
     header {
       background: var(--primary-gradient);
       color: #fff;
@@ -49,322 +35,98 @@
       position: relative;
       box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     }
+    header h1 { font-size: 2.3rem; font-weight: 700; margin-bottom: 0.3rem; }
+    header p { font-size: 1rem; opacity: 0.95; font-weight: 300; margin-bottom: 1.2rem; }
 
-    header h1 {
-      font-size: 2.3rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      margin-bottom: 0.3rem;
-    }
-
-    header p {
-      font-size: 1rem;
-      opacity: 0.95;
-      font-weight: 300;
-      margin-bottom: 1.2rem;
-    }
-
-    .contacts-header {
-      display: flex;
-      justify-content: center;
-      gap: 0.8rem;
-      flex-wrap: wrap;
-    }
-
+    .contacts-header { display: flex; justify-content: center; gap: 0.8rem; flex-wrap: wrap; }
     .contact-btn-head {
       background: rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(5px);
-      color: #fff;
-      text-decoration: none;
-      padding: 0.5rem 1rem;
-      border-radius: 50px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      color: #fff; text-decoration: none; padding: 0.5rem 1rem;
+      border-radius: 50px; font-size: 0.85rem; font-weight: 600;
+      display: flex; align-items: center; gap: 0.5rem;
       border: 1px solid rgba(255, 255, 255, 0.4);
       transition: all 0.3s ease;
     }
-
-    .contact-btn-head:hover {
-      background: rgba(255, 255, 255, 0.35);
-      transform: translateY(-2px);
-    }
+    .contact-btn-head:hover { background: rgba(255, 255, 255, 0.35); transform: translateY(-2px); }
 
     .btn-admin-trigger {
-      position: fixed;
-      top: 15px;
-      right: 15px;
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(5px);
-      border: 1px solid rgba(255,255,255,0.4);
-      color: #fff;
-      padding: 0.5rem 0.9rem;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      z-index: 1000;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      transition: all 0.3s ease;
+      position: fixed; top: 15px; right: 15px;
+      background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(5px);
+      border: 1px solid rgba(255,255,255,0.4); color: #fff;
+      padding: 0.5rem 0.9rem; border-radius: 20px; font-size: 0.75rem;
+      cursor: pointer; display: flex; align-items: center; gap: 0.4rem; z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: all 0.3s ease;
     }
+    .btn-admin-trigger:hover { background: rgba(0, 0, 0, 0.7); }
 
-    .btn-admin-trigger:hover {
-      background: rgba(0, 0, 0, 0.7);
-    }
-
-    /* NAVEGAÇÃO & MENU DROPDOWN DE CATEGORIAS */
-    nav {
-      background: #ffffff;
-      padding: 1rem;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    }
-
-    .nav-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: flex-start;
-      position: relative;
-    }
-
-    .categories-dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
+    nav { background: #ffffff; padding: 1rem; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: flex-start; position: relative; }
+    .categories-dropdown { position: relative; display: inline-block; }
     .btn-categories-menu {
-      background: var(--primary-gradient);
-      color: #fff;
-      border: none;
-      padding: 0.7rem 1.8rem;
-      border-radius: 50px;
-      font-weight: 700;
-      font-size: 0.95rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
+      background: var(--primary-gradient); color: #fff; border: none;
+      padding: 0.7rem 1.8rem; border-radius: 50px; font-weight: 700;
+      font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; gap: 0.6rem;
       box-shadow: 0 4px 15px rgba(255, 0, 122, 0.25);
-      transition: transform 0.2s ease;
     }
-
     .dropdown-content {
-      display: none;
-      position: absolute;
-      top: calc(100% + 8px);
-      left: 0;
-      background-color: #ffffff;
-      min-width: 220px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-      border-radius: 12px;
-      overflow: hidden;
-      z-index: 200;
-      border: 1px solid #eee;
+      display: none; position: absolute; top: calc(100% + 8px); left: 0;
+      background-color: #ffffff; min-width: 220px; box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+      border-radius: 12px; overflow: hidden; z-index: 200; border: 1px solid #eee;
     }
-
-    .dropdown-content.show {
-      display: block;
-    }
-
+    .dropdown-content.show { display: block; }
     .tab-btn {
-      background: transparent;
-      border: none;
-      padding: 0.8rem 1.2rem;
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: #495057;
-      cursor: pointer;
-      width: 100%;
-      text-align: left;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
+      background: transparent; border: none; padding: 0.8rem 1.2rem;
+      font-weight: 600; font-size: 0.9rem; color: #495057; cursor: pointer;
+      width: 100%; text-align: left; display: flex; align-items: center; gap: 0.6rem;
       border-bottom: 1px solid #f8f9fa;
     }
-
     .tab-btn:hover { background: #F0F2F5; color: var(--accent-purple); }
     .tab-btn.active { background: #F0F2F5; color: var(--accent-magenta); font-weight: 700; }
 
-    /* BARRA DE SUBCATEGORIAS */
     .subcategories-bar {
-      display: none;
-      gap: 0.5rem;
-      flex-wrap: nowrap;
-      overflow-x: auto;
-      margin-bottom: 1.5rem;
-      background: #fff;
-      padding: 0.8rem;
-      border-radius: 12px;
+      display: none; gap: 0.5rem; flex-wrap: nowrap; overflow-x: auto;
+      margin-bottom: 1.5rem; background: #fff; padding: 0.8rem; border-radius: 12px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
-
     .sub-btn {
-      background: #E9ECEF;
-      border: none;
-      padding: 0.45rem 1rem;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #495057;
-      cursor: pointer;
-      white-space: nowrap;
+      background: #E9ECEF; border: none; padding: 0.45rem 1rem;
+      border-radius: 20px; font-size: 0.8rem; font-weight: 600; color: #495057; cursor: pointer; white-space: nowrap;
     }
-
     .sub-btn.active { background: var(--accent-purple); color: #fff; }
 
-    /* MAIN CATALOG */
-    main {
-      max-width: 1200px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-      flex: 1;
-      width: 100%;
-    }
+    main { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; flex: 1; width: 100%; }
+    .category-title { font-size: 1.5rem; margin-bottom: 1rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; color: #2D3142; }
 
-    .category-title {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      color: #2D3142;
-    }
-
-    .catalog-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 1.5rem;
-    }
-
+    .catalog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
     .card {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      cursor: pointer;
+      background: var(--card-bg); border-radius: var(--radius); overflow: hidden;
+      box-shadow: var(--shadow); transition: transform 0.3s ease; display: flex; flex-direction: column; position: relative; cursor: pointer;
     }
-
     .card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12); }
-
-    .card-img-wrapper {
-      width: 100%;
-      height: 220px;
-      background-color: #f0f0f0;
-      position: relative;
-      overflow: hidden;
-    }
-
+    .card-img-wrapper { width: 100%; height: 220px; background-color: #f0f0f0; position: relative; overflow: hidden; }
     .card-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
-
-    .card-code-badge {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background: var(--dark-color);
-      color: #fff;
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 0.3rem 0.6rem;
-      border-radius: 6px;
-    }
-
-    .card-subcat-badge {
-      position: absolute;
-      bottom: 10px;
-      left: 10px;
-      background: var(--accent-magenta);
-      color: #fff;
-      font-size: 0.7rem;
-      font-weight: 600;
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-    }
-
+    .card-code-badge { position: absolute; top: 10px; left: 10px; background: var(--dark-color); color: #fff; font-size: 0.75rem; font-weight: 700; padding: 0.3rem 0.6rem; border-radius: 6px; }
+    .card-subcat-badge { position: absolute; bottom: 10px; left: 10px; background: var(--accent-magenta); color: #fff; font-size: 0.7rem; font-weight: 600; padding: 0.2rem 0.5rem; border-radius: 4px; }
     .card-body { padding: 1.2rem; display: flex; flex-direction: column; flex-grow: 1; }
     .card-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.4rem; }
     .card-desc { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; flex-grow: 1; line-height: 1.4; }
-
-    .card-footer-buy {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.5rem;
-      margin-top: auto;
-      padding-top: 0.8rem;
-      border-top: 1px solid #f0f0f0;
-    }
-
+    .card-footer-buy { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-top: auto; padding-top: 0.8rem; border-top: 1px solid #f0f0f0; }
     .price { font-size: 1.15rem; font-weight: 700; color: var(--accent-purple); }
+    .btn-buy { background: #25D366; color: #fff; text-decoration: none; padding: 0.55rem 1rem; border-radius: 8px; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 0.4rem; }
 
-    .btn-buy {
-      background: #25D366;
-      color: #fff;
-      text-decoration: none;
-      padding: 0.55rem 1rem;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    /* MODAIS */
     .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      padding: 1rem;
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.6); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 1rem;
     }
-
     .modal-card {
-      background: #fff;
-      border-radius: var(--radius);
-      width: 100%;
-      max-width: 650px;
-      padding: 2rem 1.8rem 1.8rem;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      position: relative;
-      max-height: 90vh;
-      overflow-y: auto;
+      background: #fff; border-radius: var(--radius); width: 100%; max-width: 650px;
+      padding: 2rem 1.8rem 1.8rem; box-shadow: 0 10px 30px rgba(0,0,0,0.3); position: relative; max-height: 90vh; overflow-y: auto;
     }
-
     .btn-close-modal {
-      position: absolute;
-      top: 18px;
-      right: 18px;
-      background: #f0f0f0;
-      border: none;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      font-size: 1rem;
-      cursor: pointer;
-      color: #555;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
+      position: absolute; top: 18px; right: 18px; background: #f0f0f0; border: none;
+      width: 32px; height: 32px; border-radius: 50%; font-size: 1rem; cursor: pointer; color: #555;
+      display: flex; align-items: center; justify-content: center; z-index: 10;
     }
 
     .product-detail-container { display: flex; flex-direction: column; gap: 1.2rem; }
@@ -391,7 +153,6 @@
     .admin-tab-btn { background: #f0f0f0; border: none; padding: 0.5rem 0.8rem; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; color: #555; white-space: nowrap; }
     .admin-tab-btn.active { background: var(--accent-purple); color: #fff; }
 
-    .admin-search-box { margin-bottom: 1rem; }
     .admin-manage-card { display: flex; align-items: center; justify-content: space-between; background: #f8f9fa; border: 1px solid #e9ecef; padding: 0.6rem 0.8rem; border-radius: 10px; margin-bottom: 0.5rem; gap: 0.8rem; }
     .admin-manage-info { display: flex; align-items: center; gap: 0.8rem; overflow: hidden; flex: 1; }
     .admin-manage-img { width: 45px; height: 45px; border-radius: 6px; object-fit: cover; background: #eee; flex-shrink: 0; }
@@ -436,13 +197,13 @@
     <p>Personalizados e Sublimação de Alta Qualidade</p>
     
     <div class="contacts-header">
-      <a href="https://wa.me/5592992914876" target="_blank" class="contact-btn-head wa">
+      <a href="https://wa.me/5592992914876" target="_blank" class="contact-btn-head">
         <i class="fa-brands fa-whatsapp"></i> (92) 99291-4876
       </a>
-      <a href="https://wa.me/5592993522287" target="_blank" class="contact-btn-head wa">
+      <a href="https://wa.me/5592993522287" target="_blank" class="contact-btn-head">
         <i class="fa-brands fa-whatsapp"></i> (92) 99352-2287
       </a>
-      <a href="https://www.instagram.com/sublimart_ofc1" target="_blank" class="contact-btn-head ig">
+      <a href="https://www.instagram.com/sublimart_ofc1" target="_blank" class="contact-btn-head">
         <i class="fa-brands fa-instagram"></i> @sublimart_ofc1
       </a>
     </div>
@@ -479,12 +240,12 @@
 
   <!-- MODAL ADM -->
   <div class="modal-overlay" id="adminModal" onclick="checkCloseAdminPopup(event)" style="display: none;">
-    <div class="modal-card" id="adminModalCard">
+    <div class="modal-card">
       <button class="btn-close-modal" onclick="closeAdminModal()"><i class="fa-solid fa-xmark"></i></button>
       
-      <!-- LOGIN FIREBASE AUTHENTICATION -->
+      <!-- LOGIN FIREBASE -->
       <div id="adminLoginForm" style="display: block;">
-        <h3 class="modal-title" style="margin-bottom: 1rem;"><i class="fa-solid fa-shield-halved"></i> Login - Painel ADM</h3>
+        <h3 style="margin-bottom: 1rem;"><i class="fa-solid fa-shield-halved"></i> Login - Painel ADM</h3>
         <form onsubmit="handleAdminLogin(event)">
           <div class="form-group">
             <label>E-mail do Administrador:</label>
@@ -492,13 +253,13 @@
           </div>
           <div class="form-group">
             <label>Senha:</label>
-            <input type="password" id="adminPasswordInput" placeholder="Sua senha secreta" required="">
+            <input type="password" id="adminPasswordInput" placeholder="Sua senha" required="">
           </div>
-          <button type="submit" class="btn-submit-admin" id="btnLoginSubmit">ENTRAR</button>
+          <button type="submit" class="btn-submit-admin">ENTRAR</button>
         </form>
       </div>
 
-      <!-- PAINEL ADM -->
+      <!-- PAINEL ADM PRINCIPAL -->
       <div id="adminMainPanel" style="display: none;">
         <div class="admin-panel-header">
           <h3><i class="fa-solid fa-user-gear"></i> Painel de Controle</h3>
@@ -508,12 +269,11 @@
         <div class="admin-nav-tabs">
           <button class="admin-tab-btn active" id="btnTabAdd" onclick="switchAdminTab('add')"><i class="fa-solid fa-plus"></i> Cadastrar Produto</button>
           <button class="admin-tab-btn" id="btnTabManageProd" onclick="switchAdminTab('manageProd')"><i class="fa-solid fa-boxes-stacked"></i> Gerenciar Produtos</button>
-          <button class="admin-tab-btn" id="btnTabManageSubcat" onclick="switchAdminTab('manageSubcat')"><i class="fa-solid fa-tags"></i> Subcategorias</button>
-          <button class="admin-tab-btn" id="btnTabManageCat" onclick="switchAdminTab('manageCat')"><i class="fa-solid fa-folder"></i> Categorias Principais</button>
+          <button class="admin-tab-btn" id="btnTabManageCat" onclick="switchAdminTab('manageCat')"><i class="fa-solid fa-folder"></i> Categorias</button>
           <button class="admin-tab-btn" id="btnTabGithub" onclick="switchAdminTab('github')"><i class="fa-brands fa-github"></i> Configurar GitHub</button>
         </div>
 
-        <!-- CADASTRAR/EDITAR PRODUTO -->
+        <!-- CADASTRAR PRODUTO -->
         <div id="adminSecAdd" style="display: block;">
           <h4 id="formProductTitleHeader" style="font-size: 1rem; margin-bottom: 0.8rem;">Cadastrar Novo Produto</h4>
           <form id="productForm" onsubmit="handleSaveProduct(event)">
@@ -524,7 +284,7 @@
               <input type="text" id="pCategory" placeholder="Ex: Camisas, Canecas..." required="">
             </div>
 
-            <div class="form-group" id="subcatFormGroup">
+            <div class="form-group">
               <label>Subcategoria / Tema:</label>
               <input type="text" id="pSubCategory" placeholder="Ex: MASCULINA, INFANTIL..." required="">
             </div>
@@ -547,7 +307,7 @@
             </div>
             <div class="form-group">
               <label>URL da Imagem:</label>
-              <input type="url" id="pImage" placeholder="https://..." required="" oninput="cleanImageUrl(this)">
+              <input type="url" id="pImage" placeholder="https://..." required="">
             </div>
             <button type="submit" class="btn-submit-admin" id="btnSubmitFormProd">CADASTRAR PRODUTO</button>
             <button type="button" class="btn-cancel-edit" id="btnCancelEditProd" style="display: none;" onclick="resetProductForm()">CANCELAR EDIÇÃO</button>
@@ -556,63 +316,23 @@
 
         <!-- GERENCIAR PRODUTOS -->
         <div id="adminSecManageProd" style="display: none;">
-          <h4 style="font-size: 1rem; margin-bottom: 0.8rem;">Gerenciar / Editar / Excluir Produtos</h4>
-          
-          <div class="admin-search-box">
-            <input type="text" id="adminProdSearchInput" oninput="renderAdminProductsList()" placeholder="🔍 Busque por código ou nome..." style="padding: 0.45rem; font-size: 0.85rem;">
+          <h4 style="font-size: 1rem; margin-bottom: 0.8rem;">Gerenciar / Excluir Produtos</h4>
+          <div class="form-group" style="margin-bottom: 0.8rem;">
+            <input type="text" id="adminProdSearchInput" oninput="renderAdminProductsList()" placeholder="🔍 Busque por código ou nome...">
           </div>
-
-          <div id="bulkActionsBar" style="display: none; align-items: center; justify-content: space-between; background: #fff3cd; border: 1px solid #ffeeba; padding: 0.5rem 0.8rem; border-radius: 8px; margin-bottom: 0.8rem;">
-            <span id="selectedCountText" style="font-size: 0.8rem; font-weight: 600; color: #856404;">0 selecionados</span>
-            <button onclick="deleteSelectedProducts()" style="background: #dc3545; color: #fff; border: none; padding: 0.35rem 0.7rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer;">
-              <i class="fa-solid fa-trash"></i> Excluir Selecionados
-            </button>
-          </div>
-
-          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; padding-left: 0.2rem;">
-            <input type="checkbox" id="selectAllProductsCheckbox" onchange="toggleSelectAllProducts(this)">
-            <label for="selectAllProductsCheckbox" style="font-size: 0.78rem; font-weight: 600; color: #555; cursor: pointer; margin-bottom: 0;">Selecionar todos visíveis</label>
-          </div>
-          
-          <div id="adminProductListContainer" style="max-height: 270px; overflow-y: auto; padding-right: 0.3rem;"></div>
-        </div>
-
-        <!-- GERENCIAR SUBCATEGORIAS -->
-        <div id="adminSecManageSubcat" style="display: none;">
-          <h4 style="font-size: 1rem; margin-bottom: 0.8rem;">Nova Subcategoria</h4>
-          <form onsubmit="handleCreateSubcategory(event)" style="margin-bottom: 1.2rem;">
-            <div class="form-group">
-              <label>Nome da Categoria Pai:</label>
-              <input type="text" id="subcatParentCatInput" placeholder="Ex: Camisas, Canecas..." required="">
-            </div>
-            <div class="form-group">
-              <label>Nome da Subcategoria:</label>
-              <input type="text" id="newSubcategoryName" placeholder="Ex: MASCULINA, INFANTIL..." required="">
-            </div>
-            <button type="submit" class="btn-submit-admin">ADICIONAR SUBCATEGORIA</button>
-          </form>
-          <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Subcategorias Cadastradas</h4>
-          <div id="adminSubcatListContainer" style="max-height: 200px; overflow-y: auto;"></div>
+          <div id="adminProductListContainer" style="max-height: 270px; overflow-y: auto;"></div>
         </div>
 
         <!-- GERENCIAR CATEGORIAS -->
         <div id="adminSecManageCat" style="display: none;">
-          <h4 style="font-size: 1rem; margin-bottom: 0.8rem;">Nova Categoria Principal</h4>
-          <form onsubmit="handleCreateCategory(event)" style="margin-bottom: 1.2rem;">
-            <div class="form-group">
-              <label>Nome da Categoria:</label>
-              <input type="text" id="newCategoryName" placeholder="Ex: Camisas, Canecas..." required="">
-            </div>
-            <button type="submit" class="btn-submit-admin">ADICIONAR CATEGORIA</button>
-          </form>
-          <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Categorias Cadastradas</h4>
-          <div id="adminCatListContainer" style="max-height: 200px; overflow-y: auto;"></div>
+          <h4 style="font-size: 1rem; margin-bottom: 0.8rem;">Categorias cadastradas</h4>
+          <div id="adminCatListContainer" style="max-height: 250px; overflow-y: auto;"></div>
         </div>
 
         <!-- CONFIGURAR GITHUB -->
         <div id="adminSecGithub" style="display: none;">
           <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Conectar com o GitHub</h4>
-          <p style="font-size: 0.8rem; color: #666; margin-bottom: 1rem;">Configure para atualizar o arquivo no GitHub automaticamente ao alterar produtos:</p>
+          <p style="font-size: 0.8rem; color: #666; margin-bottom: 1rem;">Informe seus dados para gravar as alterações direto no arquivo do repositório:</p>
           <form onsubmit="handleSaveGithubConfig(event)">
             <div class="form-group">
               <label>GitHub Username:</label>
@@ -649,13 +369,12 @@
   </footer>
 
   <!-- DADOS EMBUTIDOS NO HTML -->
-  <script id="sublimart-catalog-data" type="application/json" data-initialized="false">[]</script>
+  <script id="sublimart-catalog-data" type="application/json">[]</script>
 
-  <!-- FIREBASE SDKs & GITHUB SYNC API -->
+  <!-- FIREBASE AUTH & GITHUB SYNC API -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, collection, getDocs, setDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyANjvOsw0EJohoDtgQAZ3gvN8Sd8UqGZDk",
@@ -668,361 +387,167 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-    const db = getFirestore(app);
 
     window.firebaseAuthLogin = (email, password) => signInWithEmailAndPassword(auth, email, password);
     window.firebaseAuthLogout = () => signOut(auth);
 
-    // PRODUTOS FIRESTORE
-    window.dbGetProducts = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, "produtos"));
-        let items = [];
-        querySnapshot.forEach((docSnap) => items.push({ id: docSnap.id, ...docSnap.data() }));
-        return items;
-      } catch (err) {
-        console.error("Erro no Firestore:", err);
-        return [];
-      }
-    };
-
-    window.dbSaveProduct = async (product) => {
-      await setDoc(doc(db, "produtos", String(product.id)), product);
-    };
-
-    window.dbDeleteProduct = async (id) => {
-      await deleteDoc(doc(db, "produtos", String(id)));
-    };
-
-    // CATEGORIAS FIRESTORE
-    window.dbGetCategories = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, "categorias"));
-        let items = [];
-        querySnapshot.forEach((docSnap) => items.push({ id: docSnap.id, ...docSnap.data() }));
-        return items;
-      } catch (err) {
-        return [];
-      }
-    };
-
-    window.dbSaveCategory = async (cat) => {
-      await setDoc(doc(db, "categorias", String(cat.id)), cat);
-    };
-
-    window.dbDeleteCategory = async (id) => {
-      await deleteDoc(doc(db, "categorias", String(id)));
-    };
-
-    // SUBCATEGORIAS FIRESTORE
-    window.dbGetSubcategories = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, "subcategorias"));
-        let items = [];
-        querySnapshot.forEach((docSnap) => items.push({ id: docSnap.id, ...docSnap.data() }));
-        return items;
-      } catch (err) {
-        return [];
-      }
-    };
-
-    window.dbSaveSubcategory = async (sub) => {
-      await setDoc(doc(db, "subcategorias", String(sub.id)), sub);
-    };
-
-    window.dbDeleteSubcategory = async (id) => {
-      await deleteDoc(doc(db, "subcategorias", String(id)));
-    };
-
-    // SINCRONIZADOR GITHUB
-    window.syncWithGithub = async (currentProducts) => {
-      const cfg = JSON.parse(localStorage.getItem('sublimart_github_config') || '{}');
-      if (!cfg.username || !cfg.repo || !cfg.token || !cfg.filename) return;
-
-      try {
-        const apiUrl = `https://api.github.com/repos/${cfg.username}/${cfg.repo}/contents/${cfg.filename}`;
-        const getRes = await fetch(apiUrl, { headers: { 'Authorization': `token ${cfg.token}` } });
-        if (!getRes.ok) return;
-        const fileData = await getRes.json();
-        
-        let fullHtml = document.documentElement.outerHTML;
-        const jsonString = JSON.stringify(currentProducts).replace(/</g, '\\u003c');
-        fullHtml = fullHtml.replace(
-          /<script id="sublimart-catalog-data"[^>]*>[\s\S]*?<\/script>/,
-          `<script id="sublimart-catalog-data" type="application/json" data-initialized="true">${jsonString}<\/script>`
-        );
-
-        const contentEncoded = btoa(unescape(encodeURIComponent(fullHtml)));
-        await fetch(apiUrl, {
-          method: 'PUT',
-          headers: { 'Authorization': `token ${cfg.token}`, 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            message: 'Atualização automática de produtos - SUBLIMArt',
-            content: contentEncoded,
-            sha: fileData.sha
-          })
-        });
-      } catch (err) {
-        console.error('Erro no GitHub Sync:', err);
-      }
-    };
-
     onAuthStateChanged(auth, (user) => {
-      const loginForm = document.getElementById('adminLoginForm');
-      const mainPanel = document.getElementById('adminMainPanel');
-      if (user) {
-        if (loginForm) loginForm.style.display = 'none';
-        if (mainPanel) mainPanel.style.display = 'block';
-      } else {
-        if (loginForm) loginForm.style.display = 'block';
-        if (mainPanel) mainPanel.style.display = 'none';
-      }
+      document.getElementById('adminLoginForm').style.display = user ? 'none' : 'block';
+      document.getElementById('adminMainPanel').style.display = user ? 'block' : 'none';
     });
   </script>
 
   <script>
     let products = [];
-    let customCategories = [];
-    let customSubcategories = [];
     let currentCategory = 'todos';
     let currentSubCategory = 'todos';
 
-    document.addEventListener('DOMContentLoaded', async () => {
-      await loadAllDataFromCloud();
+    document.addEventListener('DOMContentLoaded', () => {
+      loadProductsFromDataTag();
       renderCatalog();
       renderAdminProductsList();
       renderCategoriesMenu();
       loadGithubConfig();
     });
 
-    async function loadAllDataFromCloud() {
+    function loadProductsFromDataTag() {
       try {
-        if (window.dbGetProducts) products = await window.dbGetProducts();
-        if (window.dbGetCategories) customCategories = await window.dbGetCategories();
-        if (window.dbGetSubcategories) customSubcategories = await window.dbGetSubcategories();
-      } catch (error) {
-        console.error('Erro ao carregar dados:', error);
+        const tag = document.getElementById('sublimart-catalog-data');
+        if (tag && tag.textContent.trim()) {
+          products = JSON.parse(tag.textContent);
+        }
+      } catch (e) {
+        products = [];
+      }
+    }
+
+    // Função que grava direto no arquivo do GitHub via API REST
+    async function updateGithubRepo(updatedProducts) {
+      const cfg = JSON.parse(localStorage.getItem('sublimart_github_config') || '{}');
+      if (!cfg.username || !cfg.repo || !cfg.token || !cfg.filename) {
+        alert('Configure o GitHub na aba "Configurar GitHub" antes de salvar!');
+        switchAdminTab('github');
+        return false;
+      }
+
+      try {
+        const apiUrl = `https://api.github.com/repos/${cfg.username}/${cfg.repo}/contents/${cfg.filename}`;
+        
+        // 1. Pega o SHA atual do arquivo no repositório
+        const getRes = await fetch(apiUrl, {
+          headers: { 'Authorization': `token ${cfg.token}` }
+        });
+        
+        if (!getRes.ok) {
+          throw new Error('Erro ao acessar o repositório no GitHub. Verifique suas credenciais e o Token.');
+        }
+        const fileData = await getRes.json();
+        const fileSha = fileData.sha;
+
+        // 2. Atualiza a tag JSON no código HTML completo da página
+        let fullHtml = document.documentElement.outerHTML;
+        const jsonString = JSON.stringify(updatedProducts).replace(/</g, '\\u003c');
+        
+        fullHtml = fullHtml.replace(
+          /<script id="sublimart-catalog-data"[^>]*>[\s\S]*?<\/script>/,
+          `<script id="sublimart-catalog-data" type="application/json">${jsonString}<\/script>`
+        );
+
+        // 3. Envia o commit via PUT
+        const contentEncoded = btoa(unescape(encodeURIComponent(fullHtml)));
+        const putRes = await fetch(apiUrl, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${cfg.token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: 'Atualização do Catálogo SUBLIMArt via Painel ADM',
+            content: contentEncoded,
+            sha: fileSha
+          })
+        });
+
+        if (!putRes.ok) {
+          throw new Error('Falha ao atualizar o arquivo no GitHub.');
+        }
+
+        return true;
+      } catch (err) {
+        console.error(err);
+        alert('Erro ao sincronizar com o GitHub: ' + err.message);
+        return false;
       }
     }
 
     function toggleCategoriesMenu() {
-      const dropdown = document.getElementById('navTabsContainer');
-      if (dropdown) dropdown.classList.toggle('show');
+      document.getElementById('navTabsContainer').classList.toggle('show');
     }
 
-    function openAdminModal() {
-      const modal = document.getElementById('adminModal');
-      if (modal) modal.style.display = 'flex';
-    }
-
-    function closeAdminModal() {
-      const modal = document.getElementById('adminModal');
-      if (modal) modal.style.display = 'none';
-    }
-
-    function checkCloseAdminPopup(event) {
-      if (event.target.id === 'adminModal') closeAdminModal();
-    }
-
-    function closeProductModal() {
-      const modal = document.getElementById('productModal');
-      if (modal) modal.style.display = 'none';
-    }
+    function openAdminModal() { document.getElementById('adminModal').style.display = 'flex'; }
+    function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
+    function checkCloseAdminPopup(e) { if (e.target.id === 'adminModal') closeAdminModal(); }
+    function closeProductModal() { document.getElementById('productModal').style.display = 'none'; }
 
     function switchAdminTab(tabName) {
-      const sections = ['add', 'manageProd', 'manageSubcat', 'manageCat', 'github'];
-      sections.forEach(sec => {
+      ['add', 'manageProd', 'manageCat', 'github'].forEach(sec => {
         const el = document.getElementById('adminSec' + sec.charAt(0).toUpperCase() + sec.slice(1));
         const btn = document.getElementById('btnTab' + sec.charAt(0).toUpperCase() + sec.slice(1));
-        if (el) el.style.display = 'none';
-        if (btn) btn.classList.remove('active');
+        if (el) el.style.display = (sec === tabName) ? 'block' : 'none';
+        if (btn) btn.classList.toggle('active', sec === tabName);
       });
-
-      const activeSec = document.getElementById('adminSec' + tabName.charAt(0).toUpperCase() + tabName.slice(1));
-      const activeBtn = document.getElementById('btnTab' + tabName.charAt(0).toUpperCase() + tabName.slice(1));
-      if (activeSec) activeSec.style.display = 'block';
-      if (activeBtn) activeBtn.classList.add('active');
-
       if (tabName === 'manageProd') renderAdminProductsList();
       if (tabName === 'manageCat') renderAdminCategoriesList();
-      if (tabName === 'manageSubcat') renderAdminSubcategoriesList();
     }
 
-    // --- CRIAR CATEGORIA PRINCIPAL ---
-    async function handleCreateCategory(event) {
-      event.preventDefault();
-      const input = document.getElementById('newCategoryName');
-      const name = input.value.trim();
-      if (!name) return;
-
-      const newCat = { id: Date.now().toString(), name };
-
+    async function handleAdminLogin(e) {
+      e.preventDefault();
       try {
-        if (window.dbSaveCategory) await window.dbSaveCategory(newCat);
-        customCategories.push(newCat);
-        input.value = '';
-        renderAdminCategoriesList();
-        renderCategoriesMenu();
-        alert('Categoria criada com sucesso!');
-      } catch (err) {
-        alert('Erro ao criar categoria.');
-      }
+        await window.firebaseAuthLogin(
+          document.getElementById('adminEmailInput').value.trim(), 
+          document.getElementById('adminPasswordInput').value.trim()
+        );
+      } catch (err) { alert('E-mail ou senha incorretos.'); }
     }
 
-    // --- CRIAR SUBCATEGORIA ---
-    async function handleCreateSubcategory(event) {
-      event.preventDefault();
-      const parentCat = document.getElementById('subcatParentCatInput').value.trim();
-      const input = document.getElementById('newSubcategoryName');
-      const name = input.value.trim().toUpperCase();
-
-      if (!parentCat || !name) return;
-
-      const newSub = { id: Date.now().toString(), parentCategory: parentCat, name };
-
-      try {
-        if (window.dbSaveSubcategory) await window.dbSaveSubcategory(newSub);
-        customSubcategories.push(newSub);
-        input.value = '';
-        document.getElementById('subcatParentCatInput').value = '';
-        renderAdminSubcategoriesList();
-        alert('Subcategoria criada com sucesso!');
-      } catch (err) {
-        alert('Erro ao criar subcategoria.');
-      }
+    async function handleAdminLogout() { 
+      if (window.firebaseAuthLogout) await window.firebaseAuthLogout(); 
     }
 
-    async function deleteCategory(id) {
-      if (confirm('Deseja excluir esta categoria?')) {
-        if (window.dbDeleteCategory) await window.dbDeleteCategory(id);
-        customCategories = customCategories.filter(c => String(c.id) !== String(id));
-        renderAdminCategoriesList();
-        renderCategoriesMenu();
-      }
-    }
-
-    async function deleteSubcategory(id) {
-      if (confirm('Deseja excluir esta subcategoria?')) {
-        if (window.dbDeleteSubcategory) await window.dbDeleteSubcategory(id);
-        customSubcategories = customSubcategories.filter(s => String(s.id) !== String(id));
-        renderAdminSubcategoriesList();
-      }
-    }
-
-    function renderAdminCategoriesList() {
-      const container = document.getElementById('adminCatListContainer');
-      if (!container) return;
-
-      if (customCategories.length === 0) {
-        container.innerHTML = `<p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhuma categoria cadastrada.</p>`;
-        return;
-      }
-
-      container.innerHTML = customCategories.map(cat => `
-        <div class="admin-manage-card">
-          <div class="admin-manage-info">
-            <div class="admin-manage-details">
-              <strong>${cat.name.toUpperCase()}</strong>
-            </div>
-          </div>
-          <div class="admin-action-btns">
-            <button class="btn-delete-adm" onclick="deleteCategory('${cat.id}')">Excluir</button>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function renderAdminSubcategoriesList() {
-      const container = document.getElementById('adminSubcatListContainer');
-      if (!container) return;
-
-      if (customSubcategories.length === 0) {
-        container.innerHTML = `<p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhuma subcategoria cadastrada.</p>`;
-        return;
-      }
-
-      container.innerHTML = customSubcategories.map(sub => `
-        <div class="admin-manage-card">
-          <div class="admin-manage-info">
-            <div class="admin-manage-details">
-              <strong>${sub.name}</strong>
-              <span>Categoria Pai: ${sub.parentCategory.toUpperCase()}</span>
-            </div>
-          </div>
-          <div class="admin-action-btns">
-            <button class="btn-delete-adm" onclick="deleteSubcategory('${sub.id}')">Excluir</button>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    // --- LOGIN ADM ---
-    async function handleAdminLogin(event) {
-      event.preventDefault();
-      const email = document.getElementById('adminEmailInput').value.trim();
-      const pass = document.getElementById('adminPasswordInput').value.trim();
-
-      try {
-        if (window.firebaseAuthLogin) {
-          await window.firebaseAuthLogin(email, pass);
-          document.getElementById('adminEmailInput').value = '';
-          document.getElementById('adminPasswordInput').value = '';
-        }
-      } catch (error) {
-        alert('Erro ao fazer login: E-mail ou senha incorretos.');
-      }
-    }
-
-    async function handleAdminLogout() {
-      if (window.firebaseAuthLogout) await window.firebaseAuthLogout();
-    }
-
-    function cleanImageUrl(input) {
-      let val = input.value.trim();
-      val = val.replace(/^[img]/i, '').replace(/\[\/img\]$/i, '').trim();
-      if (input.value !== val) input.value = val;
-    }
-
-    // --- SALVAR PRODUTOS ---
-    async function handleSaveProduct(event) {
-      event.preventDefault();
-
+    async function handleSaveProduct(e) {
+      e.preventDefault();
       const editingId = document.getElementById('pEditingId').value;
-      const category = document.getElementById('pCategory').value.trim().toLowerCase();
-      const subcategory = document.getElementById('pSubCategory').value.trim().toUpperCase();
-      const code = document.getElementById('pCode').value.trim();
-      const title = document.getElementById('pTitle').value.trim();
-      const price = document.getElementById('pPrice').value.trim();
-      const desc = document.getElementById('pDesc').value.trim();
-      const image = document.getElementById('pImage').value.trim();
+      const productData = {
+        id: editingId ? editingId : Date.now().toString(),
+        category: document.getElementById('pCategory').value.trim().toLowerCase(),
+        subcategory: document.getElementById('pSubCategory').value.trim().toUpperCase(),
+        code: document.getElementById('pCode').value.trim(),
+        title: document.getElementById('pTitle').value.trim(),
+        price: document.getElementById('pPrice').value.trim(),
+        desc: document.getElementById('pDesc').value.trim(),
+        image: document.getElementById('pImage').value.trim()
+      };
 
-      const productId = editingId ? editingId : Date.now().toString();
-      const productData = { id: productId, category, subcategory, code, title, price, desc, image };
+      let newProductsList = [...products];
+      const idx = newProductsList.findIndex(p => String(p.id) === String(productData.id));
+      if (idx !== -1) {
+        newProductsList[idx] = productData;
+      } else {
+        newProductsList.push(productData);
+      }
 
-      try {
-        if (window.dbSaveProduct) {
-          await window.dbSaveProduct(productData);
-        }
-
-        const index = products.findIndex(p => String(p.id) === String(productId));
-        if (index !== -1) {
-          products[index] = productData;
-        } else {
-          products.push(productData);
-        }
-
-        if (window.syncWithGithub) {
-          await window.syncWithGithub(products);
-        }
+      // Salva diretamente no GitHub
+      const success = await updateGithubRepo(newProductsList);
+      if (success) {
+        products = newProductsList;
+        const tag = document.getElementById('sublimart-catalog-data');
+        if (tag) tag.textContent = JSON.stringify(products);
 
         resetProductForm();
         renderCatalog();
         renderAdminProductsList();
         renderCategoriesMenu();
-        alert('Produto cadastrado e salvo com sucesso!');
-      } catch (error) {
-        console.error("Erro ao salvar produto:", error);
-        alert('Erro ao salvar produto. Tente novamente.');
+        alert('Produto salvo e atualizado com sucesso no GitHub!');
       }
     }
 
@@ -1032,6 +557,26 @@
       document.getElementById('formProductTitleHeader').textContent = 'Cadastrar Novo Produto';
       document.getElementById('btnSubmitFormProd').textContent = 'CADASTRAR PRODUTO';
       document.getElementById('btnCancelEditProd').style.display = 'none';
+    }
+
+    function loadGithubConfig() {
+      const cfg = JSON.parse(localStorage.getItem('sublimart_github_config') || '{}');
+      if (cfg.username) document.getElementById('ghUsername').value = cfg.username;
+      if (cfg.repo) document.getElementById('ghRepo').value = cfg.repo;
+      if (cfg.filename) document.getElementById('ghFilename').value = cfg.filename;
+      if (cfg.token) document.getElementById('ghToken').value = cfg.token;
+    }
+
+    function handleSaveGithubConfig(event) {
+      event.preventDefault();
+      const cfg = {
+        username: document.getElementById('ghUsername').value.trim(),
+        repo: document.getElementById('ghRepo').value.trim(),
+        filename: document.getElementById('ghFilename').value.trim(),
+        token: document.getElementById('ghToken').value.trim()
+      };
+      localStorage.setItem('sublimart_github_config', JSON.stringify(cfg));
+      alert('Configuração do GitHub salva com sucesso neste navegador!');
     }
 
     function renderCatalog() {
@@ -1047,12 +592,10 @@
         filtered = filtered.filter(p => p.subcategory && p.subcategory.toUpperCase() === currentSubCategory.toUpperCase());
       }
 
-      if (titleEl) {
-        titleEl.innerHTML = `<i class="fa-solid fa-border-all"></i> ${currentCategory === 'todos' ? 'Todos os Produtos' : currentCategory.toUpperCase()}`;
-      }
+      titleEl.innerHTML = `<i class="fa-solid fa-border-all"></i> ${currentCategory === 'todos' ? 'Todos os Produtos' : currentCategory.toUpperCase()}`;
 
       if (filtered.length === 0) {
-        grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #777; padding: 2rem;">Nenhum produto encontrado.</p>`;
+        grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #777; padding: 2rem;">Nenhum produto cadastrado.</p>`;
         return;
       }
 
@@ -1080,12 +623,8 @@
     function renderCategoriesMenu() {
       const container = document.getElementById('navTabsContainer');
       if (!container) return;
+      const categories = ['todos', ...new Set(products.map(p => p.category ? p.category.toLowerCase() : ''))].filter(Boolean);
 
-      const categories = ['todos', ...new Set([
-        ...customCategories.map(c => c.name.toLowerCase()),
-        ...products.map(p => p.category ? p.category.toLowerCase() : '')
-      ])].filter(Boolean);
-      
       container.innerHTML = categories.map(cat => `
         <button class="tab-btn ${currentCategory === cat ? 'active' : ''}" onclick="filterCategory('${cat}')">
           <i class="fa-solid fa-${cat === 'todos' ? 'border-all' : 'tag'}"></i> ${cat.charAt(0).toUpperCase() + cat.slice(1)}
@@ -1105,26 +644,11 @@
     function renderSubcategoriesBar() {
       const bar = document.getElementById('subcategories-bar');
       if (!bar) return;
+      if (currentCategory === 'todos') { bar.style.display = 'none'; return; }
 
-      if (currentCategory === 'todos') {
-        bar.style.display = 'none';
-        return;
-      }
+      const subcategories = [...new Set(products.filter(p => p.category && p.category.toLowerCase() === currentCategory.toLowerCase()).map(p => p.subcategory ? p.subcategory.toUpperCase() : ''))].filter(Boolean);
 
-      const dynamicSubs = customSubcategories
-        .filter(s => s.parentCategory.toLowerCase() === currentCategory.toLowerCase())
-        .map(s => s.name.toUpperCase());
-
-      const productSubs = products
-        .filter(p => p.category && p.category.toLowerCase() === currentCategory.toLowerCase())
-        .map(p => p.subcategory ? p.subcategory.toUpperCase() : '');
-
-      const subcategories = [...new Set([...dynamicSubs, ...productSubs])].filter(Boolean);
-      
-      if (subcategories.length <= 1) {
-        bar.style.display = 'none';
-        return;
-      }
+      if (subcategories.length <= 1) { bar.style.display = 'none'; return; }
 
       bar.style.display = 'flex';
       bar.innerHTML = `
@@ -1144,11 +668,7 @@
     function openProductDetail(id) {
       const p = products.find(item => String(item.id) === String(id));
       if (!p) return;
-
-      const modal = document.getElementById('productModal');
-      const content = document.getElementById('productModalContent');
-      
-      content.innerHTML = `
+      document.getElementById('productModalContent').innerHTML = `
         <img src="${p.image}" class="product-detail-img" alt="${p.title}" onerror="this.src='https://via.placeholder.com/400?text=Sem+Imagem'">
         <div class="product-detail-badges">
           <span class="product-detail-code">${p.code}</span>
@@ -1161,26 +681,23 @@
           <i class="fa-brands fa-whatsapp"></i> Comprar pelo WhatsApp
         </a>
       `;
-      modal.style.display = 'flex';
+      document.getElementById('productModal').style.display = 'flex';
     }
 
     function renderAdminProductsList() {
       const container = document.getElementById('adminProductListContainer');
-      const searchInput = document.getElementById('adminProdSearchInput');
+      const query = document.getElementById('adminProdSearchInput').value.toLowerCase();
       if (!container) return;
 
-      const query = searchInput ? searchInput.value.toLowerCase() : '';
       const filtered = products.filter(p => (p.title && p.title.toLowerCase().includes(query)) || (p.code && p.code.toLowerCase().includes(query)));
-
       if (filtered.length === 0) {
-        container.innerHTML = `<p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhum produto encontrado.</p>`;
+        container.innerHTML = `<p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhum produto cadastrado.</p>`;
         return;
       }
 
       container.innerHTML = filtered.map(p => `
         <div class="admin-manage-card">
           <div class="admin-manage-info">
-            <input type="checkbox" class="admin-prod-checkbox" value="${p.id}" onchange="updateBulkActions()">
             <img src="${p.image}" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/50?text=Img'">
             <div class="admin-manage-details">
               <strong>${p.code} - ${p.title}</strong>
@@ -1195,10 +712,24 @@
       `).join('');
     }
 
+    function renderAdminCategoriesList() {
+      const container = document.getElementById('adminCatListContainer');
+      if (!container) return;
+      const categories = [...new Set(products.map(p => p.category))].filter(Boolean);
+      if (categories.length === 0) {
+        container.innerHTML = `<p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhuma categoria.</p>`;
+        return;
+      }
+      container.innerHTML = categories.map(cat => `
+        <div class="admin-manage-card">
+          <div class="admin-manage-details"><strong>${cat.toUpperCase()}</strong></div>
+        </div>
+      `).join('');
+    }
+
     function editProduct(id) {
       const p = products.find(item => String(item.id) === String(id));
       if (!p) return;
-
       document.getElementById('pEditingId').value = p.id;
       document.getElementById('pCategory').value = p.category;
       document.getElementById('pSubCategory').value = p.subcategory;
@@ -1215,69 +746,20 @@
     }
 
     async function deleteProduct(id) {
-      if (confirm('Deseja realmente excluir este produto?')) {
-        if (window.dbDeleteProduct) await window.dbDeleteProduct(id);
-        products = products.filter(item => String(item.id) !== String(id));
-        if (window.syncWithGithub) await window.syncWithGithub(products);
-        renderCatalog();
-        renderAdminProductsList();
-        renderCategoriesMenu();
-      }
-    }
+      if (confirm('Deseja excluir este produto?')) {
+        let newProductsList = products.filter(item => String(item.id) !== String(id));
+        const success = await updateGithubRepo(newProductsList);
+        if (success) {
+          products = newProductsList;
+          const tag = document.getElementById('sublimart-catalog-data');
+          if (tag) tag.textContent = JSON.stringify(products);
 
-    function toggleSelectAllProducts(master) {
-      const checkboxes = document.querySelectorAll('.admin-prod-checkbox');
-      checkboxes.forEach(cb => cb.checked = master.checked);
-      updateBulkActions();
-    }
-
-    function updateBulkActions() {
-      const checkboxes = document.querySelectorAll('.admin-prod-checkbox:checked');
-      const bar = document.getElementById('bulkActionsBar');
-      const text = document.getElementById('selectedCountText');
-      if (checkboxes.length > 0) {
-        bar.style.display = 'flex';
-        text.textContent = `${checkboxes.length} selecionados`;
-      } else {
-        bar.style.display = 'none';
-      }
-    }
-
-    async function deleteSelectedProducts() {
-      const checkboxes = document.querySelectorAll('.admin-prod-checkbox:checked');
-      if (checkboxes.length === 0) return;
-      if (confirm(`Deseja excluir os ${checkboxes.length} produtos selecionados?`)) {
-        const idsToDelete = Array.from(checkboxes).map(cb => cb.value);
-        for (const id of idsToDelete) {
-          if (window.dbDeleteProduct) await window.dbDeleteProduct(id);
+          renderCatalog();
+          renderAdminProductsList();
+          renderCategoriesMenu();
+          alert('Produto excluído e alteração salva no GitHub!');
         }
-        products = products.filter(p => !idsToDelete.includes(String(p.id)));
-        if (window.syncWithGithub) await window.syncWithGithub(products);
-        renderCatalog();
-        renderAdminProductsList();
-        renderCategoriesMenu();
-        document.getElementById('bulkActionsBar').style.display = 'none';
       }
-    }
-
-    function loadGithubConfig() {
-      const cfg = JSON.parse(localStorage.getItem('sublimart_github_config') || '{}');
-      if (cfg.username) document.getElementById('ghUsername').value = cfg.username;
-      if (cfg.repo) document.getElementById('ghRepo').value = cfg.repo;
-      if (cfg.filename) document.getElementById('ghFilename').value = cfg.filename;
-      if (cfg.token) document.getElementById('ghToken').value = cfg.token;
-    }
-
-    function handleSaveGithubConfig(event) {
-      event.preventDefault();
-      const cfg = {
-        username: document.getElementById('ghUsername').value.trim(),
-        repo: document.getElementById('ghRepo').value.trim(),
-        filename: document.getElementById('ghFilename').value.trim(),
-        token: document.getElementById('ghToken').value.trim()
-      };
-      localStorage.setItem('sublimart_github_config', JSON.stringify(cfg));
-      alert('Configuração do GitHub salva com sucesso!');
     }
   </script>
 </body>
