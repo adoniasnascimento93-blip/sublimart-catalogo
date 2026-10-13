@@ -587,6 +587,7 @@
           <button class="admin-tab-btn" id="btnTabManageProd" onclick="switchAdminTab('manageProd')"><i class="fa-solid fa-boxes-stacked"></i> Gerenciar Produtos</button>
           <button class="admin-tab-btn" id="btnTabManageSubcat" onclick="switchAdminTab('manageSubcat')"><i class="fa-solid fa-tags"></i> Subcategorias</button>
           <button class="admin-tab-btn" id="btnTabManageCat" onclick="switchAdminTab('manageCat')"><i class="fa-solid fa-folder"></i> Categorias Principais</button>
+          <button class="admin-tab-btn" id="btnTabGithub" onclick="switchAdminTab('github')"><i class="fa-brands fa-github"></i> Configurar GitHub</button>
         </div>
 
         <!-- CADASTRAR/EDITAR PRODUTO -->
@@ -668,6 +669,31 @@
           <div id="adminCatListContainer" style="max-height: 280px; overflow-y: auto;">
             <p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhuma categoria cadastrada.</p>
           </div>
+        </div>
+
+        <!-- CONFIGURAR GITHUB -->
+        <div id="adminSecGithub" style="display: none;">
+          <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Conectar com o GitHub</h4>
+          <p style="font-size: 0.8rem; color: #666; margin-bottom: 1rem;">Configure para atualizar o arquivo no GitHub automaticamente:</p>
+          <form onsubmit="handleSaveGithubConfig(event)">
+            <div class="form-group">
+              <label>GitHub Username:</label>
+              <input type="text" id="ghUsername" placeholder="Ex: adoniasdesigner" required="">
+            </div>
+            <div class="form-group">
+              <label>Nome do Repositório:</label>
+              <input type="text" id="ghRepo" placeholder="Ex: sublimart-catalogo" required="">
+            </div>
+            <div class="form-group">
+              <label>Nome do Arquivo (ex: index.html):</label>
+              <input type="text" id="ghFilename" value="index.html" required="">
+            </div>
+            <div class="form-group">
+              <label>Personal Access Token (PAT):</label>
+              <input type="password" id="ghToken" placeholder="ghp_..." required="">
+            </div>
+            <button type="submit" class="btn-submit-admin">SALVAR CONFIGURAÇÃO GITHUB</button>
+          </form>
         </div>
 
       </div>
@@ -754,6 +780,7 @@
       renderCatalog();
       renderAdminProductsList();
       renderCategoriesMenu();
+      loadGithubConfig();
     });
 
     async function loadProductsFromCloud() {
@@ -791,7 +818,7 @@
     }
 
     function switchAdminTab(tabName) {
-      const sections = ['add', 'manageProd', 'manageSubcat', 'manageCat'];
+      const sections = ['add', 'manageProd', 'manageSubcat', 'manageCat', 'github'];
       sections.forEach(sec => {
         const el = document.getElementById('adminSec' + sec.charAt(0).toUpperCase() + sec.slice(1));
         const btn = document.getElementById('btnTab' + sec.charAt(0).toUpperCase() + sec.slice(1));
@@ -1127,6 +1154,26 @@
           ${cat}
         </div>
       `).join('');
+    }
+
+    function loadGithubConfig() {
+      const cfg = JSON.parse(localStorage.getItem('sublimart_github_config') || '{}');
+      if (cfg.username) document.getElementById('ghUsername').value = cfg.username;
+      if (cfg.repo) document.getElementById('ghRepo').value = cfg.repo;
+      if (cfg.filename) document.getElementById('ghFilename').value = cfg.filename;
+      if (cfg.token) document.getElementById('ghToken').value = cfg.token;
+    }
+
+    function handleSaveGithubConfig(event) {
+      event.preventDefault();
+      const cfg = {
+        username: document.getElementById('ghUsername').value.trim(),
+        repo: document.getElementById('ghRepo').value.trim(),
+        filename: document.getElementById('ghFilename').value.trim(),
+        token: document.getElementById('ghToken').value.trim()
+      };
+      localStorage.setItem('sublimart_github_config', JSON.stringify(cfg));
+      alert('Configuração do GitHub salva com sucesso!');
     }
   </script>
 </body>
