@@ -1,11 +1,13 @@
-<html lang="pt-BR"><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/content/location/location.js" id="eppiocemhmnlbhjplcgkofciiegomcon"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/extend-native-history-api.js"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/requests.js"></script><head>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Catálogo Digital | SUBLIMArt Personalizados</title>
   <!-- Google Fonts & Font Awesome -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
@@ -181,8 +183,8 @@
       .admin-panel-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
     }
   </style>
-<script bis_use="true" type="text/javascript" charset="utf-8" nonce="" data-dynamic-id="34109357-773f-473b-85cf-16ae831618e4" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/200.js"></script><script bis_use="true" type="text/javascript" charset="utf-8" nonce="" data-dynamic-id="34109357-773f-473b-85cf-16ae831618e4" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/101.js"></script></head>
-<body __processed_759625cf-ef84-4dab-a18c-87fc3626657b__="true" bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWllZ29tY29uIiwiYWRibG9ja2VyU3RhdHVzIjp7IkRJU1BMQVkiOiJlbmFibGVkIiwiRkFDRUJPT0siOiJlbmFibGVkIiwiVFdJVFRFUiI6ImVuYWJsZWQiLCJSRURESVQiOiJlbmFibGVkIiwiUElOVEVSRVNUIjoiZW5hYmxlZCIsIklOU1RBR1JBTSI6ImVuYWJsZWQiLCJUSUtUT0siOiJlbmFibGVkIiwiTElOS0VESU4iOiJlbmFibGVkIiwiQ09ORklHIjoiZGlzYWJsZWQifSwidmVyc2lvbiI6IjIuMy4wIiwic2NvcmUiOjIwMzAwMH1d">
+</head>
+<body>
 
   <!-- BOTÃO FLUTUANTE ADM -->
   <button class="btn-admin-trigger" onclick="openAdminModal()">
@@ -194,7 +196,7 @@
     <h1>SUBLIMArt</h1>
     <p>Personalizados e Sublimação de Alta Qualidade</p>
     
-    <div class="contacts-header" bis_skin_checked="1">
+    <div class="contacts-header">
       <a href="https://wa.me/5592992914876" target="_blank" class="contact-btn-head">
         <i class="fa-brands fa-whatsapp"></i> (92) 99291-4876
       </a>
@@ -209,16 +211,14 @@
 
   <!-- MENU DROPDOWN DE CATEGORIAS -->
   <nav>
-    <div class="nav-container" bis_skin_checked="1">
-      <div class="categories-dropdown" bis_skin_checked="1">
+    <div class="nav-container">
+      <div class="categories-dropdown">
         <button class="btn-categories-menu" onclick="toggleCategoriesMenu()">
           <i class="fa-solid fa-bars"></i> CATEGORIAS <i class="fa-solid fa-chevron-down" style="font-size: 0.75rem;"></i>
         </button>
-        <div class="dropdown-content" id="navTabsContainer" bis_skin_checked="1">
-        <button class="tab-btn active" onclick="filterCategory('todos')">
-          <i class="fa-solid fa-border-all"></i> Todos
-        </button>
-      </div>
+        <div class="dropdown-content" id="navTabsContainer">
+          <button class="tab-btn active" onclick="filterCategory('todos')"><i class="fa-solid fa-border-all"></i> Todos</button>
+        </div>
       </div>
     </div>
   </nav>
@@ -226,32 +226,32 @@
   <!-- CONTEÚDO DO CATÁLOGO -->
   <main>
     <h2 class="category-title" id="category-title"><i class="fa-solid fa-border-all"></i> Todos os Produtos</h2>
-    <div class="subcategories-bar" id="subcategories-bar" bis_skin_checked="1"></div>
-    <div class="catalog-grid" id="catalog-grid" bis_skin_checked="1"><p style="grid-column: 1/-1; text-align: center; color: #777; padding: 2rem;">Nenhum produto cadastrado.</p></div>
+    <div class="subcategories-bar" id="subcategories-bar"></div>
+    <div class="catalog-grid" id="catalog-grid"></div>
   </main>
 
   <!-- MODAL DE VISUALIZAÇÃO DO PRODUTO -->
-  <div class="modal-overlay" id="productModal" bis_skin_checked="1">
-    <div class="modal-card" bis_skin_checked="1">
+  <div class="modal-overlay" id="productModal">
+    <div class="modal-card">
       <button class="btn-close-modal" onclick="closeProductModal()"><i class="fa-solid fa-xmark"></i></button>
-      <div class="product-detail-container" id="productModalContent" bis_skin_checked="1"></div>
+      <div class="product-detail-container" id="productModalContent"></div>
     </div>
   </div>
 
   <!-- MODAL ADM -->
-  <div class="modal-overlay" id="adminModal" onclick="checkCloseAdminPopup(event)" style="display: flex;" bis_skin_checked="1">
-    <div class="modal-card" bis_skin_checked="1">
+  <div class="modal-overlay" id="adminModal" onclick="checkCloseAdminPopup(event)">
+    <div class="modal-card">
       <button class="btn-close-modal" onclick="closeAdminModal()"><i class="fa-solid fa-xmark"></i></button>
       
-      <!-- LOGIN FIREBASE (Inicia oculto por padrão) -->
-      <div id="adminLoginForm" style="display: none;" bis_skin_checked="1">
+      <!-- LOGIN FIREBASE (Inicia estritamente oculto) -->
+      <div id="adminLoginForm" style="display: none;">
         <h3 style="margin-bottom: 1rem;"><i class="fa-solid fa-shield-halved"></i> Login - Painel ADM</h3>
         <form onsubmit="handleAdminLogin(event)">
-          <div class="form-group" bis_skin_checked="1">
+          <div class="form-group">
             <label>E-mail do Administrador:</label>
             <input type="email" id="adminEmailInput" placeholder="sublimart@admin.com" required="">
           </div>
-          <div class="form-group" bis_skin_checked="1">
+          <div class="form-group">
             <label>Senha:</label>
             <input type="password" id="adminPasswordInput" placeholder="Sua senha" required="">
           </div>
@@ -259,14 +259,14 @@
         </form>
       </div>
 
-      <!-- PAINEL ADM PRINCIPAL (Inicia oculto por padrão) -->
-      <div id="adminMainPanel" style="display: block;" bis_skin_checked="1">
-        <div class="admin-panel-header" bis_skin_checked="1">
+      <!-- PAINEL ADM PRINCIPAL (Inicia estritamente oculto) -->
+      <div id="adminMainPanel" style="display: none;">
+        <div class="admin-panel-header">
           <h3><i class="fa-solid fa-user-gear"></i> Painel de Controle</h3>
           <button class="btn-logout-admin" onclick="handleAdminLogout()"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
         </div>
         
-        <div class="admin-nav-tabs" bis_skin_checked="1">
+        <div class="admin-nav-tabs">
           <button class="admin-tab-btn active" id="btnTabAdd" onclick="switchAdminTab('add')"><i class="fa-solid fa-plus"></i> Cadastrar Produto</button>
           <button class="admin-tab-btn" id="btnTabManageProd" onclick="switchAdminTab('manageProd')"><i class="fa-solid fa-boxes-stacked"></i> Gerenciar Produtos</button>
           <button class="admin-tab-btn" id="btnTabManageCat" onclick="switchAdminTab('manageCat')"><i class="fa-solid fa-folder"></i> Categorias</button>
@@ -274,40 +274,40 @@
         </div>
 
         <!-- CADASTRAR PRODUTO -->
-        <div id="adminSecAdd" style="display: block;" bis_skin_checked="1">
+        <div id="adminSecAdd" style="display: block;">
           <h4 id="formProductTitleHeader" style="font-size: 1rem; margin-bottom: 0.8rem;">Cadastrar Novo Produto</h4>
           <form id="productForm" onsubmit="handleSaveProduct(event)">
             <input type="hidden" id="pEditingId" value="">
             
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>Categoria Principal:</label>
               <input type="text" id="pCategory" placeholder="Ex: Camisas, Canecas..." required="">
             </div>
 
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>Subcategoria / Tema:</label>
               <input type="text" id="pSubCategory" placeholder="Ex: MASCULINA, INFANTIL..." required="">
             </div>
 
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>Código do Produto:</label>
               <input type="text" id="pCode" placeholder="Ex: PROD Nº1" required="">
             </div>
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>Título do Produto:</label>
               <input type="text" id="pTitle" placeholder="Ex: Camisa Personalizada" required="">
             </div>
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>Preço:</label>
               <input type="text" id="pPrice" placeholder="Ex: 35,00" required="">
             </div>
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>Descrição:</label>
               <textarea id="pDesc" rows="2" placeholder="Digite a descrição..." required=""></textarea>
             </div>
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>URL da Imagem:</label>
-              <input type="url" id="pImage" placeholder="https://..." required="" oninput="cleanImageUrl(this)" onpaste="setTimeout(() =&gt; cleanImageUrl(this), 10)">
+              <input type="url" id="pImage" placeholder="https://..." required="" oninput="cleanImageUrl(this)" onpaste="setTimeout(() => cleanImageUrl(this), 10)">
             </div>
             <button type="submit" class="btn-submit-admin" id="btnSubmitFormProd">CADASTRAR PRODUTO</button>
             <button type="button" class="btn-cancel-edit" id="btnCancelEditProd" style="display: none;" onclick="resetProductForm()">CANCELAR EDIÇÃO</button>
@@ -315,38 +315,38 @@
         </div>
 
         <!-- GERENCIAR PRODUTOS -->
-        <div id="adminSecManageProd" style="display: none;" bis_skin_checked="1">
+        <div id="adminSecManageProd" style="display: none;">
           <h4 style="font-size: 1rem; margin-bottom: 0.8rem;">Gerenciar / Excluir Produtos</h4>
-          <div class="form-group" style="margin-bottom: 0.8rem;" bis_skin_checked="1">
+          <div class="form-group" style="margin-bottom: 0.8rem;">
             <input type="text" id="adminProdSearchInput" oninput="renderAdminProductsList()" placeholder="🔍 Busque por código ou nome...">
           </div>
-          <div id="adminProductListContainer" style="max-height: 270px; overflow-y: auto;" bis_skin_checked="1"><p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhum produto cadastrado.</p></div>
+          <div id="adminProductListContainer" style="max-height: 270px; overflow-y: auto;"></div>
         </div>
 
         <!-- GERENCIAR CATEGORIAS -->
-        <div id="adminSecManageCat" style="display: none;" bis_skin_checked="1">
+        <div id="adminSecManageCat" style="display: none;">
           <h4 style="font-size: 1rem; margin-bottom: 0.8rem;">Categorias cadastradas</h4>
-          <div id="adminCatListContainer" style="max-height: 250px; overflow-y: auto;" bis_skin_checked="1"></div>
+          <div id="adminCatListContainer" style="max-height: 250px; overflow-y: auto;"></div>
         </div>
 
         <!-- CONFIGURAR GITHUB -->
-        <div id="adminSecGithub" style="display: none;" bis_skin_checked="1">
+        <div id="adminSecGithub" style="display: none;">
           <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Conectar com o GitHub</h4>
           <p style="font-size: 0.8rem; color: #666; margin-bottom: 1rem;">Informe seus dados para gravar as alterações direto no arquivo do repositório:</p>
           <form onsubmit="handleSaveGithubConfig(event)">
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>GitHub Username:</label>
               <input type="text" id="ghUsername" placeholder="Ex: adoniasdesigner" required="">
             </div>
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>Nome do Repositório:</label>
               <input type="text" id="ghRepo" placeholder="Ex: sublimart-catalogo" required="">
             </div>
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>Nome do Arquivo (ex: index.html):</label>
               <input type="text" id="ghFilename" value="index.html" required="">
             </div>
-            <div class="form-group" bis_skin_checked="1">
+            <div class="form-group">
               <label>Personal Access Token (PAT):</label>
               <input type="password" id="ghToken" placeholder="ghp_..." required="">
             </div>
@@ -361,7 +361,7 @@
   <!-- RODAPÉ -->
   <footer>
     <p><strong>SUBLIMArt Personalizados</strong> — Transformando suas ideias em arte.</p>
-    <div class="footer-contacts" bis_skin_checked="1">
+    <div class="footer-contacts">
       <a href="https://wa.me/5592992914876" target="_blank" class="wa-link"><i class="fa-brands fa-whatsapp"></i> (92) 99291-4876</a>
       <a href="https://wa.me/5592993522287" target="_blank" class="wa-link"><i class="fa-brands fa-whatsapp"></i> (92) 99352-2287</a>
       <a href="https://www.instagram.com/sublimart_ofc1" target="_blank" class="ig-link"><i class="fa-brands fa-instagram"></i> @sublimart_ofc1</a>
@@ -369,7 +369,7 @@
   </footer>
 
   <!-- DADOS EMBUTIDOS NO HTML -->
-  <script id="sublimart-catalog-data" type="application/json">[{"id":"1791859273265","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº1","title":"ESTAMPA EM DTF CRISTÃO","price":"R$ 25,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/KThKE5n.png"}]</script>
+  <script id="sublimart-catalog-data" type="application/json">[]</script>
 
   <!-- FIREBASE AUTH & GITHUB SYNC API -->
   <script type="module">
@@ -391,7 +391,11 @@
     window.firebaseAuthLogin = (email, password) => signInWithEmailAndPassword(auth, email, password);
     window.firebaseAuthLogout = () => signOut(auth);
 
+    // Variável global para saber se o Firebase já respondeu
+    window.isUserAuthenticated = false;
+
     onAuthStateChanged(auth, (user) => {
+      window.isUserAuthenticated = !!user;
       const loginForm = document.getElementById('adminLoginForm');
       const mainPanel = document.getElementById('adminMainPanel');
       if (user) {
@@ -495,7 +499,10 @@
       document.getElementById('navTabsContainer').classList.toggle('show');
     }
 
-    function openAdminModal() { document.getElementById('adminModal').style.display = 'flex'; }
+    function openAdminModal() { 
+      // Só abre o modal se o Firebase já terminou de carregar e decidir o estado
+      document.getElementById('adminModal').style.display = 'flex'; 
+    }
     function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
     function checkCloseAdminPopup(e) { if (e.target.id === 'adminModal') closeAdminModal(); }
     function closeProductModal() { document.getElementById('productModal').style.display = 'none'; }
@@ -773,6 +780,5 @@
       }
     }
   </script>
-
-
-</body></html>
+</body>
+</html>
