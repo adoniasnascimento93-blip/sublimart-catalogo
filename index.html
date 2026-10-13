@@ -92,16 +92,6 @@
       transform: translateY(-2px);
     }
 
-    .contact-btn-head.wa:hover {
-      background: #25D366;
-      border-color: #25D366;
-    }
-
-    .contact-btn-head.ig:hover {
-      background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-      border-color: transparent;
-    }
-
     .btn-admin-trigger {
       position: fixed;
       top: 15px;
@@ -165,10 +155,6 @@
       transition: transform 0.2s ease;
     }
 
-    .btn-categories-menu:hover {
-      transform: translateY(-2px);
-    }
-
     .dropdown-content {
       display: none;
       position: absolute;
@@ -204,20 +190,8 @@
       border-bottom: 1px solid #f8f9fa;
     }
 
-    .tab-btn:last-child {
-      border-bottom: none;
-    }
-
-    .tab-btn:hover {
-      background: #F0F2F5;
-      color: var(--accent-purple);
-    }
-
-    .tab-btn.active {
-      background: #F0F2F5;
-      color: var(--accent-magenta);
-      font-weight: 700;
-    }
+    .tab-btn:hover { background: #F0F2F5; color: var(--accent-purple); }
+    .tab-btn.active { background: #F0F2F5; color: var(--accent-magenta); font-weight: 700; }
 
     /* BARRA DE SUBCATEGORIAS */
     .subcategories-bar {
@@ -230,16 +204,6 @@
       padding: 0.8rem;
       border-radius: 12px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-      scrollbar-width: thin;
-    }
-
-    .subcategories-bar::-webkit-scrollbar {
-      height: 4px;
-    }
-
-    .subcategories-bar::-webkit-scrollbar-thumb {
-      background: #ddd;
-      border-radius: 4px;
     }
 
     .sub-btn {
@@ -252,7 +216,6 @@
       color: #495057;
       cursor: pointer;
       white-space: nowrap;
-      flex-shrink: 0;
     }
 
     .sub-btn.active { background: var(--accent-purple); color: #fff; }
@@ -294,10 +257,7 @@
       cursor: pointer;
     }
 
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
-    }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12); }
 
     .card-img-wrapper {
       width: 100%;
@@ -307,11 +267,7 @@
       overflow: hidden;
     }
 
-    .card-img-wrapper img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+    .card-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
 
     .card-code-badge {
       position: absolute;
@@ -337,26 +293,9 @@
       border-radius: 4px;
     }
 
-    .card-body {
-      padding: 1.2rem;
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-    }
-
-    .card-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-      margin-bottom: 0.4rem;
-    }
-
-    .card-desc {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-bottom: 1rem;
-      flex-grow: 1;
-      line-height: 1.4;
-    }
+    .card-body { padding: 1.2rem; display: flex; flex-direction: column; flex-grow: 1; }
+    .card-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .card-desc { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; flex-grow: 1; line-height: 1.4; }
 
     .card-footer-buy {
       display: flex;
@@ -368,11 +307,7 @@
       border-top: 1px solid #f0f0f0;
     }
 
-    .price {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--accent-purple);
-    }
+    .price { font-size: 1.15rem; font-weight: 700; color: var(--accent-purple); }
 
     .btn-buy {
       background: #25D366;
@@ -476,25 +411,13 @@
 
     @media (max-width: 600px) {
       header h1 { font-size: 1.8rem; }
-      .catalog-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.8rem;
-      }
+      .catalog-grid { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
       .card-img-wrapper { height: 140px; }
       .card-body { padding: 0.7rem; }
       .card-title { font-size: 0.88rem; line-height: 1.2; margin-bottom: 0.2rem; }
-      .card-desc {
-        font-size: 0.75rem;
-        margin-bottom: 0.5rem;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
+      .card-desc { font-size: 0.75rem; margin-bottom: 0.5rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
       .price { font-size: 0.95rem; }
       .btn-buy { padding: 0.4rem 0.6rem; font-size: 0.75rem; }
-      .card-code-badge { font-size: 0.65rem; padding: 0.2rem 0.4rem; top: 6px; left: 6px; }
-      .card-subcat-badge { font-size: 0.6rem; padding: 0.15rem 0.35rem; bottom: 6px; left: 6px; }
       .modal-card { padding: 1.5rem 1.2rem; }
       .admin-panel-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
     }
@@ -598,16 +521,12 @@
             
             <div class="form-group">
               <label>Categoria Principal:</label>
-              <select id="pCategory" required="">
-                <option value="">Selecione uma Categoria...</option>
-              </select>
+              <input type="text" id="pCategory" placeholder="Ex: Camisas, Canecas..." required="">
             </div>
 
             <div class="form-group" id="subcatFormGroup">
               <label>Subcategoria / Tema:</label>
-              <select id="pSubCategory" required="">
-                <option value="">Selecione uma Subcategoria...</option>
-              </select>
+              <input type="text" id="pSubCategory" placeholder="Ex: MASCULINA, INFANTIL..." required="">
             </div>
 
             <div class="form-group">
@@ -643,7 +562,6 @@
             <input type="text" id="adminProdSearchInput" oninput="renderAdminProductsList()" placeholder="🔍 Busque por código ou nome..." style="padding: 0.45rem; font-size: 0.85rem;">
           </div>
 
-          <!-- AÇÕES EM MASSA -->
           <div id="bulkActionsBar" style="display: none; align-items: center; justify-content: space-between; background: #fff3cd; border: 1px solid #ffeeba; padding: 0.5rem 0.8rem; border-radius: 8px; margin-bottom: 0.8rem;">
             <span id="selectedCountText" style="font-size: 0.8rem; font-weight: 600; color: #856404;">0 selecionados</span>
             <button onclick="deleteSelectedProducts()" style="background: #dc3545; color: #fff; border: none; padding: 0.35rem 0.7rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer;">
@@ -664,10 +582,8 @@
           <h4 style="font-size: 1rem; margin-bottom: 0.8rem;">Nova Subcategoria</h4>
           <form onsubmit="handleCreateSubcategory(event)" style="margin-bottom: 1.2rem;">
             <div class="form-group">
-              <label>Selecione a Categoria Pai:</label>
-              <select id="subcatParentCat" required="">
-                <option value="">Selecione uma Categoria...</option>
-              </select>
+              <label>Nome da Categoria Pai:</label>
+              <input type="text" id="subcatParentCatInput" placeholder="Ex: Camisas, Canecas..." required="">
             </div>
             <div class="form-group">
               <label>Nome da Subcategoria:</label>
@@ -757,17 +673,15 @@
     window.firebaseAuthLogin = (email, password) => signInWithEmailAndPassword(auth, email, password);
     window.firebaseAuthLogout = () => signOut(auth);
 
-    // PRODUTOS
+    // PRODUTOS FIRESTORE
     window.dbGetProducts = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "produtos"));
         let items = [];
-        querySnapshot.forEach((docSnap) => {
-          items.push({ id: docSnap.id, ...docSnap.data() });
-        });
+        querySnapshot.forEach((docSnap) => items.push({ id: docSnap.id, ...docSnap.data() }));
         return items;
       } catch (err) {
-        console.error("Erro ao buscar no Firestore:", err);
+        console.error("Erro no Firestore:", err);
         return [];
       }
     };
@@ -780,17 +694,14 @@
       await deleteDoc(doc(db, "produtos", String(id)));
     };
 
-    // CATEGORIAS
+    // CATEGORIAS FIRESTORE
     window.dbGetCategories = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "categorias"));
         let items = [];
-        querySnapshot.forEach((docSnap) => {
-          items.push({ id: docSnap.id, ...docSnap.data() });
-        });
+        querySnapshot.forEach((docSnap) => items.push({ id: docSnap.id, ...docSnap.data() }));
         return items;
       } catch (err) {
-        console.error("Erro ao buscar categorias:", err);
         return [];
       }
     };
@@ -803,17 +714,14 @@
       await deleteDoc(doc(db, "categorias", String(id)));
     };
 
-    // SUBCATEGORIAS
+    // SUBCATEGORIAS FIRESTORE
     window.dbGetSubcategories = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "subcategorias"));
         let items = [];
-        querySnapshot.forEach((docSnap) => {
-          items.push({ id: docSnap.id, ...docSnap.data() });
-        });
+        querySnapshot.forEach((docSnap) => items.push({ id: docSnap.id, ...docSnap.data() }));
         return items;
       } catch (err) {
-        console.error("Erro ao buscar subcategorias:", err);
         return [];
       }
     };
@@ -826,25 +734,19 @@
       await deleteDoc(doc(db, "subcategorias", String(id)));
     };
 
-    // Função para atualizar o arquivo no GitHub automaticamente
+    // SINCRONIZADOR GITHUB
     window.syncWithGithub = async (currentProducts) => {
       const cfg = JSON.parse(localStorage.getItem('sublimart_github_config') || '{}');
       if (!cfg.username || !cfg.repo || !cfg.token || !cfg.filename) return;
 
       try {
         const apiUrl = `https://api.github.com/repos/${cfg.username}/${cfg.repo}/contents/${cfg.filename}`;
-        
-        const getRes = await fetch(apiUrl, {
-          headers: { 'Authorization': `token ${cfg.token}` }
-        });
-        
+        const getRes = await fetch(apiUrl, { headers: { 'Authorization': `token ${cfg.token}` } });
         if (!getRes.ok) return;
         const fileData = await getRes.json();
-        const fileSha = fileData.sha;
-
+        
         let fullHtml = document.documentElement.outerHTML;
         const jsonString = JSON.stringify(currentProducts).replace(/</g, '\\u003c');
-        
         fullHtml = fullHtml.replace(
           /<script id="sublimart-catalog-data"[^>]*>[\s\S]*?<\/script>/,
           `<script id="sublimart-catalog-data" type="application/json" data-initialized="true">${jsonString}<\/script>`
@@ -853,18 +755,15 @@
         const contentEncoded = btoa(unescape(encodeURIComponent(fullHtml)));
         await fetch(apiUrl, {
           method: 'PUT',
-          headers: {
-            'Authorization': `token ${cfg.token}`,
-            'Content-Type': 'application/json'
-          },
+          headers: { 'Authorization': `token ${cfg.token}`, 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            message: 'Atualização automática de produtos - Catálogo SUBLIMArt',
+            message: 'Atualização automática de produtos - SUBLIMArt',
             content: contentEncoded,
-            sha: fileSha
+            sha: fileData.sha
           })
         });
       } catch (err) {
-        console.error('Erro na sincronização com o GitHub:', err);
+        console.error('Erro no GitHub Sync:', err);
       }
     };
 
@@ -893,8 +792,6 @@
       renderCatalog();
       renderAdminProductsList();
       renderCategoriesMenu();
-      populateCategorySelects();
-      populateSubcategorySelects();
       loadGithubConfig();
     });
 
@@ -951,49 +848,11 @@
       if (tabName === 'manageSubcat') renderAdminSubcategoriesList();
     }
 
-    // --- POPULAR OPÇÕES DOS SELECTS ---
-    function populateCategorySelects() {
-      const prodSelect = document.getElementById('pCategory');
-      const subcatParentSelect = document.getElementById('subcatParentCat');
-
-      let options = `<option value="">Selecione uma Categoria...</option>`;
-      
-      // Junta categorias dinâmicas com as já existentes nos produtos
-      const allCats = [...new Set([
-        ...customCategories.map(c => c.name),
-        ...products.map(p => p.category)
-      ])].filter(Boolean);
-
-      allCats.forEach(cat => {
-        options += `<option value="${cat.toLowerCase()}">${cat.charAt(0).toUpperCase() + cat.slice(1)}</option>`;
-      });
-
-      if (prodSelect) prodSelect.innerHTML = options;
-      if (subcatParentSelect) subcatParentSelect.innerHTML = options;
-    }
-
-    function populateSubcategorySelects() {
-      const prodSubSelect = document.getElementById('pSubCategory');
-      let options = `<option value="">Selecione uma Subcategoria...</option>`;
-
-      const allSubs = [...new Set([
-        ...customSubcategories.map(s => s.name),
-        ...products.map(p => p.subcategory)
-      ])].filter(Boolean);
-
-      allSubs.forEach(sub => {
-        options += `<option value="${sub.toUpperCase()}">${sub.toUpperCase()}</option>`;
-      });
-
-      if (prodSubSelect) prodSubSelect.innerHTML = options;
-    }
-
     // --- CRIAR CATEGORIA PRINCIPAL ---
     async function handleCreateCategory(event) {
       event.preventDefault();
       const input = document.getElementById('newCategoryName');
       const name = input.value.trim();
-
       if (!name) return;
 
       const newCat = { id: Date.now().toString(), name };
@@ -1002,12 +861,10 @@
         if (window.dbSaveCategory) await window.dbSaveCategory(newCat);
         customCategories.push(newCat);
         input.value = '';
-        populateCategorySelects();
         renderAdminCategoriesList();
         renderCategoriesMenu();
         alert('Categoria criada com sucesso!');
       } catch (err) {
-        console.error(err);
         alert('Erro ao criar categoria.');
       }
     }
@@ -1015,14 +872,11 @@
     // --- CRIAR SUBCATEGORIA ---
     async function handleCreateSubcategory(event) {
       event.preventDefault();
-      const parentCat = document.getElementById('subcatParentCat').value;
+      const parentCat = document.getElementById('subcatParentCatInput').value.trim();
       const input = document.getElementById('newSubcategoryName');
       const name = input.value.trim().toUpperCase();
 
-      if (!parentCat || !name) {
-        alert('Selecione a categoria pai e informe o nome da subcategoria!');
-        return;
-      }
+      if (!parentCat || !name) return;
 
       const newSub = { id: Date.now().toString(), parentCategory: parentCat, name };
 
@@ -1030,55 +884,36 @@
         if (window.dbSaveSubcategory) await window.dbSaveSubcategory(newSub);
         customSubcategories.push(newSub);
         input.value = '';
-        populateSubcategorySelects();
+        document.getElementById('subcatParentCatInput').value = '';
         renderAdminSubcategoriesList();
         alert('Subcategoria criada com sucesso!');
       } catch (err) {
-        console.error(err);
         alert('Erro ao criar subcategoria.');
       }
     }
 
-    // --- EXCLUIR CATEGORIA ---
     async function deleteCategory(id) {
       if (confirm('Deseja excluir esta categoria?')) {
-        try {
-          if (window.dbDeleteCategory) await window.dbDeleteCategory(id);
-          customCategories = customCategories.filter(c => String(c.id) !== String(id));
-          populateCategorySelects();
-          renderAdminCategoriesList();
-          renderCategoriesMenu();
-        } catch (err) {
-          console.error(err);
-        }
+        if (window.dbDeleteCategory) await window.dbDeleteCategory(id);
+        customCategories = customCategories.filter(c => String(c.id) !== String(id));
+        renderAdminCategoriesList();
+        renderCategoriesMenu();
       }
     }
 
-    // --- EXCLUIR SUBCATEGORIA ---
     async function deleteSubcategory(id) {
       if (confirm('Deseja excluir esta subcategoria?')) {
-        try {
-          if (window.dbDeleteSubcategory) await window.dbDeleteSubcategory(id);
-          customSubcategories = customSubcategories.filter(s => String(s.id) !== String(id));
-          populateSubcategorySelects();
-          renderAdminSubcategoriesList();
-        } catch (err) {
-          console.error(err);
-        }
+        if (window.dbDeleteSubcategory) await window.dbDeleteSubcategory(id);
+        customSubcategories = customSubcategories.filter(s => String(s.id) !== String(id));
+        renderAdminSubcategoriesList();
       }
     }
 
-    // --- RENDERIZAR LISTAS ADM ---
     function renderAdminCategoriesList() {
       const container = document.getElementById('adminCatListContainer');
       if (!container) return;
 
-      const allCats = [...new Set([
-        ...customCategories.map(c => ({ id: c.id, name: c.name, isCustom: true })),
-        ...products.map(p => ({ id: p.category, name: p.category, isCustom: false }))
-      ])];
-
-      if (allCats.length === 0) {
+      if (customCategories.length === 0) {
         container.innerHTML = `<p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhuma categoria cadastrada.</p>`;
         return;
       }
@@ -1102,7 +937,7 @@
       if (!container) return;
 
       if (customSubcategories.length === 0) {
-        container.innerHTML = `<p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhuma subcategoria manual cadastrada.</p>`;
+        container.innerHTML = `<p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhuma subcategoria cadastrada.</p>`;
         return;
       }
 
@@ -1134,19 +969,12 @@
           document.getElementById('adminPasswordInput').value = '';
         }
       } catch (error) {
-        console.error(error);
         alert('Erro ao fazer login: E-mail ou senha incorretos.');
       }
     }
 
     async function handleAdminLogout() {
-      try {
-        if (window.firebaseAuthLogout) {
-          await window.firebaseAuthLogout();
-        }
-      } catch (error) {
-        console.error(error);
-      }
+      if (window.firebaseAuthLogout) await window.firebaseAuthLogout();
     }
 
     function cleanImageUrl(input) {
@@ -1155,7 +983,7 @@
       if (input.value !== val) input.value = val;
     }
 
-    // --- SALVAR PRODUTOS NO FIRESTORE E SINCRONIZAR COM GITHUB ---
+    // --- SALVAR PRODUTOS ---
     async function handleSaveProduct(event) {
       event.preventDefault();
 
@@ -1183,12 +1011,6 @@
           products.push(productData);
         }
 
-        const dataElement = document.getElementById('sublimart-catalog-data');
-        if (dataElement) {
-          dataElement.textContent = JSON.stringify(products).replace(/</g, '\\u003c');
-          dataElement.dataset.initialized = 'true';
-        }
-
         if (window.syncWithGithub) {
           await window.syncWithGithub(products);
         }
@@ -1200,7 +1022,7 @@
         alert('Produto cadastrado e salvo com sucesso!');
       } catch (error) {
         console.error("Erro ao salvar produto:", error);
-        alert('Erro ao salvar produto. Verifique sua conexão.');
+        alert('Erro ao salvar produto. Tente novamente.');
       }
     }
 
@@ -1394,23 +1216,12 @@
 
     async function deleteProduct(id) {
       if (confirm('Deseja realmente excluir este produto?')) {
-        try {
-          if (window.dbDeleteProduct) {
-            await window.dbDeleteProduct(id);
-          }
-          products = products.filter(item => String(item.id) !== String(id));
-          
-          if (window.syncWithGithub) {
-            await window.syncWithGithub(products);
-          }
-
-          renderCatalog();
-          renderAdminProductsList();
-          renderCategoriesMenu();
-        } catch (error) {
-          console.error(error);
-          alert('Erro ao excluir produto.');
-        }
+        if (window.dbDeleteProduct) await window.dbDeleteProduct(id);
+        products = products.filter(item => String(item.id) !== String(id));
+        if (window.syncWithGithub) await window.syncWithGithub(products);
+        renderCatalog();
+        renderAdminProductsList();
+        renderCategoriesMenu();
       }
     }
 
@@ -1436,25 +1247,16 @@
       const checkboxes = document.querySelectorAll('.admin-prod-checkbox:checked');
       if (checkboxes.length === 0) return;
       if (confirm(`Deseja excluir os ${checkboxes.length} produtos selecionados?`)) {
-        try {
-          const idsToDelete = Array.from(checkboxes).map(cb => cb.value);
-          for (const id of idsToDelete) {
-            if (window.dbDeleteProduct) await window.dbDeleteProduct(id);
-          }
-          products = products.filter(p => !idsToDelete.includes(String(p.id)));
-
-          if (window.syncWithGithub) {
-            await window.syncWithGithub(products);
-          }
-
-          renderCatalog();
-          renderAdminProductsList();
-          renderCategoriesMenu();
-          document.getElementById('bulkActionsBar').style.display = 'none';
-        } catch (error) {
-          console.error(error);
-          alert('Erro ao excluir produtos selecionados.');
+        const idsToDelete = Array.from(checkboxes).map(cb => cb.value);
+        for (const id of idsToDelete) {
+          if (window.dbDeleteProduct) await window.dbDeleteProduct(id);
         }
+        products = products.filter(p => !idsToDelete.includes(String(p.id)));
+        if (window.syncWithGithub) await window.syncWithGithub(products);
+        renderCatalog();
+        renderAdminProductsList();
+        renderCategoriesMenu();
+        document.getElementById('bulkActionsBar').style.display = 'none';
       }
     }
 
