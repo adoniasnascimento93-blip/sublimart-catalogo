@@ -559,13 +559,13 @@
     <div class="modal-card" id="adminModalCard">
       <button class="btn-close-modal" onclick="closeAdminModal()"><i class="fa-solid fa-xmark"></i></button>
       
-      <!-- LOGIN SEGURO COM CREDENCIAIS REAIS -->
+      <!-- LOGIN FIREBASE AUTHENTICATION -->
       <div id="adminLoginForm" style="display: block;">
-        <h3 class="modal-title" style="margin-bottom: 1rem;"><i class="fa-solid fa-shield-halved"></i> Login Seguro - ADM</h3>
+        <h3 class="modal-title" style="margin-bottom: 1rem;"><i class="fa-solid fa-shield-halved"></i> Login - Firebase Auth</h3>
         <form onsubmit="handleAdminLogin(event)">
           <div class="form-group">
             <label>E-mail do Administrador:</label>
-            <input type="email" id="adminEmailInput" placeholder="sublimart@admin.com" required="">
+            <input type="email" id="adminEmailInput" placeholder="seu-email@admin.com" required="">
           </div>
           <div class="form-group">
             <label>Senha:</label>
@@ -712,6 +712,45 @@
 
   <script id="sublimart-catalog-data" type="application/json" data-initialized="false">[]</script>
 
+  <!-- FIREBASE SDKs (Módulos ES) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyANjvOsw0EJohoDtgQAZ3gvN8Sd8UqGZDk",
+      authDomain: "sublimart-catalogo.firebaseapp.com",
+      projectId: "sublimart-catalogo",
+      storageBucket: "sublimart-catalogo.firebasestorage.app",
+      messagingSenderId: "713298486667",
+      appId: "1:713298486667:web:f7d63d7b0f2444bdf5fb8e"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Torna as funções globais para o restante do script usar
+    window.firebaseAuthLogin = (email, password) => {
+      return signInWithEmailAndPassword(auth, email, password);
+    };
+
+    window.firebaseAuthLogout = () => {
+      return signOut(auth);
+    };
+
+    onAuthStateChanged(auth, (user) => {
+      const loginForm = document.getElementById('adminLoginForm');
+      const mainPanel = document.getElementById('adminMainPanel');
+      if (user) {
+        if (loginForm) loginForm.style.display = 'none';
+        if (mainPanel) mainPanel.style.display = 'block';
+      } else {
+        if (loginForm) loginForm.style.display = 'block';
+        if (mainPanel) mainPanel.style.display = 'none';
+      }
+    });
+  </script>
+
   <script>
     // --- DADOS DO CATÁLOGO ---
     const catalogDataElement = document.getElementById('sublimart-catalog-data');
@@ -755,10 +794,7 @@
 
     function openAdminModal() {
       const modal = document.getElementById('adminModal');
-      if (modal) {
-        modal.style.display = 'flex';
-        checkAdminSessionSecurity();
-      }
+      if (modal) modal.style.display = 'flex';
     }
 
     function closeAdminModal() {
@@ -793,40 +829,32 @@
       if (tabName === 'manageCat') renderAdminCategoriesList();
     }
 
-    // --- SEGURANÇA DA ÁREA ADM ---
-    function checkAdminSessionSecurity() {
-      const isLogged = sessionStorage.getItem('sublimart_admin_authenticated');
-      const loginForm = document.getElementById('adminLoginForm');
-      const mainPanel = document.getElementById('adminMainPanel');
-
-      if (isLogged === 'true') {
-        if (loginForm) loginForm.style.display = 'none';
-        if (mainPanel) mainPanel.style.display = 'block';
-      } else {
-        if (loginForm) loginForm.style.display = 'block';
-        if (mainPanel) mainPanel.style.display = 'none';
-      }
-    }
-
-    function handleAdminLogin(event) {
+    // --- AUTENTICAÇÃO VIA FIREBASE ---
+    async function handleAdminLogin(event) {
       event.preventDefault();
       const email = document.getElementById('adminEmailInput').value.trim();
       const pass = document.getElementById('adminPasswordInput').value.trim();
 
-      // Credenciais locais corretas
-      if (email === 'sublimart@admin.com' && pass === 'sublimart123') {
-        sessionStorage.setItem('sublimart_admin_authenticated', 'true');
-        document.getElementById('adminEmailInput').value = '';
-        document.getElementById('adminPasswordInput').value = '';
-        checkAdminSessionSecurity();
-      } else {
-        alert('E-mail ou senha incorretos! Certifique-se de usar sublimart@admin.com e a senha padrão.');
+      try {
+        if (window.firebaseAuthLogin) {
+          await window.firebaseAuthLogin(email, pass);
+          document.getElementById('adminEmailInput').value = '';
+          document.getElementById('adminPasswordInput').value = '';
+        }
+      } catch (error) {
+        console.error(error);
+        alert('Erro ao fazer login: Verifique se o e-mail e a senha estão corretos no Firebase Authentication.');
       }
     }
 
-    function handleAdminLogout() {
-      sessionStorage.removeItem('sublimart_admin_authenticated');
-      checkAdminSessionSecurity();
+    async function handleAdminLogout() {
+      try {
+        if (window.firebaseAuthLogout) {
+          await window.firebaseAuthLogout();
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
 
     function cleanImageUrl(input) {
@@ -873,7 +901,7 @@
       renderCatalog();
       renderAdminProductsList();
       renderCategoriesMenu();
-      alert('Produto salvo com sucesso!');
+      alert('Produto salvo com sucesso! (Lembre-se de sincronizar com o GitHub caso use o GitHub Pages para que apareça em outros dispositivos).');
     }
 
     function resetProductForm() {
