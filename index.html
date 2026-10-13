@@ -598,12 +598,16 @@
             
             <div class="form-group">
               <label>Categoria Principal:</label>
-              <input type="text" id="pCategory" placeholder="Ex: Camisas, Canecas..." required="">
+              <select id="pCategory" required="">
+                <option value="">Selecione uma Categoria...</option>
+              </select>
             </div>
 
             <div class="form-group" id="subcatFormGroup">
               <label>Subcategoria / Tema:</label>
-              <input type="text" id="pSubCategory" placeholder="Ex: Masculina, Infantil..." required="">
+              <select id="pSubCategory" required="">
+                <option value="">Selecione uma Subcategoria...</option>
+              </select>
             </div>
 
             <div class="form-group">
@@ -657,18 +661,36 @@
 
         <!-- GERENCIAR SUBCATEGORIAS -->
         <div id="adminSecManageSubcat" style="display: none;">
-          <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Gerenciar Subcategorias</h4>
-          <div id="adminSubcatListContainer" style="max-height: 280px; overflow-y: auto;">
-            <p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Gerenciado automaticamente pelos produtos.</p>
-          </div>
+          <h4 style="font-size: 1rem; margin-bottom: 0.8rem;">Nova Subcategoria</h4>
+          <form onsubmit="handleCreateSubcategory(event)" style="margin-bottom: 1.2rem;">
+            <div class="form-group">
+              <label>Selecione a Categoria Pai:</label>
+              <select id="subcatParentCat" required="">
+                <option value="">Selecione uma Categoria...</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Nome da Subcategoria:</label>
+              <input type="text" id="newSubcategoryName" placeholder="Ex: MASCULINA, INFANTIL..." required="">
+            </div>
+            <button type="submit" class="btn-submit-admin">ADICIONAR SUBCATEGORIA</button>
+          </form>
+          <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Subcategorias Cadastradas</h4>
+          <div id="adminSubcatListContainer" style="max-height: 200px; overflow-y: auto;"></div>
         </div>
 
         <!-- GERENCIAR CATEGORIAS -->
         <div id="adminSecManageCat" style="display: none;">
-          <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Categorias Principais</h4>
-          <div id="adminCatListContainer" style="max-height: 280px; overflow-y: auto;">
-            <p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhuma categoria cadastrada.</p>
-          </div>
+          <h4 style="font-size: 1rem; margin-bottom: 0.8rem;">Nova Categoria Principal</h4>
+          <form onsubmit="handleCreateCategory(event)" style="margin-bottom: 1.2rem;">
+            <div class="form-group">
+              <label>Nome da Categoria:</label>
+              <input type="text" id="newCategoryName" placeholder="Ex: Camisas, Canecas..." required="">
+            </div>
+            <button type="submit" class="btn-submit-admin">ADICIONAR CATEGORIA</button>
+          </form>
+          <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Categorias Cadastradas</h4>
+          <div id="adminCatListContainer" style="max-height: 200px; overflow-y: auto;"></div>
         </div>
 
         <!-- CONFIGURAR GITHUB -->
@@ -735,6 +757,7 @@
     window.firebaseAuthLogin = (email, password) => signInWithEmailAndPassword(auth, email, password);
     window.firebaseAuthLogout = () => signOut(auth);
 
+    // PRODUTOS
     window.dbGetProducts = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "produtos"));
@@ -757,6 +780,52 @@
       await deleteDoc(doc(db, "produtos", String(id)));
     };
 
+    // CATEGORIAS
+    window.dbGetCategories = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "categorias"));
+        let items = [];
+        querySnapshot.forEach((docSnap) => {
+          items.push({ id: docSnap.id, ...docSnap.data() });
+        });
+        return items;
+      } catch (err) {
+        console.error("Erro ao buscar categorias:", err);
+        return [];
+      }
+    };
+
+    window.dbSaveCategory = async (cat) => {
+      await setDoc(doc(db, "categorias", String(cat.id)), cat);
+    };
+
+    window.dbDeleteCategory = async (id) => {
+      await deleteDoc(doc(db, "categorias", String(id)));
+    };
+
+    // SUBCATEGORIAS
+    window.dbGetSubcategories = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "subcategorias"));
+        let items = [];
+        querySnapshot.forEach((docSnap) => {
+          items.push({ id: docSnap.id, ...docSnap.data() });
+        });
+        return items;
+      } catch (err) {
+        console.error("Erro ao buscar subcategorias:", err);
+        return [];
+      }
+    };
+
+    window.dbSaveSubcategory = async (sub) => {
+      await setDoc(doc(db, "subcategorias", String(sub.id)), sub);
+    };
+
+    window.dbDeleteSubcategory = async (id) => {
+      await deleteDoc(doc(db, "subcategorias", String(id)));
+    };
+
     // Função para atualizar o arquivo no GitHub automaticamente
     window.syncWithGithub = async (currentProducts) => {
       const cfg = JSON.parse(localStorage.getItem('sublimart_github_config') || '{}');
@@ -765,7 +834,6 @@
       try {
         const apiUrl = `https://api.github.com/repos/${cfg.username}/${cfg.repo}/contents/${cfg.filename}`;
         
-        // 1. Pega o SHA atual do arquivo no repositório
         const getRes = await fetch(apiUrl, {
           headers: { 'Authorization': `token ${cfg.token}` }
         });
@@ -774,19 +842,16 @@
         const fileData = await getRes.json();
         const fileSha = fileData.sha;
 
-        // 2. Atualiza o JSON embutido na tag <script id="sublimart-catalog-data">
         let fullHtml = document.documentElement.outerHTML;
         const jsonString = JSON.stringify(currentProducts).replace(/</g, '\\u003c');
         
-        // Substitui o conteúdo da tag de dados pelo novo array atualizado
         fullHtml = fullHtml.replace(
           /<script id="sublimart-catalog-data"[^>]*>[\s\S]*?<\/script>/,
           `<script id="sublimart-catalog-data" type="application/json" data-initialized="true">${jsonString}<\/script>`
         );
 
-        // 3. Faz o commit/push via API REST do GitHub
         const contentEncoded = btoa(unescape(encodeURIComponent(fullHtml)));
-        const putRes = await fetch(apiUrl, {
+        await fetch(apiUrl, {
           method: 'PUT',
           headers: {
             'Authorization': `token ${cfg.token}`,
@@ -798,10 +863,6 @@
             sha: fileSha
           })
         });
-
-        if (putRes.ok) {
-          console.log('GitHub sincronizado com sucesso!');
-        }
       } catch (err) {
         console.error('Erro na sincronização com o GitHub:', err);
       }
@@ -822,24 +883,28 @@
 
   <script>
     let products = [];
+    let customCategories = [];
+    let customSubcategories = [];
     let currentCategory = 'todos';
     let currentSubCategory = 'todos';
 
     document.addEventListener('DOMContentLoaded', async () => {
-      await loadProductsFromCloud();
+      await loadAllDataFromCloud();
       renderCatalog();
       renderAdminProductsList();
       renderCategoriesMenu();
+      populateCategorySelects();
+      populateSubcategorySelects();
       loadGithubConfig();
     });
 
-    async function loadProductsFromCloud() {
+    async function loadAllDataFromCloud() {
       try {
-        if (window.dbGetProducts) {
-          products = await window.dbGetProducts();
-        }
+        if (window.dbGetProducts) products = await window.dbGetProducts();
+        if (window.dbGetCategories) customCategories = await window.dbGetCategories();
+        if (window.dbGetSubcategories) customSubcategories = await window.dbGetSubcategories();
       } catch (error) {
-        console.error('Erro ao carregar produtos:', error);
+        console.error('Erro ao carregar dados:', error);
       }
     }
 
@@ -883,6 +948,177 @@
 
       if (tabName === 'manageProd') renderAdminProductsList();
       if (tabName === 'manageCat') renderAdminCategoriesList();
+      if (tabName === 'manageSubcat') renderAdminSubcategoriesList();
+    }
+
+    // --- POPULAR OPÇÕES DOS SELECTS ---
+    function populateCategorySelects() {
+      const prodSelect = document.getElementById('pCategory');
+      const subcatParentSelect = document.getElementById('subcatParentCat');
+
+      let options = `<option value="">Selecione uma Categoria...</option>`;
+      
+      // Junta categorias dinâmicas com as já existentes nos produtos
+      const allCats = [...new Set([
+        ...customCategories.map(c => c.name),
+        ...products.map(p => p.category)
+      ])].filter(Boolean);
+
+      allCats.forEach(cat => {
+        options += `<option value="${cat.toLowerCase()}">${cat.charAt(0).toUpperCase() + cat.slice(1)}</option>`;
+      });
+
+      if (prodSelect) prodSelect.innerHTML = options;
+      if (subcatParentSelect) subcatParentSelect.innerHTML = options;
+    }
+
+    function populateSubcategorySelects() {
+      const prodSubSelect = document.getElementById('pSubCategory');
+      let options = `<option value="">Selecione uma Subcategoria...</option>`;
+
+      const allSubs = [...new Set([
+        ...customSubcategories.map(s => s.name),
+        ...products.map(p => p.subcategory)
+      ])].filter(Boolean);
+
+      allSubs.forEach(sub => {
+        options += `<option value="${sub.toUpperCase()}">${sub.toUpperCase()}</option>`;
+      });
+
+      if (prodSubSelect) prodSubSelect.innerHTML = options;
+    }
+
+    // --- CRIAR CATEGORIA PRINCIPAL ---
+    async function handleCreateCategory(event) {
+      event.preventDefault();
+      const input = document.getElementById('newCategoryName');
+      const name = input.value.trim();
+
+      if (!name) return;
+
+      const newCat = { id: Date.now().toString(), name };
+
+      try {
+        if (window.dbSaveCategory) await window.dbSaveCategory(newCat);
+        customCategories.push(newCat);
+        input.value = '';
+        populateCategorySelects();
+        renderAdminCategoriesList();
+        renderCategoriesMenu();
+        alert('Categoria criada com sucesso!');
+      } catch (err) {
+        console.error(err);
+        alert('Erro ao criar categoria.');
+      }
+    }
+
+    // --- CRIAR SUBCATEGORIA ---
+    async function handleCreateSubcategory(event) {
+      event.preventDefault();
+      const parentCat = document.getElementById('subcatParentCat').value;
+      const input = document.getElementById('newSubcategoryName');
+      const name = input.value.trim().toUpperCase();
+
+      if (!parentCat || !name) {
+        alert('Selecione a categoria pai e informe o nome da subcategoria!');
+        return;
+      }
+
+      const newSub = { id: Date.now().toString(), parentCategory: parentCat, name };
+
+      try {
+        if (window.dbSaveSubcategory) await window.dbSaveSubcategory(newSub);
+        customSubcategories.push(newSub);
+        input.value = '';
+        populateSubcategorySelects();
+        renderAdminSubcategoriesList();
+        alert('Subcategoria criada com sucesso!');
+      } catch (err) {
+        console.error(err);
+        alert('Erro ao criar subcategoria.');
+      }
+    }
+
+    // --- EXCLUIR CATEGORIA ---
+    async function deleteCategory(id) {
+      if (confirm('Deseja excluir esta categoria?')) {
+        try {
+          if (window.dbDeleteCategory) await window.dbDeleteCategory(id);
+          customCategories = customCategories.filter(c => String(c.id) !== String(id));
+          populateCategorySelects();
+          renderAdminCategoriesList();
+          renderCategoriesMenu();
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    }
+
+    // --- EXCLUIR SUBCATEGORIA ---
+    async function deleteSubcategory(id) {
+      if (confirm('Deseja excluir esta subcategoria?')) {
+        try {
+          if (window.dbDeleteSubcategory) await window.dbDeleteSubcategory(id);
+          customSubcategories = customSubcategories.filter(s => String(s.id) !== String(id));
+          populateSubcategorySelects();
+          renderAdminSubcategoriesList();
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    }
+
+    // --- RENDERIZAR LISTAS ADM ---
+    function renderAdminCategoriesList() {
+      const container = document.getElementById('adminCatListContainer');
+      if (!container) return;
+
+      const allCats = [...new Set([
+        ...customCategories.map(c => ({ id: c.id, name: c.name, isCustom: true })),
+        ...products.map(p => ({ id: p.category, name: p.category, isCustom: false }))
+      ])];
+
+      if (allCats.length === 0) {
+        container.innerHTML = `<p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhuma categoria cadastrada.</p>`;
+        return;
+      }
+
+      container.innerHTML = customCategories.map(cat => `
+        <div class="admin-manage-card">
+          <div class="admin-manage-info">
+            <div class="admin-manage-details">
+              <strong>${cat.name.toUpperCase()}</strong>
+            </div>
+          </div>
+          <div class="admin-action-btns">
+            <button class="btn-delete-adm" onclick="deleteCategory('${cat.id}')">Excluir</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderAdminSubcategoriesList() {
+      const container = document.getElementById('adminSubcatListContainer');
+      if (!container) return;
+
+      if (customSubcategories.length === 0) {
+        container.innerHTML = `<p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhuma subcategoria manual cadastrada.</p>`;
+        return;
+      }
+
+      container.innerHTML = customSubcategories.map(sub => `
+        <div class="admin-manage-card">
+          <div class="admin-manage-info">
+            <div class="admin-manage-details">
+              <strong>${sub.name}</strong>
+              <span>Categoria Pai: ${sub.parentCategory.toUpperCase()}</span>
+            </div>
+          </div>
+          <div class="admin-action-btns">
+            <button class="btn-delete-adm" onclick="deleteSubcategory('${sub.id}')">Excluir</button>
+          </div>
+        </div>
+      `).join('');
     }
 
     // --- LOGIN ADM ---
@@ -947,14 +1183,12 @@
           products.push(productData);
         }
 
-        // Atualiza a tag interna de dados no HTML
         const dataElement = document.getElementById('sublimart-catalog-data');
         if (dataElement) {
           dataElement.textContent = JSON.stringify(products).replace(/</g, '\\u003c');
           dataElement.dataset.initialized = 'true';
         }
 
-        // Dispara a sincronização automática com o GitHub (se configurado)
         if (window.syncWithGithub) {
           await window.syncWithGithub(products);
         }
@@ -1025,7 +1259,10 @@
       const container = document.getElementById('navTabsContainer');
       if (!container) return;
 
-      const categories = ['todos', ...new Set(products.map(p => p.category ? p.category.toLowerCase() : ''))].filter(Boolean);
+      const categories = ['todos', ...new Set([
+        ...customCategories.map(c => c.name.toLowerCase()),
+        ...products.map(p => p.category ? p.category.toLowerCase() : '')
+      ])].filter(Boolean);
       
       container.innerHTML = categories.map(cat => `
         <button class="tab-btn ${currentCategory === cat ? 'active' : ''}" onclick="filterCategory('${cat}')">
@@ -1052,7 +1289,15 @@
         return;
       }
 
-      const subcategories = [...new Set(products.filter(p => p.category && p.category.toLowerCase() === currentCategory.toLowerCase()).map(p => p.subcategory ? p.subcategory.toUpperCase() : ''))].filter(Boolean);
+      const dynamicSubs = customSubcategories
+        .filter(s => s.parentCategory.toLowerCase() === currentCategory.toLowerCase())
+        .map(s => s.name.toUpperCase());
+
+      const productSubs = products
+        .filter(p => p.category && p.category.toLowerCase() === currentCategory.toLowerCase())
+        .map(p => p.subcategory ? p.subcategory.toUpperCase() : '');
+
+      const subcategories = [...new Set([...dynamicSubs, ...productSubs])].filter(Boolean);
       
       if (subcategories.length <= 1) {
         bar.style.display = 'none';
@@ -1211,21 +1456,6 @@
           alert('Erro ao excluir produtos selecionados.');
         }
       }
-    }
-
-    function renderAdminCategoriesList() {
-      const container = document.getElementById('adminCatListContainer');
-      if (!container) return;
-      const categories = [...new Set(products.map(p => p.category))].filter(Boolean);
-      if (categories.length === 0) {
-        container.innerHTML = `<p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhuma categoria cadastrada.</p>`;
-        return;
-      }
-      container.innerHTML = categories.map(cat => `
-        <div style="background: #f8f9fa; padding: 0.6rem 0.8rem; border-radius: 8px; margin-bottom: 0.4rem; font-weight: 600; font-size: 0.85rem; text-transform: uppercase;">
-          ${cat}
-        </div>
-      `).join('');
     }
 
     function loadGithubConfig() {
