@@ -1,4 +1,4 @@
-<html lang="pt-BR"><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/content/location/location.js" id="eppiocemhmnlbhjplcgkofciiegomcon"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/extend-native-history-api.js"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/requests.js"></script><head>
+<html lang="pt-BR"><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/content/location/location.js" id="eppiocemhmnlbhjplcgkofciiegomcon"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/extend-native-history-api.js"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/requests.js"></script><head><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/content/location/location.js" id="eppiocemhmnlbhjplcgkofciiegomcon"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/extend-native-history-api.js"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/requests.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Catálogo Digital | SUBLIMArt Personalizados</title>
@@ -181,8 +181,8 @@
       .admin-panel-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
     }
   </style>
-<script bis_use="true" type="text/javascript" charset="utf-8" nonce="" data-dynamic-id="34109357-773f-473b-85cf-16ae831618e4" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/200.js"></script><script bis_use="true" type="text/javascript" charset="utf-8" nonce="" data-dynamic-id="34109357-773f-473b-85cf-16ae831618e4" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/101.js"></script></head>
-<body __processed_512fd277-80eb-4f4f-9622-3739cb12a926__="true" bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWllZ29tY29uIiwiYWRibG9ja2VyU3RhdHVzIjp7IkRJU1BMQVkiOiJlbmFibGVkIiwiRkFDRUJPT0siOiJlbmFibGVkIiwiVFdJVFRFUiI6ImVuYWJsZWQiLCJSRURESVQiOiJlbmFibGVkIiwiUElOVEVSRVNUIjoiZW5hYmxlZCIsIklOU1RBR1JBTSI6ImVuYWJsZWQiLCJUSUtUT0siOiJlbmFibGVkIiwiTElOS0VESU4iOiJlbmFibGVkIiwiQ09ORklHIjoiZGlzYWJsZWQifSwidmVyc2lvbiI6IjIuMy4wIiwic2NvcmUiOjIwMzAwMH1d">
+<script bis_use="true" type="text/javascript" charset="utf-8" nonce="" data-dynamic-id="34109357-773f-473b-85cf-16ae831618e4" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/200.js"></script><script bis_use="true" type="text/javascript" charset="utf-8" nonce="" data-dynamic-id="34109357-773f-473b-85cf-16ae831618e4" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/101.js"></script><script bis_use="true" type="text/javascript" charset="utf-8" nonce="" data-dynamic-id="34109357-773f-473b-85cf-16ae831618e4" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/101.js"></script></head>
+<body __processed_512fd277-80eb-4f4f-9622-3739cb12a926__="true" bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWllZ29tY29uIiwiYWRibG9ja2VyU3RhdHVzIjp7IkRJU1BMQVkiOiJlbmFibGVkIiwiRkFDRUJPT0siOiJlbmFibGVkIiwiVFdJVFRFUiI6ImVuYWJsZWQiLCJSRURESVQiOiJlbmFibGVkIiwiUElOVEVSRVNUIjoiZW5hYmxlZCIsIklOU1RBR1JBTSI6ImVuYWJsZWQiLCJUSUtUT0siOiJlbmFibGVkIiwiTElOS0VESU4iOiJlbmFibGVkIiwiQ09ORklHIjoiZGlzYWJsZWQifSwidmVyc2lvbiI6IjIuMy4wIiwic2NvcmUiOjIwMzAwMH1d" __processed_20e752e7-593c-4256-a8d3-7bcfb63d70a9__="true">
 
   <!-- BOTÃO FLUTUANTE ADM -->
   <button class="btn-admin-trigger" onclick="openAdminModal()">
@@ -218,6 +218,10 @@
         <button class="tab-btn active" onclick="filterCategory('todos')">
           <i class="fa-solid fa-border-all"></i> Todos
         </button>
+      
+        <button class="tab-btn " onclick="filterCategory('estampas dtf')">
+          <i class="fa-solid fa-tag"></i> Estampas dtf
+        </button>
       </div>
       </div>
     </div>
@@ -227,14 +231,44 @@
   <main>
     <h2 class="category-title" id="category-title"><i class="fa-solid fa-border-all"></i> Todos os Produtos</h2>
     <div class="subcategories-bar" id="subcategories-bar" bis_skin_checked="1"></div>
-    <div class="catalog-grid" id="catalog-grid" bis_skin_checked="1"><p style="grid-column: 1/-1; text-align: center; color: #777; padding: 2rem;">Nenhum produto cadastrado.</p></div>
+    <div class="catalog-grid" id="catalog-grid" bis_skin_checked="1">
+        <div class="card" onclick="openProductDetail('1791861251220')" bis_skin_checked="1">
+          <div class="card-img-wrapper" bis_skin_checked="1">
+            <span class="card-code-badge">ESTAMPA P/ CAMISA Nº1</span>
+            <span class="card-subcat-badge">ESTAMPA DTF MASC</span>
+            <img src="https://i.imgur.com/KThKE5n.png" alt="ESTAMPA EM DTF CRISTÃO" onerror="this.src='https://via.placeholder.com/300?text=Sem+Imagem'">
+          </div>
+          <div class="card-body" bis_skin_checked="1">
+            <h3 class="card-title">ESTAMPA EM DTF CRISTÃO</h3>
+            <p class="card-desc">Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.</p>
+            <div class="card-footer-buy" bis_skin_checked="1">
+              <span class="price">R$ R$ 25,00</span>
+              <a href="https://wa.me/5592992914876?text=Olá! Gostaria de encomendar o produto ESTAMPA%20P%2F%20CAMISA%20N%C2%BA1 - ESTAMPA%20EM%20DTF%20CRIST%C3%83O" target="_blank" class="btn-buy" onclick="event.stopPropagation()">
+                <i class="fa-brands fa-whatsapp"></i> Comprar
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
   </main>
 
   <!-- MODAL DE VISUALIZAÇÃO DO PRODUTO -->
-  <div class="modal-overlay" id="productModal" bis_skin_checked="1">
+  <div class="modal-overlay" id="productModal" bis_skin_checked="1" style="display: none;">
     <div class="modal-card" bis_skin_checked="1">
       <button class="btn-close-modal" onclick="closeProductModal()"><i class="fa-solid fa-xmark"></i></button>
-      <div class="product-detail-container" id="productModalContent" bis_skin_checked="1"></div>
+      <div class="product-detail-container" id="productModalContent" bis_skin_checked="1">
+        <img src="https://i.imgur.com/KThKE5n.png" class="product-detail-img" alt="ESTAMPA EM DTF CRISTÃO" onerror="this.src='https://via.placeholder.com/400?text=Sem+Imagem'">
+        <div class="product-detail-badges" bis_skin_checked="1">
+          <span class="product-detail-code">ESTAMPA P/ CAMISA Nº1</span>
+          <span class="product-detail-subcat">ESTAMPA DTF MASC</span>
+        </div>
+        <h2 class="product-detail-title">ESTAMPA EM DTF CRISTÃO</h2>
+        <div class="product-detail-price" bis_skin_checked="1">R$ R$ 25,00</div>
+        <p class="product-detail-desc">Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.</p>
+        <a href="https://wa.me/5592992914876?text=Olá! Gostaria de encomendar o produto ESTAMPA%20P%2F%20CAMISA%20N%C2%BA1 - ESTAMPA%20EM%20DTF%20CRIST%C3%83O" target="_blank" class="btn-buy-modal">
+          <i class="fa-brands fa-whatsapp"></i> Comprar pelo WhatsApp
+        </a>
+      </div>
     </div>
   </div>
 
@@ -320,7 +354,21 @@
           <div class="form-group" style="margin-bottom: 0.8rem;" bis_skin_checked="1">
             <input type="text" id="adminProdSearchInput" oninput="renderAdminProductsList()" placeholder="🔍 Busque por código ou nome...">
           </div>
-          <div id="adminProductListContainer" style="max-height: 270px; overflow-y: auto;" bis_skin_checked="1"><p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhum produto cadastrado.</p></div>
+          <div id="adminProductListContainer" style="max-height: 270px; overflow-y: auto;" bis_skin_checked="1">
+        <div class="admin-manage-card" bis_skin_checked="1">
+          <div class="admin-manage-info" bis_skin_checked="1">
+            <img src="https://i.imgur.com/KThKE5n.png" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/50?text=Img'">
+            <div class="admin-manage-details" bis_skin_checked="1">
+              <strong>ESTAMPA P/ CAMISA Nº1 - ESTAMPA EM DTF CRISTÃO</strong>
+              <span>R$ R$ 25,00 | estampas dtf</span>
+            </div>
+          </div>
+          <div class="admin-action-btns" bis_skin_checked="1">
+            <button class="btn-edit-adm" onclick="editProduct('1791861251220')">Editar</button>
+            <button class="btn-delete-adm" onclick="deleteProduct('1791861251220')">Excluir</button>
+          </div>
+        </div>
+      </div>
         </div>
 
         <!-- GERENCIAR CATEGORIAS -->
@@ -369,7 +417,7 @@
   </footer>
 
   <!-- DADOS EMBUTIDOS NO HTML -->
-  <script id="sublimart-catalog-data" type="application/json">[{"id":"1791861251220","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº1","title":"ESTAMPA EM DTF CRISTÃO","price":"R$ 25,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/KThKE5n.png"}]</script>
+  <script id="sublimart-catalog-data" type="application/json">[{"id":"1791861251220","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº1","title":"ESTAMPA EM DTF CRISTÃO","price":"R$ 25,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/KThKE5n.png"},{"id":"1791861458307","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº2","title":"ESTAMPA EM DTF CRISTÃO","price":"R$ 20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/4kMArKZ.png"}]</script>
 
   <!-- FIREBASE AUTH & GITHUB SYNC API -->
   <script type="module">
