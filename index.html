@@ -674,7 +674,7 @@
         <!-- CONFIGURAR GITHUB -->
         <div id="adminSecGithub" style="display: none;">
           <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Conectar com o GitHub</h4>
-          <p style="font-size: 0.8rem; color: #666; margin-bottom: 1rem;">Configure para atualizar o arquivo no GitHub automaticamente:</p>
+          <p style="font-size: 0.8rem; color: #666; margin-bottom: 1rem;">Configure para atualizar o arquivo no GitHub automaticamente ao alterar produtos:</p>
           <form onsubmit="handleSaveGithubConfig(event)">
             <div class="form-group">
               <label>GitHub Username:</label>
@@ -710,7 +710,10 @@
     </div>
   </footer>
 
-  <!-- FIREBASE SDKs (Módulos ES com seu SDK correto) -->
+  <!-- DADOS EMBUTIDOS NO HTML -->
+  <script id="sublimart-catalog-data" type="application/json" data-initialized="false">[]</script>
+
+  <!-- FIREBASE SDKs & GITHUB SYNC API -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -729,11 +732,9 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Funções de Autenticação expostas para o escopo global
     window.firebaseAuthLogin = (email, password) => signInWithEmailAndPassword(auth, email, password);
     window.firebaseAuthLogout = () => signOut(auth);
 
-    // Funções do Firestore para salvar os produtos na nuvem
     window.dbGetProducts = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "produtos"));
@@ -756,7 +757,56 @@
       await deleteDoc(doc(db, "produtos", String(id)));
     };
 
-    // Monitoramento do estado de login
+    // Função para atualizar o arquivo no GitHub automaticamente
+    window.syncWithGithub = async (currentProducts) => {
+      const cfg = JSON.parse(localStorage.getItem('sublimart_github_config') || '{}');
+      if (!cfg.username || !cfg.repo || !cfg.token || !cfg.filename) return;
+
+      try {
+        const apiUrl = `https://api.github.com/repos/${cfg.username}/${cfg.repo}/contents/${cfg.filename}`;
+        
+        // 1. Pega o SHA atual do arquivo no repositório
+        const getRes = await fetch(apiUrl, {
+          headers: { 'Authorization': `token ${cfg.token}` }
+        });
+        
+        if (!getRes.ok) return;
+        const fileData = await getRes.json();
+        const fileSha = fileData.sha;
+
+        // 2. Atualiza o JSON embutido na tag <script id="sublimart-catalog-data">
+        let fullHtml = document.documentElement.outerHTML;
+        const jsonString = JSON.stringify(currentProducts).replace(/</g, '\\u003c');
+        
+        // Substitui o conteúdo da tag de dados pelo novo array atualizado
+        fullHtml = fullHtml.replace(
+          /<script id="sublimart-catalog-data"[^>]*>[\s\S]*?<\/script>/,
+          `<script id="sublimart-catalog-data" type="application/json" data-initialized="true">${jsonString}<\/script>`
+        );
+
+        // 3. Faz o commit/push via API REST do GitHub
+        const contentEncoded = btoa(unescape(encodeURIComponent(fullHtml)));
+        const putRes = await fetch(apiUrl, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${cfg.token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: 'Atualização automática de produtos - Catálogo SUBLIMArt',
+            content: contentEncoded,
+            sha: fileSha
+          })
+        });
+
+        if (putRes.ok) {
+          console.log('GitHub sincronizado com sucesso!');
+        }
+      } catch (err) {
+        console.error('Erro na sincronização com o GitHub:', err);
+      }
+    };
+
     onAuthStateChanged(auth, (user) => {
       const loginForm = document.getElementById('adminLoginForm');
       const mainPanel = document.getElementById('adminMainPanel');
@@ -865,11 +915,11 @@
 
     function cleanImageUrl(input) {
       let val = input.value.trim();
-      val = val.replace(/^\[img\]/i, '').replace(/\[\/img\]$/i, '').trim();
+      val = val.replace(/^[img]/i, '').replace(/\[\/img\]$/i, '').trim();
       if (input.value !== val) input.value = val;
     }
 
-    // --- SALVAR PRODUTOS NO FIRESTORE ---
+    // --- SALVAR PRODUTOS NO FIRESTORE E SINCRONIZAR COM GITHUB ---
     async function handleSaveProduct(event) {
       event.preventDefault();
 
@@ -897,11 +947,23 @@
           products.push(productData);
         }
 
+        // Atualiza a tag interna de dados no HTML
+        const dataElement = document.getElementById('sublimart-catalog-data');
+        if (dataElement) {
+          dataElement.textContent = JSON.stringify(products).replace(/</g, '\\u003c');
+          dataElement.dataset.initialized = 'true';
+        }
+
+        // Dispara a sincronização automática com o GitHub (se configurado)
+        if (window.syncWithGithub) {
+          await window.syncWithGithub(products);
+        }
+
         resetProductForm();
         renderCatalog();
         renderAdminProductsList();
         renderCategoriesMenu();
-        alert('Produto cadastrado e salvo com sucesso na nuvem!');
+        alert('Produto cadastrado e salvo com sucesso!');
       } catch (error) {
         console.error("Erro ao salvar produto:", error);
         alert('Erro ao salvar produto. Verifique sua conexão.');
@@ -1092,6 +1154,11 @@
             await window.dbDeleteProduct(id);
           }
           products = products.filter(item => String(item.id) !== String(id));
+          
+          if (window.syncWithGithub) {
+            await window.syncWithGithub(products);
+          }
+
           renderCatalog();
           renderAdminProductsList();
           renderCategoriesMenu();
@@ -1130,6 +1197,11 @@
             if (window.dbDeleteProduct) await window.dbDeleteProduct(id);
           }
           products = products.filter(p => !idsToDelete.includes(String(p.id)));
+
+          if (window.syncWithGithub) {
+            await window.syncWithGithub(products);
+          }
+
           renderCatalog();
           renderAdminProductsList();
           renderCategoriesMenu();
