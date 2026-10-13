@@ -561,11 +561,11 @@
       
       <!-- LOGIN FIREBASE AUTHENTICATION -->
       <div id="adminLoginForm" style="display: block;">
-        <h3 class="modal-title" style="margin-bottom: 1rem;"><i class="fa-solid fa-shield-halved"></i> Login - Firebase Auth</h3>
+        <h3 class="modal-title" style="margin-bottom: 1rem;"><i class="fa-solid fa-shield-halved"></i> Login - Painel ADM</h3>
         <form onsubmit="handleAdminLogin(event)">
           <div class="form-group">
             <label>E-mail do Administrador:</label>
-            <input type="email" id="adminEmailInput" placeholder="seu-email@admin.com" required="">
+            <input type="email" id="adminEmailInput" placeholder="sublimart@admin.com" required="">
           </div>
           <div class="form-group">
             <label>Senha:</label>
@@ -587,7 +587,6 @@
           <button class="admin-tab-btn" id="btnTabManageProd" onclick="switchAdminTab('manageProd')"><i class="fa-solid fa-boxes-stacked"></i> Gerenciar Produtos</button>
           <button class="admin-tab-btn" id="btnTabManageSubcat" onclick="switchAdminTab('manageSubcat')"><i class="fa-solid fa-tags"></i> Subcategorias</button>
           <button class="admin-tab-btn" id="btnTabManageCat" onclick="switchAdminTab('manageCat')"><i class="fa-solid fa-folder"></i> Categorias Principais</button>
-          <button class="admin-tab-btn" id="btnTabGithub" onclick="switchAdminTab('github')"><i class="fa-brands fa-github"></i> Configurar GitHub</button>
         </div>
 
         <!-- CADASTRAR/EDITAR PRODUTO -->
@@ -671,31 +670,6 @@
           </div>
         </div>
 
-        <!-- CONFIGURAR GITHUB -->
-        <div id="adminSecGithub" style="display: none;">
-          <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Conectar com o GitHub</h4>
-          <p style="font-size: 0.8rem; color: #666; margin-bottom: 1rem;">Configure para atualizar o arquivo no GitHub automaticamente ao alterar produtos:</p>
-          <form onsubmit="handleSaveGithubConfig(event)">
-            <div class="form-group">
-              <label>GitHub Username:</label>
-              <input type="text" id="ghUsername" placeholder="Ex: adoniasdesigner" required="">
-            </div>
-            <div class="form-group">
-              <label>Nome do Repositório:</label>
-              <input type="text" id="ghRepo" placeholder="Ex: sublimart-catalogo" required="">
-            </div>
-            <div class="form-group">
-              <label>Nome do Arquivo (ex: index.html):</label>
-              <input type="text" id="ghFilename" value="index.html" required="">
-            </div>
-            <div class="form-group">
-              <label>Personal Access Token (PAT):</label>
-              <input type="password" id="ghToken" placeholder="ghp_..." required="">
-            </div>
-            <button type="submit" class="btn-submit-admin">SALVAR CONFIGURAÇÃO GITHUB</button>
-          </form>
-        </div>
-
       </div>
     </div>
   </div>
@@ -710,12 +684,11 @@
     </div>
   </footer>
 
-  <script id="sublimart-catalog-data" type="application/json" data-initialized="false">[]</script>
-
-  <!-- FIREBASE SDKs (Módulos ES) -->
+  <!-- FIREBASE SDKs (Módulos ES com seu SDK correto) -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, collection, getDocs, setDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyANjvOsw0EJohoDtgQAZ3gvN8Sd8UqGZDk",
@@ -728,16 +701,31 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const db = getFirestore(app);
 
-    // Torna as funções globais para o restante do script usar
-    window.firebaseAuthLogin = (email, password) => {
-      return signInWithEmailAndPassword(auth, email, password);
+    // Funções de Autenticação expostas para o escopo global
+    window.firebaseAuthLogin = (email, password) => signInWithEmailAndPassword(auth, email, password);
+    window.firebaseAuthLogout = () => signOut(auth);
+
+    // Funções do Firestore para salvar os produtos na nuvem (sincroniza com celulares e outros PCs)
+    window.dbGetProducts = async () => {
+      const querySnapshot = await getDocs(collection(db, "produtos"));
+      let items = [];
+      querySnapshot.forEach((docSnap) => {
+        items.push({ id: docSnap.id, ...docSnap.data() });
+      });
+      return items;
     };
 
-    window.firebaseAuthLogout = () => {
-      return signOut(auth);
+    window.dbSaveProduct = async (product) => {
+      await setDoc(doc(db, "produtos", String(product.id)), product);
     };
 
+    window.dbDeleteProduct = async (id) => {
+      await deleteDoc(doc(db, "produtos", String(id)));
+    };
+
+    // Monitoramento do estado de login
     onAuthStateChanged(auth, (user) => {
       const loginForm = document.getElementById('adminLoginForm');
       const mainPanel = document.getElementById('adminMainPanel');
@@ -752,40 +740,28 @@
   </script>
 
   <script>
-    // --- DADOS DO CATÁLOGO ---
-    const catalogDataElement = document.getElementById('sublimart-catalog-data');
-    
-    function readCatalogProducts() {
-      try {
-        if (catalogDataElement && catalogDataElement.dataset.initialized === 'true') {
-          const embedded = JSON.parse(catalogDataElement.textContent || '[]');
-          return Array.isArray(embedded) ? embedded : [];
-        }
-        const saved = JSON.parse(localStorage.getItem('sublimart_products') || '[]');
-        return Array.isArray(saved) ? saved : [];
-      } catch (error) {
-        console.error('Não foi possível carregar os produtos:', error);
-        return [];
-      }
-    }
-    
-    let products = readCatalogProducts();
+    let products = [];
     let currentCategory = 'todos';
     let currentSubCategory = 'todos';
 
-    function persistCatalogInHtml() {
-      const dataElement = document.getElementById('sublimart-catalog-data');
-      if (!dataElement) return;
-      dataElement.textContent = JSON.stringify(products).replace(/</g, '\\u003c');
-      dataElement.dataset.initialized = 'true';
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
+      await loadProductsFromCloud();
       renderCatalog();
       renderAdminProductsList();
       renderCategoriesMenu();
-      loadGithubConfig();
     });
+
+    async function loadProductsFromCloud() {
+      try {
+        if (window.dbGetProducts) {
+          products = await window.dbGetProducts();
+        }
+      } catch (error) {
+        console.error('Erro ao carregar produtos do Firestore:', error);
+        // Fallback para localStorage caso haja falha de rede temporária
+        products = JSON.parse(localStorage.getItem('sublimart_products') || '[]');
+      }
+    }
 
     function toggleCategoriesMenu() {
       const dropdown = document.getElementById('navTabsContainer');
@@ -812,7 +788,7 @@
     }
 
     function switchAdminTab(tabName) {
-      const sections = ['add', 'manageProd', 'manageSubcat', 'manageCat', 'github'];
+      const sections = ['add', 'manageProd', 'manageSubcat', 'manageCat'];
       sections.forEach(sec => {
         const el = document.getElementById('adminSec' + sec.charAt(0).toUpperCase() + sec.slice(1));
         const btn = document.getElementById('btnTab' + sec.charAt(0).toUpperCase() + sec.slice(1));
@@ -829,7 +805,7 @@
       if (tabName === 'manageCat') renderAdminCategoriesList();
     }
 
-    // --- AUTENTICAÇÃO VIA FIREBASE ---
+    // --- LOGIN ADM ---
     async function handleAdminLogin(event) {
       event.preventDefault();
       const email = document.getElementById('adminEmailInput').value.trim();
@@ -843,7 +819,7 @@
         }
       } catch (error) {
         console.error(error);
-        alert('Erro ao fazer login: Verifique se o e-mail e a senha estão corretos no Firebase Authentication.');
+        alert('Erro ao fazer login: E-mail ou senha incorretos no Firebase Authentication.');
       }
     }
 
@@ -863,8 +839,8 @@
       if (input.value !== val) input.value = val;
     }
 
-    // --- SALVAR PRODUTOS ---
-    function handleSaveProduct(event) {
+    // --- SALVAR PRODUTOS NA NUVEM (FIRESTORE) ---
+    async function handleSaveProduct(event) {
       event.preventDefault();
 
       const editingId = document.getElementById('pEditingId').value;
@@ -876,32 +852,30 @@
       const desc = document.getElementById('pDesc').value.trim();
       const image = document.getElementById('pImage').value.trim();
 
-      if (editingId) {
-        const index = products.findIndex(p => String(p.id) === String(editingId));
-        if (index !== -1) {
-          products[index] = { id: editingId, category, subcategory, code, title, price, desc, image };
-        }
-      } else {
-        const newProduct = {
-          id: Date.now().toString(),
-          category,
-          subcategory,
-          code,
-          title,
-          price,
-          desc,
-          image
-        };
-        products.push(newProduct);
-      }
+      const productId = editingId ? editingId : Date.now().toString();
+      const productData = { id: productId, category, subcategory, code, title, price, desc, image };
 
-      localStorage.setItem('sublimart_products', JSON.stringify(products));
-      persistCatalogInHtml();
-      resetProductForm();
-      renderCatalog();
-      renderAdminProductsList();
-      renderCategoriesMenu();
-      alert('Produto salvo com sucesso! (Lembre-se de sincronizar com o GitHub caso use o GitHub Pages para que apareça em outros dispositivos).');
+      try {
+        if (window.dbSaveProduct) {
+          await window.dbSaveProduct(productData);
+        }
+
+        if (editingId) {
+          const index = products.findIndex(p => String(p.id) === String(editingId));
+          if (index !== -1) products[index] = productData;
+        } else {
+          products.push(productData);
+        }
+
+        resetProductForm();
+        renderCatalog();
+        renderAdminProductsList();
+        renderCategoriesMenu();
+        alert('Produto salvo e sincronizado na nuvem com sucesso!');
+      } catch (error) {
+        console.error(error);
+        alert('Erro ao salvar produto no Firestore.');
+      }
     }
 
     function resetProductForm() {
@@ -965,7 +939,7 @@
       const container = document.getElementById('navTabsContainer');
       if (!container) return;
 
-      const categories = ['todos', ...new Set(products.map(p => p.category.toLowerCase()))];
+      const categories = ['todos', ...new Set(products.map(p => p.category ? p.category.toLowerCase() : ''))].filter(Boolean);
       
       container.innerHTML = categories.map(cat => `
         <button class="tab-btn ${currentCategory === cat ? 'active' : ''}" onclick="filterCategory('${cat}')">
@@ -992,7 +966,7 @@
         return;
       }
 
-      const subcategories = [...new Set(products.filter(p => p.category.toLowerCase() === currentCategory.toLowerCase()).map(p => p.subcategory.toUpperCase()))];
+      const subcategories = [...new Set(products.filter(p => p.category && p.category.toLowerCase() === currentCategory.toLowerCase()).map(p => p.subcategory ? p.subcategory.toUpperCase() : ''))].filter(Boolean);
       
       if (subcategories.length <= 1) {
         bar.style.display = 'none';
@@ -1043,7 +1017,7 @@
       if (!container) return;
 
       const query = searchInput ? searchInput.value.toLowerCase() : '';
-      const filtered = products.filter(p => p.title.toLowerCase().includes(query) || p.code.toLowerCase().includes(query));
+      const filtered = products.filter(p => (p.title && p.title.toLowerCase().includes(query)) || (p.code && p.code.toLowerCase().includes(query)));
 
       if (filtered.length === 0) {
         container.innerHTML = `<p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhum produto encontrado.</p>`;
@@ -1087,14 +1061,20 @@
       switchAdminTab('add');
     }
 
-    function deleteProduct(id) {
+    async function deleteProduct(id) {
       if (confirm('Deseja realmente excluir este produto?')) {
-        products = products.filter(item => String(item.id) !== String(id));
-        localStorage.setItem('sublimart_products', JSON.stringify(products));
-        persistCatalogInHtml();
-        renderCatalog();
-        renderAdminProductsList();
-        renderCategoriesMenu();
+        try {
+          if (window.dbDeleteProduct) {
+            await window.dbDeleteProduct(id);
+          }
+          products = products.filter(item => String(item.id) !== String(id));
+          renderCatalog();
+          renderAdminProductsList();
+          renderCategoriesMenu();
+        } catch (error) {
+          console.error(error);
+          alert('Erro ao excluir produto.');
+        }
       }
     }
 
@@ -1116,25 +1096,31 @@
       }
     }
 
-    function deleteSelectedProducts() {
+    async function deleteSelectedProducts() {
       const checkboxes = document.querySelectorAll('.admin-prod-checkbox:checked');
       if (checkboxes.length === 0) return;
       if (confirm(`Deseja excluir os ${checkboxes.length} produtos selecionados?`)) {
-        const idsToDelete = Array.from(checkboxes).map(cb => cb.value);
-        products = products.filter(p => !idsToDelete.includes(String(p.id)));
-        localStorage.setItem('sublimart_products', JSON.stringify(products));
-        persistCatalogInHtml();
-        renderCatalog();
-        renderAdminProductsList();
-        renderCategoriesMenu();
-        document.getElementById('bulkActionsBar').style.display = 'none';
+        try {
+          const idsToDelete = Array.from(checkboxes).map(cb => cb.value);
+          for (const id of idsToDelete) {
+            if (window.dbDeleteProduct) await window.dbDeleteProduct(id);
+          }
+          products = products.filter(p => !idsToDelete.includes(String(p.id)));
+          renderCatalog();
+          renderAdminProductsList();
+          renderCategoriesMenu();
+          document.getElementById('bulkActionsBar').style.display = 'none';
+        } catch (error) {
+          console.error(error);
+          alert('Erro ao excluir produtos selecionados.');
+        }
       }
     }
 
     function renderAdminCategoriesList() {
       const container = document.getElementById('adminCatListContainer');
       if (!container) return;
-      const categories = [...new Set(products.map(p => p.category))];
+      const categories = [...new Set(products.map(p => p.category))].filter(Boolean);
       if (categories.length === 0) {
         container.innerHTML = `<p style="font-size: 0.85rem; color: #777; text-align: center; padding: 1rem;">Nenhuma categoria cadastrada.</p>`;
         return;
@@ -1144,26 +1130,6 @@
           ${cat}
         </div>
       `).join('');
-    }
-
-    function loadGithubConfig() {
-      const cfg = JSON.parse(localStorage.getItem('sublimart_github_config') || '{}');
-      if (cfg.username) document.getElementById('ghUsername').value = cfg.username;
-      if (cfg.repo) document.getElementById('ghRepo').value = cfg.repo;
-      if (cfg.filename) document.getElementById('ghFilename').value = cfg.filename;
-      if (cfg.token) document.getElementById('ghToken').value = cfg.token;
-    }
-
-    function handleSaveGithubConfig(event) {
-      event.preventDefault();
-      const cfg = {
-        username: document.getElementById('ghUsername').value.trim(),
-        repo: document.getElementById('ghRepo').value.trim(),
-        filename: document.getElementById('ghFilename').value.trim(),
-        token: document.getElementById('ghToken').value.trim()
-      };
-      localStorage.setItem('sublimart_github_config', JSON.stringify(cfg));
-      alert('Configuração do GitHub salva com sucesso!');
     }
   </script>
 </body>
