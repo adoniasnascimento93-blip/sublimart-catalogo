@@ -592,7 +592,7 @@
         <!-- CADASTRAR/EDITAR PRODUTO -->
         <div id="adminSecAdd" style="display: block;">
           <h4 id="formProductTitleHeader" style="font-size: 1rem; margin-bottom: 0.8rem;">Cadastrar Novo Produto</h4>
-          <form onsubmit="handleSaveProduct(event)">
+          <form id="productForm" onsubmit="handleSaveProduct(event)">
             <input type="hidden" id="pEditingId" value="">
             
             <div class="form-group">
@@ -707,14 +707,19 @@
     window.firebaseAuthLogin = (email, password) => signInWithEmailAndPassword(auth, email, password);
     window.firebaseAuthLogout = () => signOut(auth);
 
-    // Funções do Firestore para salvar os produtos na nuvem (sincroniza com celulares e outros PCs)
+    // Funções do Firestore para salvar os produtos na nuvem
     window.dbGetProducts = async () => {
-      const querySnapshot = await getDocs(collection(db, "produtos"));
-      let items = [];
-      querySnapshot.forEach((docSnap) => {
-        items.push({ id: docSnap.id, ...docSnap.data() });
-      });
-      return items;
+      try {
+        const querySnapshot = await getDocs(collection(db, "produtos"));
+        let items = [];
+        querySnapshot.forEach((docSnap) => {
+          items.push({ id: docSnap.id, ...docSnap.data() });
+        });
+        return items;
+      } catch (err) {
+        console.error("Erro ao buscar no Firestore:", err);
+        return [];
+      }
     };
 
     window.dbSaveProduct = async (product) => {
@@ -757,9 +762,7 @@
           products = await window.dbGetProducts();
         }
       } catch (error) {
-        console.error('Erro ao carregar produtos do Firestore:', error);
-        // Fallback para localStorage caso haja falha de rede temporária
-        products = JSON.parse(localStorage.getItem('sublimart_products') || '[]');
+        console.error('Erro ao carregar produtos:', error);
       }
     }
 
@@ -819,7 +822,7 @@
         }
       } catch (error) {
         console.error(error);
-        alert('Erro ao fazer login: E-mail ou senha incorretos no Firebase Authentication.');
+        alert('Erro ao fazer login: E-mail ou senha incorretos.');
       }
     }
 
@@ -839,7 +842,7 @@
       if (input.value !== val) input.value = val;
     }
 
-    // --- SALVAR PRODUTOS NA NUVEM (FIRESTORE) ---
+    // --- SALVAR PRODUTOS NO FIRESTORE ---
     async function handleSaveProduct(event) {
       event.preventDefault();
 
@@ -860,9 +863,9 @@
           await window.dbSaveProduct(productData);
         }
 
-        if (editingId) {
-          const index = products.findIndex(p => String(p.id) === String(editingId));
-          if (index !== -1) products[index] = productData;
+        const index = products.findIndex(p => String(p.id) === String(productId));
+        if (index !== -1) {
+          products[index] = productData;
         } else {
           products.push(productData);
         }
@@ -871,22 +874,16 @@
         renderCatalog();
         renderAdminProductsList();
         renderCategoriesMenu();
-        alert('Produto salvo e sincronizado na nuvem com sucesso!');
+        alert('Produto cadastrado e salvo com sucesso na nuvem!');
       } catch (error) {
-        console.error(error);
-        alert('Erro ao salvar produto no Firestore.');
+        console.error("Erro ao salvar produto:", error);
+        alert('Erro ao salvar produto. Verifique sua conexão.');
       }
     }
 
     function resetProductForm() {
+      document.getElementById('productForm').reset();
       document.getElementById('pEditingId').value = '';
-      document.getElementById('pCategory').value = '';
-      document.getElementById('pSubCategory').value = '';
-      document.getElementById('pCode').value = '';
-      document.getElementById('pTitle').value = '';
-      document.getElementById('pPrice').value = '';
-      document.getElementById('pDesc').value = '';
-      document.getElementById('pImage').value = '';
       document.getElementById('formProductTitleHeader').textContent = 'Cadastrar Novo Produto';
       document.getElementById('btnSubmitFormProd').textContent = 'CADASTRAR PRODUTO';
       document.getElementById('btnCancelEditProd').style.display = 'none';
@@ -899,10 +896,10 @@
 
       let filtered = products;
       if (currentCategory !== 'todos') {
-        filtered = filtered.filter(p => p.category.toLowerCase() === currentCategory.toLowerCase());
+        filtered = filtered.filter(p => p.category && p.category.toLowerCase() === currentCategory.toLowerCase());
       }
       if (currentSubCategory !== 'todos') {
-        filtered = filtered.filter(p => p.subcategory.toUpperCase() === currentSubCategory.toUpperCase());
+        filtered = filtered.filter(p => p.subcategory && p.subcategory.toUpperCase() === currentSubCategory.toUpperCase());
       }
 
       if (titleEl) {
