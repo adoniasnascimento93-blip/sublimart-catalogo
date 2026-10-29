@@ -191,7 +191,7 @@
     }
   </style>
 <script bis_use="true" type="text/javascript" charset="utf-8" nonce="" data-dynamic-id="34109357-773f-473b-85cf-16ae831618e4" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/200.js"></script><script bis_use="true" type="text/javascript" charset="utf-8" nonce="" data-dynamic-id="34109357-773f-473b-85cf-16ae831618e4" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/101.js"></script><script src="https://apis.google.com/js/api.js?onload=__iframefcb749697" type="text/javascript" charset="UTF-8" gapi_processed="true"></script></head>
-<body __processed_8b07824a-8e83-431d-bf78-1c5ff3140654__="true" bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWllZ29tY29uIiwiYWRibG9ja2VyU3RhdHVzIjp7IkRJU1BMQVkiOiJlbmFibGVkIiwiRkFDRUJPT0siOiJlbmFibGVkIiwiVFdJVFRFUiI6ImVuYWJsZWQiOiJSRURESVQiOiJlbmFibGVkIiwiUElOVEVSRVNUIjoiZW5hYmxlZCIsIklOU1RBR1JBTSI6ImVuYWJsZWQiOiJUSUtUT0siOiJlbmFibGVkIiwiTElOS0VESU4iOiJlbmFibGVkIiwiQ09ORklHIjoiZGlzYWJsZWQifSwidmVyc2lvbiI6IjIuMy4wIiwic2NvcmUiOjIwMzAwMH1d" __processed_48bb71df-7f03-4a82-97a1-aaeb549547b3__="true" __processed_02372317-fb1d-41e8-bef9-0a5228d5fa75__="true">
+<body __processed_8b07824a-8e83-431d-bf78-1c5ff3140654__="true" bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWllZ29tY29uIiwiYWRibG9ja2VyU3RhdHVzIjp7IkRJU1BMQVkiOiJlbmFibGVkIiwiRkFDRUJPT0siOiJlbmFibGVkIiwiVFdJVFRFUiI6ImVuYWJsZWQiLCJSRURESVQiOiJlbmFibGVkIiwiUElOVEVSRVNUIjoiZW5hYmxlZCIsIklOU1RBR1JBTSI6ImVuYWJsZWQiLCJUSUtUT0siOiJlbmFibGVkIiwiTElOS0VESU4iOiJlbmFibGVkIiwiQ09ORklHIjoiZGlzYWJsZWQifSwidmVyc2lvbiI6IjIuMy4wIiwic2NvcmUiOjIwMzAwMH1d" __processed_48bb71df-7f03-4a82-97a1-aaeb549547b3__="true" __processed_02372317-fb1d-41e8-bef9-0a5228d5fa75__="true">
 
   <!-- BOTÃO FLUTUANTE ADM -->
   <button class="btn-admin-trigger" onclick="openAdminModal()">
@@ -223,6 +223,7 @@
         <button class="btn-categories-menu" onclick="toggleCategoriesMenu()">
           <i class="fa-solid fa-bars"></i> CATEGORIAS <i class="fa-solid fa-chevron-down" style="font-size: 0.75rem;"></i>
         </button>
+        <!-- Ajustado aqui para iniciar fechado (sem o 'show') -->
         <div class="dropdown-content" id="navTabsContainer" bis_skin_checked="1">
         <button class="tab-btn active" onclick="filterCategory('todos')">
           <i class="fa-solid fa-border-all"></i> Todos
@@ -471,7 +472,7 @@
             <h3 class="card-title">ESTAMPA EM DTF ANIME</h3>
             <p class="card-desc">Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.</p>
             <div class="card-footer-buy">
-              <span class="price">R$ 20,00</span>
+              <span class="price">R$ R$ 20,00</span>
               <a href="https://wa.me/5592992914876?text=Olá! Gostaria de encomendar o produto ESTAMPA%20P%2F%20CAMISA%20N%C2%BA14 - ESTAMPA%20EM%20DTF%20ANIME" target="_blank" class="btn-buy" onclick="event.stopPropagation()">
                 <i class="fa-brands fa-whatsapp"></i> Comprar
               </a>
@@ -498,7 +499,7 @@
     </div>
   </main>
 
-  <!-- RODAPÉ COM CONTATOS E CONTADOR DISCRETO -->
+  <!-- RODAPÉ -->
   <footer>
     <p>SUBLIMArt Personalizados - Todos os direitos reservados</p>
     <div class="footer-contacts">
@@ -512,43 +513,6 @@
         <i class="fa-brands fa-instagram"></i> @sublimart_ofc1
       </a>
     </div>
-    
-    <!-- Contador de Visitantes Discreto -->
-    <div style="margin-top: 1.5rem; font-size: 0.75rem; opacity: 0.6; display: flex; align-items: center; justify-content: center; gap: 0.4rem;">
-      <i class="fa-solid fa-eye"></i> Visualizações: <span id="visitor-count">Carregando...</span>
-    </div>
   </footer>
-
-  <!-- SCRIPT DO CONTADOR E SCRIPTS ORIGINAIS DA PÁGINA -->
-  <script>
-    // Contador de Visitantes
-    fetch('https://api.countapi.xyz/hit/sublimart-catalogo/visitas')
-      .then(response => response.json())
-      .then(data => {
-        document.getElementById('visitor-count').innerText = data.value.toLocaleString('pt-BR');
-      })
-      .catch(error => {
-        document.getElementById('visitor-count').innerText = "0";
-      });
-
-    // Funções originais do seu catálogo (mantidas intactas)
-    function toggleCategoriesMenu() {
-      const menu = document.getElementById('navTabsContainer');
-      menu.classList.toggle('show');
-    }
-
-    // Fechar menu ao clicar fora
-    window.onclick = function(event) {
-      if (!event.target.matches('.btn-categories-menu') && !event.target.matches('.btn-categories-menu *')) {
-        const dropdowns = document.getElementsByClassName("dropdown-content");
-        for (let i = 0; i < dropdowns.length; i++) {
-          let openDropdown = dropdowns[i];
-          if (openDropdown.classList.contains('show')) {
-            openDropdown.classList.remove('show');
-          }
-        }
-      }
-    }
-  </script>
 
 </body></html>
