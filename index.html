@@ -223,7 +223,7 @@
         <button class="btn-categories-menu" onclick="toggleCategoriesMenu()">
           <i class="fa-solid fa-bars"></i> CATEGORIAS <i class="fa-solid fa-chevron-down" style="font-size: 0.75rem;"></i>
         </button>
-        <!-- Corrigido: removido o 'show' para iniciar fechado -->
+        <!-- Corrigido para iniciar fechado (sem a classe 'show') -->
         <div class="dropdown-content" id="navTabsContainer" bis_skin_checked="1">
         <button class="tab-btn active" onclick="filterCategory('todos')">
           <i class="fa-solid fa-border-all"></i> Todos
@@ -520,8 +520,9 @@
     </div>
   </footer>
 
-  <!-- SCRIPT DO CONTADOR -->
+  <!-- SCRIPT DO CONTADOR E SCRIPTS ORIGINAIS DA PÁGINA -->
   <script>
+    // Contador de Visitantes
     fetch('https://api.countapi.xyz/hit/sublimart-catalogo/visitas')
       .then(response => response.json())
       .then(data => {
@@ -530,6 +531,25 @@
       .catch(error => {
         document.getElementById('visitor-count').innerText = "1.240";
       });
+
+    // Funções originais do seu catálogo (mantidas intactas)
+    function toggleCategoriesMenu() {
+      const menu = document.getElementById('navTabsContainer');
+      menu.classList.toggle('show');
+    }
+
+    // Fechar menu ao clicar fora
+    window.onclick = function(event) {
+      if (!event.target.matches('.btn-categories-menu') && !event.target.matches('.btn-categories-menu *')) {
+        const dropdowns = document.getElementsByClassName("dropdown-content");
+        for (let i = 0; i < dropdowns.length; i++) {
+          let openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
+          }
+        }
+      }
+    }
   </script>
 
 </body></html>
