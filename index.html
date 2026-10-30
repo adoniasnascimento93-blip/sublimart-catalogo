@@ -177,6 +177,72 @@
     .footer-contacts a.wa-link { color: #25D366; }
     .footer-contacts a.ig-link { color: #E1306C; }
 
+    /* BANNER ROTATIVO PROMOCIONAL */
+    .promo-banner-slider {
+      display: none;
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      background: #eef0f3;
+      line-height: 0;
+    }
+    .promo-banner-slide { display: none; width: 100%; }
+    .promo-banner-slide.active { display: block; animation: promoBannerFade .65s ease; }
+    .promo-banner-slide a { display: block; width: 100%; }
+    .promo-banner-slide img {
+      display: block;
+      width: 100%;
+      height: clamp(105px, 22vw, 280px);
+      object-fit: cover;
+      object-position: center;
+    }
+    .promo-banner-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 5;
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(255,255,255,.7);
+      border-radius: 50%;
+      color: #fff;
+      background: rgba(0,0,0,.42);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      line-height: 1;
+    }
+    .promo-banner-arrow:hover { background: rgba(0,0,0,.7); }
+    .promo-banner-prev { left: 12px; }
+    .promo-banner-next { right: 12px; }
+    .promo-banner-dots {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 10px;
+      display: flex;
+      justify-content: center;
+      gap: 7px;
+      z-index: 6;
+      line-height: 1;
+    }
+    .promo-banner-dot {
+      width: 9px;
+      height: 9px;
+      padding: 0;
+      border: 1px solid #fff;
+      border-radius: 50%;
+      background: rgba(0,0,0,.35);
+      cursor: pointer;
+    }
+    .promo-banner-dot.active { background: #fff; transform: scale(1.2); }
+    @keyframes promoBannerFade {
+      from { opacity: .45; }
+      to { opacity: 1; }
+    }
+
     @media (max-width: 600px) {
       header h1 { font-size: 1.8rem; }
       .catalog-grid { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
@@ -192,6 +258,9 @@
   </style>
 <script bis_use="true" type="text/javascript" charset="utf-8" nonce="" data-dynamic-id="34109357-773f-473b-85cf-16ae831618e4" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/200.js"></script><script bis_use="true" type="text/javascript" charset="utf-8" nonce="" data-dynamic-id="34109357-773f-473b-85cf-16ae831618e4" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/101.js"></script><script src="https://apis.google.com/js/api.js?onload=__iframefcb749697" type="text/javascript" charset="UTF-8" gapi_processed="true"></script></head>
 <body __processed_8b07824a-8e83-431d-bf78-1c5ff3140654__="true" bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWllZ29tY29uIiwiYWRibG9ja2VyU3RhdHVzIjp7IkRJU1BMQVkiOiJlbmFibGVkIiwiRkFDRUJPT0siOiJlbmFibGVkIiwiVFdJVFRFUiI6ImVuYWJsZWQiLCJSRURESVQiOiJlbmFibGVkIiwiUElOVEVSRVNUIjoiZW5hYmxlZCIsIklOU1RBR1JBTSI6ImVuYWJsZWQiLCJUSUtUT0siOiJlbmFibGVkIiwiTElOS0VESU4iOiJlbmFibGVkIiwiQ09ORklHIjoiZGlzYWJsZWQifSwidmVyc2lvbiI6IjIuMy4wIiwic2NvcmUiOjIwMzAwMH1d" __processed_48bb71df-7f03-4a82-97a1-aaeb549547b3__="true" __processed_02372317-fb1d-41e8-bef9-0a5228d5fa75__="true">
+
+  <!-- BANNER ROTATIVO: imagens gerenciadas pela Área ADM -->
+  <section id="promoBannerSlider" class="promo-banner-slider" aria-label="Banners promocionais"></section>
 
   <!-- BOTÃO FLUTUANTE ADM -->
   <button class="btn-admin-trigger" onclick="openAdminModal()">
@@ -275,6 +344,7 @@
           <button class="admin-tab-btn" id="btnTabAdd" onclick="switchAdminTab('add')"><i class="fa-solid fa-plus"></i> Cadastrar Produto</button>
           <button class="admin-tab-btn" id="btnTabManageProd" onclick="switchAdminTab('manageProd')"><i class="fa-solid fa-boxes-stacked"></i> Gerenciar Produtos</button>
           <button class="admin-tab-btn active" id="btnTabManageCat" onclick="switchAdminTab('manageCat')"><i class="fa-solid fa-folder"></i> Categorias</button>
+          <button class="admin-tab-btn" id="btnTabManageBanner" onclick="switchAdminTab('manageBanner')"><i class="fa-solid fa-images"></i> Gerenciar Banners</button>
           <button class="admin-tab-btn" id="btnTabGithub" onclick="switchAdminTab('github')"><i class="fa-brands fa-github"></i> Configurar GitHub</button>
         </div>
 
@@ -334,6 +404,27 @@
           <div id="adminCatListContainer" style="max-height: 250px; overflow-y: auto;" bis_skin_checked="1"></div>
         </div>
 
+        <!-- GERENCIAR BANNERS -->
+        <div id="adminSecManageBanner" style="display: none;" bis_skin_checked="1">
+          <h4 id="bannerFormTitle" style="font-size: 1rem; margin-bottom: 0.8rem;">Adicionar Banner</h4>
+          <form id="bannerForm" onsubmit="handleSaveBanner(event)">
+            <input type="hidden" id="bannerEditingId" value="">
+            <div class="form-group">
+              <label>URL da imagem do banner:</label>
+              <input type="url" id="bannerImageUrl" placeholder="https://..." required oninput="cleanImageUrl(this)">
+            </div>
+            <div class="form-group">
+              <label>Link de destino (opcional):</label>
+              <input type="url" id="bannerLinkUrl" placeholder="https://seusite.com ou WhatsApp">
+            </div>
+            <button type="submit" class="btn-submit-admin" id="btnSubmitBanner">ADICIONAR BANNER</button>
+            <button type="button" class="btn-cancel-edit" id="btnCancelBannerEdit" style="display: none;" onclick="resetBannerForm()">CANCELAR EDIÇÃO</button>
+          </form>
+          <h4 style="font-size: 1rem; margin: 1.2rem 0 0.8rem;">Banners cadastrados</h4>
+          <div id="adminBannerListContainer" style="max-height: 270px; overflow-y: auto;"></div>
+          <p style="font-size: 0.75rem; color: #777; margin-top: 0.6rem;">Os banners alternam automaticamente a cada 5 segundos. Use imagens horizontais para melhor resultado.</p>
+        </div>
+
         <!-- CONFIGURAR GITHUB -->
         <div id="adminSecGithub" style="display: none;" bis_skin_checked="1">
           <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Conectar com o GitHub</h4>
@@ -383,6 +474,7 @@
 
   <!-- DADOS EMBUTIDOS NO HTML -->
   <script id="sublimart-catalog-data" type="application/json">[{"id":"1791861251220","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº1","title":"ESTAMPA EM DTF CRISTÃO","price":"25,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/KThKE5n.png"},{"id":"1791861458307","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº2","title":"ESTAMPA EM DTF CRISTÃO","price":"20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/4kMArKZ.png"},{"id":"1791861511586","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº3","title":"ESTAMPA EM DTF CRISTÃO","price":"25,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/t4jjKkr.png"},{"id":"1791861551676","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº4","title":"ESTAMPA EM DTF CRISTÃO","price":"20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/fkeC85k.png"},{"id":"1791861588064","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº5","title":"ESTAMPA EM DTF CRISTÃO","price":"20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/icv1nwl.png"},{"id":"1791861664116","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº6","title":"ESTAMPA EM DTF CRISTÃO","price":"20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/NyWJwUE.png"},{"id":"1791861801876","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº7","title":"ESTAMPA EM DTF CRISTÃO","price":"20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/pvUSuVf.png"},{"id":"1791861846632","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº8","title":"ESTAMPA EM DTF CRISTÃO","price":"20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/MG78EO1.png"},{"id":"1791861947768","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº9","title":"ESTAMPA EM DTF MONKEY","price":"20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/GHFknDO.png"},{"id":"1791862051200","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº10","title":"ESTAMPA EM DTF URBANO","price":"20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/uIMZHwM.png"},{"id":"1791862122488","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº11","title":"ESTAMPA EM DTF URBANO","price":"20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/SdCbD0I.png"},{"id":"1791863468158","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº12","title":"ESTAMPA EM DTF URBANO","price":"25,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/x0gstIa.png"},{"id":"1791863536568","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº13","title":"ESTAMPA EM DTF MONKEY","price":"25,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/Om9ddqK.png"},{"id":"1791865828148","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº14","title":"ESTAMPA EM DTF ANIME","price":"R$ 20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/5awQAPN.png"},{"id":"1791865889648","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº15","title":"ESTAMPA EM DTF URBANO","price":"R$ 20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/BLUEIri.png"},{"id":"1791865951182","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº16","title":"ESTAMPA EM DTF URBANO","price":"R$ 25,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/B95p9Hg.png"},{"id":"1791866012718","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº17","title":"ESTAMPA EM DTF ANIME","price":"R$ 20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/5fEO4Tu.png"},{"id":"1791866054304","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº18","title":"ESTAMPA EM DTF ANIME","price":"R$ 20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/y0wU9fB.png"},{"id":"1791866096280","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº19","title":"ESTAMPA EM DTF URBANO","price":"R$ 25,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/waMOF8Z.png"},{"id":"1791866137736","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº20","title":"ESTAMPA EM DTF URBANO","price":"R$ 20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/LNpWHSL.png"},{"id":"1792472949176","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº30","title":"ESTAMPA EM DTF ANIME","price":"R$ 25,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/RXOJiWG.png"}]</script>
+  <script id="sublimart-banners-data" type="application/json">[]</script>
 
   <!-- FIREBASE AUTH & GITHUB SYNC API -->
   <script type="module">
@@ -421,12 +513,17 @@
 
   <script>
     let products = [];
+    let banners = [];
+    let currentBannerIndex = 0;
+    let bannerRotationTimer = null;
     let currentCategory = 'todos';
     let currentSubCategory = 'todos';
 
     document.addEventListener('DOMContentLoaded', () => {
       setCategoriesMenuOpen(false);
       loadProductsFromDataTag();
+      loadBannersFromDataTag();
+      renderBannerSlider();
       renderCatalog();
       renderAdminProductsList();
       renderAdminCategoriesList();
@@ -445,6 +542,155 @@
       }
     }
 
+    function loadBannersFromDataTag() {
+      try {
+        const tag = document.getElementById('sublimart-banners-data');
+        banners = tag && tag.textContent.trim() ? JSON.parse(tag.textContent) : [];
+        if (!Array.isArray(banners)) banners = [];
+      } catch (e) {
+        console.error('Não foi possível carregar os banners:', e);
+        banners = [];
+      }
+    }
+
+    function isValidWebUrl(value) {
+      if (!value) return false;
+      try {
+        const parsed = new URL(value);
+        return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function escapeBannerText(value) {
+      return String(value ?? '').replace(/[&<>"']/g, char => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[char]));
+    }
+
+    function renderBannerSlider() {
+      const slider = document.getElementById('promoBannerSlider');
+      if (!slider) return;
+
+      if (bannerRotationTimer) {
+        clearInterval(bannerRotationTimer);
+        bannerRotationTimer = null;
+      }
+      slider.innerHTML = '';
+      currentBannerIndex = 0;
+
+      const validBanners = banners.filter(item => item && isValidWebUrl(item.image));
+      if (validBanners.length === 0) {
+        slider.style.display = 'none';
+        return;
+      }
+
+      slider.style.display = 'block';
+      const slides = document.createElement('div');
+      slides.className = 'promo-banner-slides';
+      const dots = document.createElement('div');
+      dots.className = 'promo-banner-dots';
+
+      validBanners.forEach((banner, index) => {
+        const slide = document.createElement('div');
+        slide.className = 'promo-banner-slide';
+
+        const image = document.createElement('img');
+        image.src = banner.image;
+        image.alt = 'Banner promocional SUBLIMArt';
+        image.loading = index === 0 ? 'eager' : 'lazy';
+        image.onerror = () => slide.remove();
+
+        if (isValidWebUrl(banner.link)) {
+          const link = document.createElement('a');
+          link.href = banner.link;
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+          link.setAttribute('aria-label', 'Abrir promoção');
+          link.appendChild(image);
+          slide.appendChild(link);
+        } else {
+          slide.appendChild(image);
+        }
+        slides.appendChild(slide);
+
+        if (validBanners.length > 1) {
+          const dot = document.createElement('button');
+          dot.type = 'button';
+          dot.className = 'promo-banner-dot';
+          dot.setAttribute('aria-label', `Mostrar banner ${index + 1}`);
+          dot.addEventListener('click', () => {
+            showBannerSlide(index);
+            restartBannerRotation();
+          });
+          dots.appendChild(dot);
+        }
+      });
+
+      slider.appendChild(slides);
+
+      if (validBanners.length > 1) {
+        const previous = document.createElement('button');
+        previous.type = 'button';
+        previous.className = 'promo-banner-arrow promo-banner-prev';
+        previous.innerHTML = '<i class="fa-solid fa-chevron-left"></i>';
+        previous.setAttribute('aria-label', 'Banner anterior');
+        previous.addEventListener('click', () => {
+          showBannerSlide(currentBannerIndex - 1);
+          restartBannerRotation();
+        });
+
+        const next = document.createElement('button');
+        next.type = 'button';
+        next.className = 'promo-banner-arrow promo-banner-next';
+        next.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
+        next.setAttribute('aria-label', 'Próximo banner');
+        next.addEventListener('click', () => {
+          showBannerSlide(currentBannerIndex + 1);
+          restartBannerRotation();
+        });
+
+        slider.appendChild(previous);
+        slider.appendChild(next);
+        slider.appendChild(dots);
+      }
+
+      showBannerSlide(0);
+      if (validBanners.length > 1) {
+        bannerRotationTimer = setInterval(() => showBannerSlide(currentBannerIndex + 1), 5000);
+        slider.onmouseenter = pauseBannerRotation;
+        slider.onmouseleave = restartBannerRotation;
+      }
+    }
+
+    function showBannerSlide(index) {
+      const slider = document.getElementById('promoBannerSlider');
+      if (!slider) return;
+      const slides = slider.querySelectorAll('.promo-banner-slide');
+      const dots = slider.querySelectorAll('.promo-banner-dot');
+      if (!slides.length) return;
+
+      currentBannerIndex = (index + slides.length) % slides.length;
+      slides.forEach((slide, i) => slide.classList.toggle('active', i === currentBannerIndex));
+      dots.forEach((dot, i) => dot.classList.toggle('active', i === currentBannerIndex));
+    }
+
+    function pauseBannerRotation() {
+      if (bannerRotationTimer) {
+        clearInterval(bannerRotationTimer);
+        bannerRotationTimer = null;
+      }
+    }
+
+    function restartBannerRotation() {
+      pauseBannerRotation();
+      const slides = document.querySelectorAll('#promoBannerSlider .promo-banner-slide');
+      if (slides.length > 1) {
+        bannerRotationTimer = setInterval(() => showBannerSlide(currentBannerIndex + 1), 5000);
+      }
+    }
+
     function cleanImageUrl(input) {
       let val = input.value.trim();
       val = val.replace(/\[\/?img\]/gi, '').trim();
@@ -453,7 +699,7 @@
       }
     }
 
-    async function updateGithubRepo(updatedProducts) {
+    async function updateGithubRepo(updatedProducts, updatedBanners = banners) {
       const cfg = JSON.parse(localStorage.getItem('sublimart_github_config') || '{}');
       if (!cfg.username || !cfg.repo || !cfg.token || !cfg.filename) {
         alert('Configure o GitHub na aba "Configurar GitHub" antes de salvar!');
@@ -488,10 +734,13 @@
         if (savedMenuButton) savedMenuButton.setAttribute('aria-expanded', 'false');
 
         // Apaga somente cópias visuais dinâmicas; não remove nenhum produto do JSON.
-        ['catalog-grid', 'adminProductListContainer', 'adminCatListContainer', 'productModalContent'].forEach(id => {
+        ['catalog-grid', 'adminProductListContainer', 'adminCatListContainer', 'adminBannerListContainer', 'productModalContent', 'promoBannerSlider'].forEach(id => {
           const element = savedDoc.getElementById(id);
           if (element) element.innerHTML = '';
         });
+
+        const savedBannerSlider = savedDoc.getElementById('promoBannerSlider');
+        if (savedBannerSlider) savedBannerSlider.style.display = 'none';
 
         const savedTitle = savedDoc.getElementById('category-title');
         if (savedTitle) savedTitle.innerHTML = '<i class="fa-solid fa-border-all"></i> Todos os Produtos';
@@ -509,6 +758,10 @@
         const savedDataTag = savedDoc.getElementById('sublimart-catalog-data');
         if (!savedDataTag) throw new Error('Bloco de dados do catálogo não encontrado no HTML.');
         savedDataTag.textContent = jsonString;
+
+        const savedBannersTag = savedDoc.getElementById('sublimart-banners-data');
+        if (!savedBannersTag) throw new Error('Bloco de dados dos banners não encontrado no HTML.');
+        savedBannersTag.textContent = JSON.stringify(updatedBanners).replace(/</g, '\\u003c');
 
         const fullHtml = savedDoc.documentElement.outerHTML;
 
@@ -561,7 +814,7 @@
     function closeProductModal() { document.getElementById('productModal').style.display = 'none'; }
 
     function switchAdminTab(tabName) {
-      ['add', 'manageProd', 'manageCat', 'github'].forEach(sec => {
+      ['add', 'manageProd', 'manageCat', 'manageBanner', 'github'].forEach(sec => {
         const el = document.getElementById('adminSec' + sec.charAt(0).toUpperCase() + sec.slice(1));
         const btn = document.getElementById('btnTab' + sec.charAt(0).toUpperCase() + sec.slice(1));
         if (el) el.style.display = (sec === tabName) ? 'block' : 'none';
@@ -569,6 +822,7 @@
       });
       if (tabName === 'manageProd') renderAdminProductsList();
       if (tabName === 'manageCat') renderAdminCategoriesList();
+      if (tabName === 'manageBanner') renderAdminBannersList();
     }
 
     async function handleAdminLogin(e) {
@@ -628,6 +882,122 @@
       document.getElementById('formProductTitleHeader').textContent = 'Cadastrar Novo Produto';
       document.getElementById('btnSubmitFormProd').textContent = 'CADASTRAR PRODUTO';
       document.getElementById('btnCancelEditProd').style.display = 'none';
+    }
+
+    async function handleSaveBanner(event) {
+      event.preventDefault();
+      const editingId = document.getElementById('bannerEditingId').value;
+      const imageUrl = document.getElementById('bannerImageUrl').value.trim();
+      const linkUrl = document.getElementById('bannerLinkUrl').value.trim();
+
+      if (!isValidWebUrl(imageUrl)) {
+        alert('Informe um endereço de imagem válido iniciado por http:// ou https://.');
+        return;
+      }
+      if (linkUrl && !isValidWebUrl(linkUrl)) {
+        alert('O link de destino deve começar com http:// ou https://.');
+        return;
+      }
+
+      const bannerData = {
+        id: editingId || Date.now().toString(),
+        image: imageUrl,
+        link: linkUrl
+      };
+      const newBanners = [...banners];
+      const index = newBanners.findIndex(item => String(item.id) === String(bannerData.id));
+      if (index >= 0) newBanners[index] = bannerData;
+      else newBanners.push(bannerData);
+
+      const success = await updateGithubRepo(products, newBanners);
+      if (success) {
+        banners = newBanners;
+        const tag = document.getElementById('sublimart-banners-data');
+        if (tag) tag.textContent = JSON.stringify(banners);
+        resetBannerForm();
+        renderBannerSlider();
+        renderAdminBannersList();
+        alert(editingId ? 'Banner atualizado e salvo no GitHub!' : 'Banner adicionado e salvo no GitHub!');
+      }
+    }
+
+    function resetBannerForm() {
+      const form = document.getElementById('bannerForm');
+      if (form) form.reset();
+      const id = document.getElementById('bannerEditingId');
+      if (id) id.value = '';
+      const title = document.getElementById('bannerFormTitle');
+      if (title) title.textContent = 'Adicionar Banner';
+      const submit = document.getElementById('btnSubmitBanner');
+      if (submit) submit.textContent = 'ADICIONAR BANNER';
+      const cancel = document.getElementById('btnCancelBannerEdit');
+      if (cancel) cancel.style.display = 'none';
+    }
+
+    function renderAdminBannersList() {
+      const container = document.getElementById('adminBannerListContainer');
+      if (!container) return;
+      if (!banners.length) {
+        container.innerHTML = '<p style="font-size:.85rem;color:#777;text-align:center;padding:1rem;">Nenhum banner cadastrado.</p>';
+        return;
+      }
+
+      container.innerHTML = banners.map((banner, index) => `
+        <div class="admin-manage-card" data-banner-id="${escapeBannerText(banner.id)}">
+          <div class="admin-manage-info">
+            <img src="${escapeBannerText(banner.image)}" class="admin-manage-img" alt="Banner ${index + 1}" onerror="this.style.opacity='.25'">
+            <div class="admin-manage-details">
+              <strong>Banner ${index + 1}</strong>
+              <span>${banner.link ? 'Com link de destino' : 'Sem link de destino'}</span>
+            </div>
+          </div>
+          <div class="admin-action-btns">
+            <button type="button" class="btn-edit-adm" data-banner-action="edit">Editar</button>
+            <button type="button" class="btn-delete-adm" data-banner-action="delete">Excluir</button>
+          </div>
+        </div>
+      `).join('');
+
+      container.querySelectorAll('[data-banner-action="edit"]').forEach(button => {
+        button.addEventListener('click', () => {
+          const row = button.closest('[data-banner-id]');
+          if (row) editBanner(row.getAttribute('data-banner-id'));
+        });
+      });
+      container.querySelectorAll('[data-banner-action="delete"]').forEach(button => {
+        button.addEventListener('click', () => {
+          const row = button.closest('[data-banner-id]');
+          if (row) deleteBanner(row.getAttribute('data-banner-id'));
+        });
+      });
+    }
+
+    function editBanner(id) {
+      const banner = banners.find(item => String(item.id) === String(id));
+      if (!banner) return;
+      document.getElementById('bannerEditingId').value = banner.id;
+      document.getElementById('bannerImageUrl').value = banner.image || '';
+      document.getElementById('bannerLinkUrl').value = banner.link || '';
+      document.getElementById('bannerFormTitle').textContent = 'Editar Banner';
+      document.getElementById('btnSubmitBanner').textContent = 'SALVAR ALTERAÇÕES';
+      document.getElementById('btnCancelBannerEdit').style.display = 'block';
+      document.getElementById('bannerImageUrl').focus();
+    }
+
+    async function deleteBanner(id) {
+      const banner = banners.find(item => String(item.id) === String(id));
+      if (!banner || !confirm('Deseja excluir este banner?')) return;
+      const newBanners = banners.filter(item => String(item.id) !== String(id));
+      const success = await updateGithubRepo(products, newBanners);
+      if (success) {
+        banners = newBanners;
+        const tag = document.getElementById('sublimart-banners-data');
+        if (tag) tag.textContent = JSON.stringify(banners);
+        resetBannerForm();
+        renderBannerSlider();
+        renderAdminBannersList();
+        alert('Banner excluído e alteração salva no GitHub!');
+      }
     }
 
     function loadGithubConfig() {
