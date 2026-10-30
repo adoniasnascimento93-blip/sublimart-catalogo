@@ -224,11 +224,11 @@
           <i class="fa-solid fa-bars"></i> CATEGORIAS <i class="fa-solid fa-chevron-down" style="font-size: 0.75rem;"></i>
         </button>
         <div class="dropdown-content" id="navTabsContainer" aria-hidden="true" bis_skin_checked="1">
-        <button class="tab-btn active" onclick="filterCategory('todos')">
+        <button class="tab-btn " onclick="filterCategory('todos')">
           <i class="fa-solid fa-border-all"></i> Todos
         </button>
       
-        <button class="tab-btn " onclick="filterCategory('estampas dtf')">
+        <button class="tab-btn active" onclick="filterCategory('estampas dtf')">
           <i class="fa-solid fa-tag"></i> Estampas dtf
         </button>
       </div>
@@ -238,7 +238,7 @@
 
   <!-- CONTEÚDO DO CATÁLOGO -->
   <main>
-    <h2 class="category-title" id="category-title"><i class="fa-solid fa-border-all"></i> Todos os Produtos</h2>
+    <h2 class="category-title" id="category-title"><i class="fa-solid fa-border-all"></i> ESTAMPAS DTF</h2>
     <div class="subcategories-bar" id="subcategories-bar" style="display: none;" bis_skin_checked="1"></div>
     <div class="catalog-grid" id="catalog-grid" bis_skin_checked="1">
         <div class="card" onclick="openProductDetail('1791861251220')">
@@ -581,23 +581,6 @@
           </div>
         </div>
       
-        <div class="card" onclick="openProductDetail('1791866199388')">
-          <div class="card-img-wrapper">
-            <span class="card-code-badge">ESTAMPA P/ CAMISA Nº21</span>
-            <img src="https://i.imgur.com/Lea5ZWl.png" alt="ESTAMPA EM DTF POLITICO" onerror="this.src='https://via.placeholder.com/300?text=Sem+Imagem'">
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">ESTAMPA EM DTF POLITICO</h3>
-            <p class="card-desc">Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.</p>
-            <div class="card-footer-buy">
-              <span class="price">R$ R$ 20,00</span>
-              <a href="https://wa.me/5592992914876?text=Olá! Gostaria de encomendar o produto ESTAMPA%20P%2F%20CAMISA%20N%C2%BA21 - ESTAMPA%20EM%20DTF%20POLITICO" target="_blank" class="btn-buy" onclick="event.stopPropagation()">
-                <i class="fa-brands fa-whatsapp"></i> Comprar
-              </a>
-            </div>
-          </div>
-        </div>
-      
         <div class="card" onclick="openProductDetail('1792472949176')">
           <div class="card-img-wrapper">
             <span class="card-code-badge">ESTAMPA P/ CAMISA Nº30</span>
@@ -663,14 +646,14 @@
         </div>
         
         <div class="admin-nav-tabs" bis_skin_checked="1">
-          <button class="admin-tab-btn" id="btnTabAdd" onclick="switchAdminTab('add')"><i class="fa-solid fa-plus"></i> Cadastrar Produto</button>
-          <button class="admin-tab-btn active" id="btnTabManageProd" onclick="switchAdminTab('manageProd')"><i class="fa-solid fa-boxes-stacked"></i> Gerenciar Produtos</button>
+          <button class="admin-tab-btn active" id="btnTabAdd" onclick="switchAdminTab('add')"><i class="fa-solid fa-plus"></i> Cadastrar Produto</button>
+          <button class="admin-tab-btn" id="btnTabManageProd" onclick="switchAdminTab('manageProd')"><i class="fa-solid fa-boxes-stacked"></i> Gerenciar Produtos</button>
           <button class="admin-tab-btn" id="btnTabManageCat" onclick="switchAdminTab('manageCat')"><i class="fa-solid fa-folder"></i> Categorias</button>
           <button class="admin-tab-btn" id="btnTabGithub" onclick="switchAdminTab('github')"><i class="fa-brands fa-github"></i> Configurar GitHub</button>
         </div>
 
         <!-- CADASTRAR PRODUTO -->
-        <div id="adminSecAdd" style="display: none;" bis_skin_checked="1">
+        <div id="adminSecAdd" style="display: block;" bis_skin_checked="1">
           <h4 id="formProductTitleHeader" style="font-size: 1rem; margin-bottom: 0.8rem;">Cadastrar Novo Produto</h4>
           <form id="productForm" onsubmit="handleSaveProduct(event)">
             <input type="hidden" id="pEditingId" value="">
@@ -711,7 +694,7 @@
         </div>
 
         <!-- GERENCIAR PRODUTOS -->
-        <div id="adminSecManageProd" style="display: block;" bis_skin_checked="1">
+        <div id="adminSecManageProd" style="display: none;" bis_skin_checked="1">
           <h4 style="font-size: 1rem; margin-bottom: 0.8rem;">Gerenciar / Excluir Produtos</h4>
           <div class="form-group" style="margin-bottom: 0.8rem;" bis_skin_checked="1">
             <input type="text" id="adminProdSearchInput" oninput="renderAdminProductsList()" placeholder="🔍 Busque por código ou nome...">
@@ -999,20 +982,6 @@
       
         <div class="admin-manage-card">
           <div class="admin-manage-info">
-            <img src="https://i.imgur.com/Lea5ZWl.png" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/50?text=Img'">
-            <div class="admin-manage-details">
-              <strong>ESTAMPA P/ CAMISA Nº21 - ESTAMPA EM DTF POLITICO</strong>
-              <span>R$ R$ 20,00 | estampas dtf</span>
-            </div>
-          </div>
-          <div class="admin-action-btns">
-            <button class="btn-edit-adm" onclick="editProduct('1791866199388')">Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('1791866199388')">Excluir</button>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card">
-          <div class="admin-manage-info">
             <img src="https://i.imgur.com/RXOJiWG.png" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/50?text=Img'">
             <div class="admin-manage-details">
               <strong>ESTAMPA P/ CAMISA Nº30 - ESTAMPA EM DTF ANIME</strong>
@@ -1089,7 +1058,7 @@
   </footer>
 
   <!-- DADOS EMBUTIDOS NO HTML -->
-  <script id="sublimart-catalog-data" type="application/json">[{"id":"1791861251220","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº1","title":"ESTAMPA EM DTF CRISTÃO","price":"25,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/KThKE5n.png"},{"id":"1791861458307","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº2","title":"ESTAMPA EM DTF CRISTÃO","price":"20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/4kMArKZ.png"},{"id":"1791861511586","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº3","title":"ESTAMPA EM DTF CRISTÃO","price":"25,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/t4jjKkr.png"},{"id":"1791861551676","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº4","title":"ESTAMPA EM DTF CRISTÃO","price":"20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/fkeC85k.png"},{"id":"1791861588064","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº5","title":"ESTAMPA EM DTF CRISTÃO","price":"20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/icv1nwl.png"},{"id":"1791861664116","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº6","title":"ESTAMPA EM DTF CRISTÃO","price":"20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/NyWJwUE.png"},{"id":"1791861801876","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº7","title":"ESTAMPA EM DTF CRISTÃO","price":"20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/pvUSuVf.png"},{"id":"1791861846632","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº8","title":"ESTAMPA EM DTF CRISTÃO","price":"20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/MG78EO1.png"},{"id":"1791861947768","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº9","title":"ESTAMPA EM DTF MONKEY","price":"20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/GHFknDO.png"},{"id":"1791862051200","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº10","title":"ESTAMPA EM DTF URBANO","price":"20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/uIMZHwM.png"},{"id":"1791862122488","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº11","title":"ESTAMPA EM DTF URBANO","price":"20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/SdCbD0I.png"},{"id":"1791863468158","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº12","title":"ESTAMPA EM DTF URBANO","price":"25,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/x0gstIa.png"},{"id":"1791863536568","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº13","title":"ESTAMPA EM DTF MONKEY","price":"25,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/Om9ddqK.png"},{"id":"1791865828148","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº14","title":"ESTAMPA EM DTF ANIME","price":"R$ 20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/5awQAPN.png"},{"id":"1791865889648","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº15","title":"ESTAMPA EM DTF URBANO","price":"R$ 20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/BLUEIri.png"},{"id":"1791865951182","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº16","title":"ESTAMPA EM DTF URBANO","price":"R$ 25,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/B95p9Hg.png"},{"id":"1791866012718","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº17","title":"ESTAMPA EM DTF ANIME","price":"R$ 20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/5fEO4Tu.png"},{"id":"1791866054304","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº18","title":"ESTAMPA EM DTF ANIME","price":"R$ 20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/y0wU9fB.png"},{"id":"1791866096280","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº19","title":"ESTAMPA EM DTF URBANO","price":"R$ 25,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/waMOF8Z.png"},{"id":"1791866137736","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº20","title":"ESTAMPA EM DTF URBANO","price":"R$ 20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/LNpWHSL.png"},{"id":"1792472949176","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº30","title":"ESTAMPA EM DTF ANIME","price":"R$ 25,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/RXOJiWG.png"}]</script>
+  <script id="sublimart-catalog-data" type="application/json">[{"id":"1791861251220","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº1","title":"ESTAMPA EM DTF CRISTÃO","price":"25,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/KThKE5n.png"},{"id":"1791861458307","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº2","title":"ESTAMPA EM DTF CRISTÃO","price":"20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/4kMArKZ.png"},{"id":"1791861511586","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº3","title":"ESTAMPA EM DTF CRISTÃO","price":"25,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/t4jjKkr.png"},{"id":"1791861551676","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº4","title":"ESTAMPA EM DTF CRISTÃO","price":"20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/fkeC85k.png"},{"id":"1791861588064","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº5","title":"ESTAMPA EM DTF CRISTÃO","price":"20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/icv1nwl.png"},{"id":"1791861664116","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº6","title":"ESTAMPA EM DTF CRISTÃO","price":"20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/NyWJwUE.png"},{"id":"1791861801876","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº7","title":"ESTAMPA EM DTF CRISTÃO","price":"20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/pvUSuVf.png"},{"id":"1791861846632","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº8","title":"ESTAMPA EM DTF CRISTÃO","price":"20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/MG78EO1.png"},{"id":"1791861947768","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº9","title":"ESTAMPA EM DTF MONKEY","price":"20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/GHFknDO.png"},{"id":"1791862051200","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº10","title":"ESTAMPA EM DTF URBANO","price":"20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/uIMZHwM.png"},{"id":"1791862122488","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº11","title":"ESTAMPA EM DTF URBANO","price":"20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/SdCbD0I.png"},{"id":"1791863468158","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº12","title":"ESTAMPA EM DTF URBANO","price":"25,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/x0gstIa.png"},{"id":"1791863536568","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº13","title":"ESTAMPA EM DTF MONKEY","price":"25,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/Om9ddqK.png"},{"id":"1791865828148","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº14","title":"ESTAMPA EM DTF ANIME","price":"R$ 20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/5awQAPN.png"},{"id":"1791865889648","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº15","title":"ESTAMPA EM DTF URBANO","price":"R$ 20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/BLUEIri.png"},{"id":"1791865951182","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº16","title":"ESTAMPA EM DTF URBANO","price":"R$ 25,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/B95p9Hg.png"},{"id":"1791866012718","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº17","title":"ESTAMPA EM DTF ANIME","price":"R$ 20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/5fEO4Tu.png"},{"id":"1791866054304","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº18","title":"ESTAMPA EM DTF ANIME","price":"R$ 20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/y0wU9fB.png"},{"id":"1791866096280","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº19","title":"ESTAMPA EM DTF URBANO","price":"R$ 25,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/waMOF8Z.png"},{"id":"1791866137736","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº20","title":"ESTAMPA EM DTF URBANO","price":"R$ 20,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/LNpWHSL.png"},{"id":"1792472949176","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº30","title":"ESTAMPA EM DTF ANIME","price":"R$ 25,00","desc":"Vendemos apenas a(s) estampa(s) em DTF. O cliente fornece a camisa e nós estampamos.","image":"https://i.imgur.com/RXOJiWG.png"},{"id":"1793340886514","category":"caneca","subcategory":"CANECA 1","code":"69400032","title":"ESTAMPA EM DTF","price":"R$ 20,00","desc":"dewdwe","image":"https://i.imgur.com/kbOZGSz.jpeg"}]</script>
 
   <!-- FIREBASE AUTH & GITHUB SYNC API -->
   <script type="module">
@@ -1594,4 +1563,5 @@
   </script>
 
 
-<iframe ng-non-bindable="" frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" tabindex="-1" vspace="0" width="100%" aria-hidden="true" id="I0_1792593836058" name="I0_1792593836058" src="https://sublimart-catalogo.firebaseapp.com/__/auth/iframe?apiKey=AIzaSyANjvOsw0EJohoDtgQAZ3gvN8Sd8UqGZDk&amp;appName=%5BDEFAULT%5D&amp;v=10.8.0&amp;eid=p&amp;usegapi=1&amp;jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.pt_BR.kV20QVwAPag.O%2Fd%3D1%2Frs%3DAHpOoo8j1Re-MpUeEo1QPJCVVA_MqTNyVQ%2Fm%3D__features__#id=I0_1792593836058&amp;_gfid=I0_1792593836058&amp;parent=https%3A%2F%2Fadoniasnascimento93-blip.github.io&amp;pfname=&amp;rpctoken=31658372" style="position: absolute; top: -100px; width: 1px; height: 1px;"></iframe><iframe ng-non-bindable="" frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" tabindex="-1" vspace="0" width="100%" aria-hidden="true" id="I0_1793154760079" name="I0_1793154760079" src="https://sublimart-catalogo.firebaseapp.com/__/auth/iframe?apiKey=AIzaSyANjvOsw0EJohoDtgQAZ3gvN8Sd8UqGZDk&amp;appName=%5BDEFAULT%5D&amp;v=10.8.0&amp;eid=p&amp;usegapi=1&amp;jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.pt_BR.kV20QVwAPag.O%2Fd%3D1%2Frs%3DAHpOoo8j1Re-MpUeEo1QPJCVVA_MqTNyVQ%2Fm%3D__features__#id=I0_1793154760079&amp;_gfid=I0_1793154760079&amp;parent=https%3A%2F%2Fadoniasnascimento93-blip.github.io&amp;pfname=&amp;rpctoken=11228690" style="position: absolute; top: -100px; width: 1px; height: 1px;"></iframe></body></html>
+<iframe ng-non-bindable="" frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" tabindex="-1" vspace="0" width="100%" aria-hidden="true" id="I0_1792593836058" name="I0_1792593836058" src="https://sublimart-catalogo.firebaseapp.com/__/auth/iframe?apiKey=AIzaSyANjvOsw0EJohoDtgQAZ3gvN8Sd8UqGZDk&amp;appName=%5BDEFAULT%5D&amp;v=10.8.0&amp;eid=p&amp;usegapi=1&amp;jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.pt_BR.kV20QVwAPag.O%2Fd%3D1%2Frs%3DAHpOoo8j1Re-MpUeEo1QPJCVVA_MqTNyVQ%2Fm%3D__features__#id=I0_1792593836058&amp;_gfid=I0_1792593836058&amp;parent=https%3A%2F%2Fadoniasnascimento93-blip.github.io&amp;pfname=&amp;rpctoken=31658372" style="position: absolute; top: -100px; width: 1px; height: 1px;"></iframe><iframe ng-non-bindable="" frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" tabindex="-1" vspace="0" width="100%" aria-hidden="true" id="I0_1793154760079" name="I0_1793154760079" src="https://sublimart-catalogo.firebaseapp.com/__/auth/iframe?apiKey=AIzaSyANjvOsw0EJohoDtgQAZ3gvN8Sd8UqGZDk&amp;appName=%5BDEFAULT%5D&amp;v=10.8.0&amp;eid=p&amp;usegapi=1&amp;jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.pt_BR.kV20QVwAPag.O%2Fd%3D1%2Frs%3DAHpOoo8j1Re-MpUeEo1QPJCVVA_MqTNyVQ%2Fm%3D__features__#id=I0_1793154760079&amp;_gfid=I0_1793154760079&amp;parent=https%3A%2F%2Fadoniasnascimento93-blip.github.io&amp;pfname=&amp;rpctoken=11228690" style="position: absolute; top: -100px; width: 1px; height: 1px;"></iframe>
+</body></html>
