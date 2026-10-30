@@ -223,61 +223,23 @@
         <button class="btn-categories-menu" aria-expanded="false" aria-controls="navTabsContainer" onclick="toggleCategoriesMenu()">
           <i class="fa-solid fa-bars"></i> CATEGORIAS <i class="fa-solid fa-chevron-down" style="font-size: 0.75rem;"></i>
         </button>
-        <div class="dropdown-content" id="navTabsContainer" aria-hidden="true" bis_skin_checked="1">
-        <button class="tab-btn " onclick="filterCategory('todos')">
-          <i class="fa-solid fa-border-all"></i> Todos
-        </button>
-      
-        <button class="tab-btn " onclick="filterCategory('estampas dtf')">
-          <i class="fa-solid fa-tag"></i> Estampas dtf
-        </button>
-      
-        <button class="tab-btn active" onclick="filterCategory('caneca')">
-          <i class="fa-solid fa-tag"></i> Caneca
-        </button>
-      </div>
+        <div class="dropdown-content" id="navTabsContainer" aria-hidden="true" bis_skin_checked="1"></div>
       </div>
     </div>
   </nav>
 
   <!-- CONTEÚDO DO CATÁLOGO -->
   <main>
-    <h2 class="category-title" id="category-title"><i class="fa-solid fa-border-all"></i> CANECA</h2>
+    <h2 class="category-title" id="category-title"><i class="fa-solid fa-border-all"></i> Todos os Produtos</h2>
     <div class="subcategories-bar" id="subcategories-bar" style="display: none;" bis_skin_checked="1"></div>
-    <div class="catalog-grid" id="catalog-grid" bis_skin_checked="1">
-        <div class="card" onclick="openProductDetail('1793340886514')">
-          <div class="card-img-wrapper">
-            <span class="card-code-badge">69400032</span>
-            <img src="https://i.imgur.com/kbOZGSz.jpeg" alt="ESTAMPA EM DTF" onerror="this.src='https://via.placeholder.com/300?text=Sem+Imagem'">
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">ESTAMPA EM DTF</h3>
-            <p class="card-desc">dewdwe</p>
-            <div class="card-footer-buy">
-              <span class="price">R$ R$ 20,00</span>
-              <a href="https://wa.me/5592992914876?text=Olá! Gostaria de encomendar o produto 69400032 - ESTAMPA%20EM%20DTF" target="_blank" class="btn-buy" onclick="event.stopPropagation()">
-                <i class="fa-brands fa-whatsapp"></i> Comprar
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="catalog-grid" id="catalog-grid" bis_skin_checked="1"></div>
   </main>
 
   <!-- MODAL DE VISUALIZAÇÃO DO PRODUTO -->
   <div class="modal-overlay" id="productModal" bis_skin_checked="1" style="display: none;">
     <div class="modal-card" bis_skin_checked="1">
       <button class="btn-close-modal" onclick="closeProductModal()"><i class="fa-solid fa-xmark"></i></button>
-      <div class="product-detail-container" id="productModalContent" bis_skin_checked="1">
-        <img src="https://i.imgur.com/kbOZGSz.jpeg" class="product-detail-img" alt="ESTAMPA EM DTF" onerror="this.src='https://via.placeholder.com/400?text=Sem+Imagem'">
-        <span class="product-detail-code">Código: 69400032</span>
-        <h2 class="product-detail-title">ESTAMPA EM DTF</h2>
-        <div class="product-detail-price">R$ R$ 20,00</div>
-        <p class="product-detail-desc">dewdwe</p>
-        <a href="https://wa.me/5592992914876?text=Olá! Gostaria de encomendar o produto 69400032 - ESTAMPA%20EM%20DTF" target="_blank" class="btn-buy-modal">
-          <i class="fa-brands fa-whatsapp"></i> Comprar pelo WhatsApp
-        </a>
-      </div>
+      <div class="product-detail-container" id="productModalContent" bis_skin_checked="1"></div>
     </div>
   </div>
 
@@ -363,353 +325,13 @@
           <div class="form-group" style="margin-bottom: 0.8rem;" bis_skin_checked="1">
             <input type="text" id="adminProdSearchInput" oninput="renderAdminProductsList()" placeholder="🔍 Busque por código ou nome...">
           </div>
-          <div id="adminProductListContainer" style="max-height: 270px; overflow-y: auto;" bis_skin_checked="1">
-        <div class="admin-manage-card">
-          <div class="admin-manage-info">
-            <img src="https://i.imgur.com/KThKE5n.png" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/50?text=Img'">
-            <div class="admin-manage-details">
-              <strong>ESTAMPA P/ CAMISA Nº1 - ESTAMPA EM DTF CRISTÃO</strong>
-              <span>R$ 25,00 | estampas dtf</span>
-            </div>
-          </div>
-          <div class="admin-action-btns">
-            <button class="btn-edit-adm" onclick="editProduct('1791861251220')">Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('1791861251220')">Excluir</button>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card">
-          <div class="admin-manage-info">
-            <img src="https://i.imgur.com/4kMArKZ.png" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/50?text=Img'">
-            <div class="admin-manage-details">
-              <strong>ESTAMPA P/ CAMISA Nº2 - ESTAMPA EM DTF CRISTÃO</strong>
-              <span>R$ 20,00 | estampas dtf</span>
-            </div>
-          </div>
-          <div class="admin-action-btns">
-            <button class="btn-edit-adm" onclick="editProduct('1791861458307')">Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('1791861458307')">Excluir</button>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card">
-          <div class="admin-manage-info">
-            <img src="https://i.imgur.com/t4jjKkr.png" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/50?text=Img'">
-            <div class="admin-manage-details">
-              <strong>ESTAMPA P/ CAMISA Nº3 - ESTAMPA EM DTF CRISTÃO</strong>
-              <span>R$ 25,00 | estampas dtf</span>
-            </div>
-          </div>
-          <div class="admin-action-btns">
-            <button class="btn-edit-adm" onclick="editProduct('1791861511586')">Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('1791861511586')">Excluir</button>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card">
-          <div class="admin-manage-info">
-            <img src="https://i.imgur.com/fkeC85k.png" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/50?text=Img'">
-            <div class="admin-manage-details">
-              <strong>ESTAMPA P/ CAMISA Nº4 - ESTAMPA EM DTF CRISTÃO</strong>
-              <span>R$ 20,00 | estampas dtf</span>
-            </div>
-          </div>
-          <div class="admin-action-btns">
-            <button class="btn-edit-adm" onclick="editProduct('1791861551676')">Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('1791861551676')">Excluir</button>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card">
-          <div class="admin-manage-info">
-            <img src="https://i.imgur.com/icv1nwl.png" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/50?text=Img'">
-            <div class="admin-manage-details">
-              <strong>ESTAMPA P/ CAMISA Nº5 - ESTAMPA EM DTF CRISTÃO</strong>
-              <span>R$ 20,00 | estampas dtf</span>
-            </div>
-          </div>
-          <div class="admin-action-btns">
-            <button class="btn-edit-adm" onclick="editProduct('1791861588064')">Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('1791861588064')">Excluir</button>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card">
-          <div class="admin-manage-info">
-            <img src="https://i.imgur.com/NyWJwUE.png" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/50?text=Img'">
-            <div class="admin-manage-details">
-              <strong>ESTAMPA P/ CAMISA Nº6 - ESTAMPA EM DTF CRISTÃO</strong>
-              <span>R$ 20,00 | estampas dtf</span>
-            </div>
-          </div>
-          <div class="admin-action-btns">
-            <button class="btn-edit-adm" onclick="editProduct('1791861664116')">Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('1791861664116')">Excluir</button>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card">
-          <div class="admin-manage-info">
-            <img src="https://i.imgur.com/pvUSuVf.png" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/50?text=Img'">
-            <div class="admin-manage-details">
-              <strong>ESTAMPA P/ CAMISA Nº7 - ESTAMPA EM DTF CRISTÃO</strong>
-              <span>R$ 20,00 | estampas dtf</span>
-            </div>
-          </div>
-          <div class="admin-action-btns">
-            <button class="btn-edit-adm" onclick="editProduct('1791861801876')">Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('1791861801876')">Excluir</button>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card">
-          <div class="admin-manage-info">
-            <img src="https://i.imgur.com/MG78EO1.png" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/50?text=Img'">
-            <div class="admin-manage-details">
-              <strong>ESTAMPA P/ CAMISA Nº8 - ESTAMPA EM DTF CRISTÃO</strong>
-              <span>R$ 20,00 | estampas dtf</span>
-            </div>
-          </div>
-          <div class="admin-action-btns">
-            <button class="btn-edit-adm" onclick="editProduct('1791861846632')">Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('1791861846632')">Excluir</button>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card">
-          <div class="admin-manage-info">
-            <img src="https://i.imgur.com/GHFknDO.png" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/50?text=Img'">
-            <div class="admin-manage-details">
-              <strong>ESTAMPA P/ CAMISA Nº9 - ESTAMPA EM DTF MONKEY</strong>
-              <span>R$ 20,00 | estampas dtf</span>
-            </div>
-          </div>
-          <div class="admin-action-btns">
-            <button class="btn-edit-adm" onclick="editProduct('1791861947768')">Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('1791861947768')">Excluir</button>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card">
-          <div class="admin-manage-info">
-            <img src="https://i.imgur.com/uIMZHwM.png" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/50?text=Img'">
-            <div class="admin-manage-details">
-              <strong>ESTAMPA P/ CAMISA Nº10 - ESTAMPA EM DTF URBANO</strong>
-              <span>R$ 20,00 | estampas dtf</span>
-            </div>
-          </div>
-          <div class="admin-action-btns">
-            <button class="btn-edit-adm" onclick="editProduct('1791862051200')">Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('1791862051200')">Excluir</button>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card">
-          <div class="admin-manage-info">
-            <img src="https://i.imgur.com/SdCbD0I.png" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/50?text=Img'">
-            <div class="admin-manage-details">
-              <strong>ESTAMPA P/ CAMISA Nº11 - ESTAMPA EM DTF URBANO</strong>
-              <span>R$ 20,00 | estampas dtf</span>
-            </div>
-          </div>
-          <div class="admin-action-btns">
-            <button class="btn-edit-adm" onclick="editProduct('1791862122488')">Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('1791862122488')">Excluir</button>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card">
-          <div class="admin-manage-info">
-            <img src="https://i.imgur.com/x0gstIa.png" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/50?text=Img'">
-            <div class="admin-manage-details">
-              <strong>ESTAMPA P/ CAMISA Nº12 - ESTAMPA EM DTF URBANO</strong>
-              <span>R$ 25,00 | estampas dtf</span>
-            </div>
-          </div>
-          <div class="admin-action-btns">
-            <button class="btn-edit-adm" onclick="editProduct('1791863468158')">Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('1791863468158')">Excluir</button>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card">
-          <div class="admin-manage-info">
-            <img src="https://i.imgur.com/Om9ddqK.png" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/50?text=Img'">
-            <div class="admin-manage-details">
-              <strong>ESTAMPA P/ CAMISA Nº13 - ESTAMPA EM DTF MONKEY</strong>
-              <span>R$ 25,00 | estampas dtf</span>
-            </div>
-          </div>
-          <div class="admin-action-btns">
-            <button class="btn-edit-adm" onclick="editProduct('1791863536568')">Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('1791863536568')">Excluir</button>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card">
-          <div class="admin-manage-info">
-            <img src="https://i.imgur.com/5awQAPN.png" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/50?text=Img'">
-            <div class="admin-manage-details">
-              <strong>ESTAMPA P/ CAMISA Nº14 - ESTAMPA EM DTF ANIME</strong>
-              <span>R$ R$ 20,00 | estampas dtf</span>
-            </div>
-          </div>
-          <div class="admin-action-btns">
-            <button class="btn-edit-adm" onclick="editProduct('1791865828148')">Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('1791865828148')">Excluir</button>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card">
-          <div class="admin-manage-info">
-            <img src="https://i.imgur.com/BLUEIri.png" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/50?text=Img'">
-            <div class="admin-manage-details">
-              <strong>ESTAMPA P/ CAMISA Nº15 - ESTAMPA EM DTF URBANO</strong>
-              <span>R$ R$ 20,00 | estampas dtf</span>
-            </div>
-          </div>
-          <div class="admin-action-btns">
-            <button class="btn-edit-adm" onclick="editProduct('1791865889648')">Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('1791865889648')">Excluir</button>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card">
-          <div class="admin-manage-info">
-            <img src="https://i.imgur.com/B95p9Hg.png" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/50?text=Img'">
-            <div class="admin-manage-details">
-              <strong>ESTAMPA P/ CAMISA Nº16 - ESTAMPA EM DTF URBANO</strong>
-              <span>R$ R$ 25,00 | estampas dtf</span>
-            </div>
-          </div>
-          <div class="admin-action-btns">
-            <button class="btn-edit-adm" onclick="editProduct('1791865951182')">Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('1791865951182')">Excluir</button>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card">
-          <div class="admin-manage-info">
-            <img src="https://i.imgur.com/5fEO4Tu.png" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/50?text=Img'">
-            <div class="admin-manage-details">
-              <strong>ESTAMPA P/ CAMISA Nº17 - ESTAMPA EM DTF ANIME</strong>
-              <span>R$ R$ 20,00 | estampas dtf</span>
-            </div>
-          </div>
-          <div class="admin-action-btns">
-            <button class="btn-edit-adm" onclick="editProduct('1791866012718')">Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('1791866012718')">Excluir</button>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card">
-          <div class="admin-manage-info">
-            <img src="https://i.imgur.com/y0wU9fB.png" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/50?text=Img'">
-            <div class="admin-manage-details">
-              <strong>ESTAMPA P/ CAMISA Nº18 - ESTAMPA EM DTF ANIME</strong>
-              <span>R$ R$ 20,00 | estampas dtf</span>
-            </div>
-          </div>
-          <div class="admin-action-btns">
-            <button class="btn-edit-adm" onclick="editProduct('1791866054304')">Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('1791866054304')">Excluir</button>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card">
-          <div class="admin-manage-info">
-            <img src="https://i.imgur.com/waMOF8Z.png" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/50?text=Img'">
-            <div class="admin-manage-details">
-              <strong>ESTAMPA P/ CAMISA Nº19 - ESTAMPA EM DTF URBANO</strong>
-              <span>R$ R$ 25,00 | estampas dtf</span>
-            </div>
-          </div>
-          <div class="admin-action-btns">
-            <button class="btn-edit-adm" onclick="editProduct('1791866096280')">Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('1791866096280')">Excluir</button>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card">
-          <div class="admin-manage-info">
-            <img src="https://i.imgur.com/LNpWHSL.png" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/50?text=Img'">
-            <div class="admin-manage-details">
-              <strong>ESTAMPA P/ CAMISA Nº20 - ESTAMPA EM DTF URBANO</strong>
-              <span>R$ R$ 20,00 | estampas dtf</span>
-            </div>
-          </div>
-          <div class="admin-action-btns">
-            <button class="btn-edit-adm" onclick="editProduct('1791866137736')">Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('1791866137736')">Excluir</button>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card">
-          <div class="admin-manage-info">
-            <img src="https://i.imgur.com/RXOJiWG.png" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/50?text=Img'">
-            <div class="admin-manage-details">
-              <strong>ESTAMPA P/ CAMISA Nº30 - ESTAMPA EM DTF ANIME</strong>
-              <span>R$ R$ 25,00 | estampas dtf</span>
-            </div>
-          </div>
-          <div class="admin-action-btns">
-            <button class="btn-edit-adm" onclick="editProduct('1792472949176')">Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('1792472949176')">Excluir</button>
-          </div>
-        </div>
-      
-        <div class="admin-manage-card">
-          <div class="admin-manage-info">
-            <img src="https://i.imgur.com/kbOZGSz.jpeg" class="admin-manage-img" onerror="this.src='https://via.placeholder.com/50?text=Img'">
-            <div class="admin-manage-details">
-              <strong>69400032 - ESTAMPA EM DTF</strong>
-              <span>R$ R$ 20,00 | caneca</span>
-            </div>
-          </div>
-          <div class="admin-action-btns">
-            <button class="btn-edit-adm" onclick="editProduct('1793340886514')">Editar</button>
-            <button class="btn-delete-adm" onclick="deleteProduct('1793340886514')">Excluir</button>
-          </div>
-        </div>
-      </div>
+          <div id="adminProductListContainer" style="max-height: 270px; overflow-y: auto;" bis_skin_checked="1"></div>
         </div>
 
         <!-- GERENCIAR CATEGORIAS -->
         <div id="adminSecManageCat" style="display: block;" bis_skin_checked="1">
           <h4 style="font-size: 1rem; margin-bottom: 0.8rem;">Gerenciar Categorias e Subcategorias</h4>
-          <div id="adminCatListContainer" style="max-height: 250px; overflow-y: auto;" bis_skin_checked="1">
-          <div style="background: #f1f3f5; border-radius: 10px; padding: 0.8rem; margin-bottom: 0.8rem; border: 1px solid #dee2e6;">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
-              <strong style="font-size: 0.95rem; color: var(--accent-purple);"><i class="fa-solid fa-folder"></i> ESTAMPAS DTF</strong>
-              <button class="btn-delete-adm" onclick="deleteCategory('estampas dtf')">Excluir Categoria</button>
-            </div>
-            <div style="padding-left: 1rem; border-left: 2px solid #ccc;">
-        
-              <div class="admin-manage-card" style="margin-bottom: 0.3rem; background: #fff;">
-                <div class="admin-manage-details">
-                  <span style="font-size: 0.8rem; font-weight: 600;"><i class="fa-solid fa-tag"></i> ESTAMPA DTF MASC</span>
-                </div>
-                <div class="admin-action-btns">
-                  <button class="btn-delete-adm" onclick="deleteSubCategory('estampas dtf', 'ESTAMPA DTF MASC')">Excluir Subcategoria</button>
-                </div>
-              </div>
-            </div></div>
-          <div style="background: #f1f3f5; border-radius: 10px; padding: 0.8rem; margin-bottom: 0.8rem; border: 1px solid #dee2e6;">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
-              <strong style="font-size: 0.95rem; color: var(--accent-purple);"><i class="fa-solid fa-folder"></i> CANECA</strong>
-              <button class="btn-delete-adm" onclick="deleteCategory('caneca')">Excluir Categoria</button>
-            </div>
-            <div style="padding-left: 1rem; border-left: 2px solid #ccc;">
-        
-              <div class="admin-manage-card" style="margin-bottom: 0.3rem; background: #fff;">
-                <div class="admin-manage-details">
-                  <span style="font-size: 0.8rem; font-weight: 600;"><i class="fa-solid fa-tag"></i> CANECA 1</span>
-                </div>
-                <div class="admin-action-btns">
-                  <button class="btn-delete-adm" onclick="deleteSubCategory('caneca', 'CANECA 1')">Excluir Subcategoria</button>
-                </div>
-              </div>
-            </div></div></div>
+          <div id="adminCatListContainer" style="max-height: 250px; overflow-y: auto;" bis_skin_checked="1"></div>
         </div>
 
         <!-- CONFIGURAR GITHUB -->
@@ -799,6 +421,7 @@
       loadProductsFromDataTag();
       renderCatalog();
       renderAdminProductsList();
+      renderAdminCategoriesList();
       renderCategoriesMenu();
       loadGithubConfig();
     });
@@ -843,23 +466,43 @@
         const fileData = await getRes.json();
         const fileSha = fileData.sha;
 
-        let fullHtml = document.documentElement.outerHTML;
+        // Cria uma cópia limpa do HTML para salvar, sem listas antigas renderizadas.
+        // Os dados oficiais ficam somente em sublimart-catalog-data; a tela é reconstruída no carregamento.
+        const savedDoc = new DOMParser().parseFromString(document.documentElement.outerHTML, 'text/html');
 
-        // Salva o catálogo sempre com o menu de categorias fechado.
-        fullHtml = fullHtml.replace(/class="dropdown-content(?:\s+show)?"/g, 'class="dropdown-content"');
-        fullHtml = fullHtml.replace(/(class="btn-categories-menu"[^>]*aria-expanded=")(?:true|false)(")/, '$1false$2');
-        fullHtml = fullHtml.replace(/(id="navTabsContainer"[^>]*aria-hidden=")(?:true|false)(")/, '$1true$2');
-        
-        fullHtml = fullHtml.replace(/id="adminModal"[^>]*style="[^"]*"/g, 'id="adminModal" style="display: none;"');
-        fullHtml = fullHtml.replace(/id="adminLoginForm"[^>]*style="[^"]*"/g, 'id="adminLoginForm" style="display: none;"');
-        fullHtml = fullHtml.replace(/id="adminMainPanel"[^>]*style="[^"]*"/g, 'id="adminMainPanel" style="display: none;"');
+        const savedMenu = savedDoc.getElementById('navTabsContainer');
+        if (savedMenu) {
+          savedMenu.classList.remove('show');
+          savedMenu.innerHTML = '';
+          savedMenu.setAttribute('aria-hidden', 'true');
+        }
+        const savedMenuButton = savedDoc.querySelector('.btn-categories-menu');
+        if (savedMenuButton) savedMenuButton.setAttribute('aria-expanded', 'false');
+
+        // Apaga somente cópias visuais dinâmicas; não remove nenhum produto do JSON.
+        ['catalog-grid', 'adminProductListContainer', 'adminCatListContainer', 'productModalContent'].forEach(id => {
+          const element = savedDoc.getElementById(id);
+          if (element) element.innerHTML = '';
+        });
+
+        const savedTitle = savedDoc.getElementById('category-title');
+        if (savedTitle) savedTitle.innerHTML = '<i class="fa-solid fa-border-all"></i> Todos os Produtos';
+
+        ['adminModal', 'productModal'].forEach(id => {
+          const modal = savedDoc.getElementById(id);
+          if (modal) modal.style.display = 'none';
+        });
+        ['adminLoginForm', 'adminMainPanel'].forEach(id => {
+          const panel = savedDoc.getElementById(id);
+          if (panel) panel.style.display = 'none';
+        });
 
         const jsonString = JSON.stringify(updatedProducts).replace(/</g, '\\u003c');
-        
-        fullHtml = fullHtml.replace(
-          /<script id="sublimart-catalog-data"[^>]*>[\s\S]*?<\/script>/,
-          `<script id="sublimart-catalog-data" type="application/json">${jsonString}<\/script>`
-        );
+        const savedDataTag = savedDoc.getElementById('sublimart-catalog-data');
+        if (!savedDataTag) throw new Error('Bloco de dados do catálogo não encontrado no HTML.');
+        savedDataTag.textContent = jsonString;
+
+        const fullHtml = savedDoc.documentElement.outerHTML;
 
         const contentEncoded = btoa(unescape(encodeURIComponent(fullHtml)));
         const putRes = await fetch(apiUrl, {
