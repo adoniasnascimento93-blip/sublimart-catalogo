@@ -189,7 +189,7 @@
     .promo-banner-slide { display: none; width: 100%; }
     .promo-banner-slide.active { display: block; }
     .promo-banner-slide.active.effect-slide { animation: promoBannerSlide .65s cubic-bezier(.22,.61,.36,1); }
-    .promo-banner-slide.active.effect-fade { animation: promoBannerFade .65s ease; }
+    .promo-banner-slide.active.effect-down { animation: promoBannerDown .65s cubic-bezier(.22,.61,.36,1); }
     .promo-banner-slide.active.effect-flash { animation: promoBannerFlash .7s ease; }
     .promo-banner-slide a { display: block; width: 100%; }
     .promo-banner-slide img {
@@ -199,13 +199,13 @@
       object-fit: cover;
       object-position: center;
     }
-        @keyframes promoBannerFade {
-      from { opacity: .25; }
-      to { opacity: 1; }
-    }
-    @keyframes promoBannerSlide {
-      from { opacity: .35; transform: translateX(38px); }
+        @keyframes promoBannerSlide {
+      from { opacity: .35; transform: translateX(-38px); }
       to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes promoBannerDown {
+      from { opacity: .35; transform: translateY(-38px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     @keyframes promoBannerFlash {
       0% { opacity: .25; filter: brightness(1.8); }
@@ -594,7 +594,7 @@
       const previousIndex = currentBannerIndex;
       currentBannerIndex = (index + slides.length) % slides.length;
 
-      const effects = ['effect-slide', 'effect-fade', 'effect-flash'];
+      const effects = ['effect-slide', 'effect-down', 'effect-flash'];
       const lastEffect = slider.dataset.lastBannerEffect || '';
       const availableEffects = effects.filter(effect => effect !== lastEffect);
       const selectedEffect = availableEffects[Math.floor(Math.random() * availableEffects.length)];
