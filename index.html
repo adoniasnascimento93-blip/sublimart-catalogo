@@ -229,15 +229,10 @@
 <script bis_use="true" type="text/javascript" charset="utf-8" nonce="" data-dynamic-id="34109357-773f-473b-85cf-16ae831618e4" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/200.js"></script><script bis_use="true" type="text/javascript" charset="utf-8" nonce="" data-dynamic-id="34109357-773f-473b-85cf-16ae831618e4" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/101.js"></script><script src="https://apis.google.com/js/api.js?onload=__iframefcb749697" type="text/javascript" charset="UTF-8" gapi_processed="true"></script></head>
 <body __processed_8b07824a-8e83-431d-bf78-1c5ff3140654__="true" bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWllZ29tY29uIiwiYWRibG9ja2VyU3RhdHVzIjp7IkRJU1BMQVkiOiJlbmFibGVkIiwiRkFDRUJPT0siOiJlbmFibGVkIiwiVFdJVFRFUiI6ImVuYWJsZWQiLCJSRURESVQiOiJlbmFibGVkIiwiUElOVEVSRVNUIjoiZW5hYmxlZCIsIklOU1RBR1JBTSI6ImVuYWJsZWQiLCJUSUtUT0siOiJlbmFibGVkIiwiTElOS0VESU4iOiJlbmFibGVkIiwiQ09ORklHIjoiZGlzYWJsZWQifSwidmVyc2lvbiI6IjIuMy4wIiwic2NvcmUiOjIwMzAwMH1d" __processed_48bb71df-7f03-4a82-97a1-aaeb549547b3__="true" __processed_02372317-fb1d-41e8-bef9-0a5228d5fa75__="true">
 
-  <!-- BANNER ROTATIVO: imagens gerenciadas pela Área ADM -->
+  <!-- BANNER ROTATIVO PROMOCIONAL -->
   <section id="promoBannerSlider" class="promo-banner-slider" aria-label="Banners promocionais" style="display: none;"></section>
 
-  <!-- BOTÃO FLUTUANTE ADM -->
-  <button class="btn-admin-trigger" onclick="openAdminModal()">
-    <i class="fa-solid fa-lock"></i> ÁREA ADM
-  </button>
 
-  <!-- HEADER -->
   <header>
     <h1>SUBLIMArt</h1>
     <p>Personalizados e Sublimação de Alta Qualidade</p>
@@ -282,149 +277,7 @@
     </div>
   </div>
 
-  <!-- MODAL ADM -->
-  <div class="modal-overlay" id="adminModal" style="display: none;" bis_skin_checked="1">
-    <div class="modal-card" bis_skin_checked="1">
-      <button class="btn-close-modal" onclick="closeAdminModal()"><i class="fa-solid fa-xmark"></i></button>
-      
-      <!-- LOGIN FIREBASE -->
-      <div id="adminLoginForm" style="display: none;" bis_skin_checked="1">
-        <h3 style="margin-bottom: 1rem;"><i class="fa-solid fa-shield-halved"></i> Login - Painel ADM</h3>
-        <form onsubmit="handleAdminLogin(event)">
-          <div class="form-group" bis_skin_checked="1">
-            <label>E-mail do Administrador:</label>
-            <input type="email" id="adminEmailInput" placeholder="sublimart@admin.com" required="">
-          </div>
-          <div class="form-group" bis_skin_checked="1">
-            <label>Senha:</label>
-            <input type="password" id="adminPasswordInput" placeholder="Sua senha" required="">
-          </div>
-          <button type="submit" class="btn-submit-admin">ENTRAR</button>
-        </form>
-      </div>
 
-      <!-- PAINEL ADM PRINCIPAL -->
-      <div id="adminMainPanel" style="display: none;" bis_skin_checked="1">
-        <div class="admin-panel-header" bis_skin_checked="1">
-          <h3><i class="fa-solid fa-user-gear"></i> Painel de Controle</h3>
-          <button class="btn-logout-admin" onclick="handleAdminLogout()"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
-        </div>
-        
-        <div class="admin-nav-tabs" bis_skin_checked="1">
-          <button class="admin-tab-btn active" id="btnTabAdd" onclick="switchAdminTab('add')"><i class="fa-solid fa-plus"></i> Cadastrar Produto</button>
-          <button class="admin-tab-btn" id="btnTabManageProd" onclick="switchAdminTab('manageProd')"><i class="fa-solid fa-boxes-stacked"></i> Gerenciar Produtos</button>
-          <button class="admin-tab-btn" id="btnTabManageCat" onclick="switchAdminTab('manageCat')"><i class="fa-solid fa-folder"></i> Categorias</button>
-          <button class="admin-tab-btn" id="btnTabManageBanner" onclick="switchAdminTab('manageBanner')"><i class="fa-solid fa-images"></i> Gerenciar Banners</button>
-          <button class="admin-tab-btn" id="btnTabGithub" onclick="switchAdminTab('github')"><i class="fa-brands fa-github"></i> Configurar GitHub</button>
-        </div>
-
-        <!-- CADASTRAR PRODUTO -->
-        <div id="adminSecAdd" style="display: block;" bis_skin_checked="1">
-          <h4 id="formProductTitleHeader" style="font-size: 1rem; margin-bottom: 0.8rem;">Editar Produto</h4>
-          <form id="productForm" onsubmit="handleSaveProduct(event)">
-            <input type="hidden" id="pEditingId" value="1792472949176">
-            
-            <div class="form-group" bis_skin_checked="1">
-              <label>Categoria Principal:</label>
-              <input type="text" id="pCategory" placeholder="Ex: Camisas, Canecas..." required="">
-            </div>
-
-            <div class="form-group" bis_skin_checked="1">
-              <label>Subcategoria / Tema:</label>
-              <input type="text" id="pSubCategory" placeholder="Ex: MASCULINA, INFANTIL..." required="">
-            </div>
-
-            <div class="form-group" bis_skin_checked="1">
-              <label>Código do Produto:</label>
-              <input type="text" id="pCode" placeholder="Ex: PROD Nº1" required="">
-            </div>
-            <div class="form-group" bis_skin_checked="1">
-              <label>Título do Produto:</label>
-              <input type="text" id="pTitle" placeholder="Ex: Camisa Personalizada" required="">
-            </div>
-            <div class="form-group" bis_skin_checked="1">
-              <label>Preço:</label>
-              <input type="text" id="pPrice" placeholder="Ex: 35,00" required="">
-            </div>
-            <div class="form-group" bis_skin_checked="1">
-              <label>Descrição:</label>
-              <textarea id="pDesc" rows="2" placeholder="Digite a descrição..." required=""></textarea>
-            </div>
-            <div class="form-group" bis_skin_checked="1">
-              <label>URL da Imagem:</label>
-              <input type="url" id="pImage" placeholder="https://..." required="" oninput="cleanImageUrl(this)" onpaste="setTimeout(() =&gt; cleanImageUrl(this), 10)">
-            </div>
-            <button type="submit" class="btn-submit-admin" id="btnSubmitFormProd">ATUALIZAR PRODUTO</button>
-            <button type="button" class="btn-cancel-edit" id="btnCancelEditProd" style="display: block;" onclick="resetProductForm()">CANCELAR EDIÇÃO</button>
-          </form>
-        </div>
-
-        <!-- GERENCIAR PRODUTOS -->
-        <div id="adminSecManageProd" style="display: none;" bis_skin_checked="1">
-          <h4 style="font-size: 1rem; margin-bottom: 0.8rem;">Gerenciar / Excluir Produtos</h4>
-          <div class="form-group" style="margin-bottom: 0.8rem;" bis_skin_checked="1">
-            <input type="text" id="adminProdSearchInput" oninput="renderAdminProductsList()" placeholder="🔍 Busque por código ou nome...">
-          </div>
-          <div id="adminProductListContainer" style="max-height: 270px; overflow-y: auto;" bis_skin_checked="1"></div>
-        </div>
-
-        <!-- GERENCIAR CATEGORIAS -->
-        <div id="adminSecManageCat" style="display: none;" bis_skin_checked="1">
-          <h4 style="font-size: 1rem; margin-bottom: 0.8rem;">Gerenciar Categorias e Subcategorias</h4>
-          <div id="adminCatListContainer" style="max-height: 250px; overflow-y: auto;" bis_skin_checked="1"></div>
-        </div>
-
-        <!-- GERENCIAR BANNERS -->
-        <div id="adminSecManageBanner" style="display: none;" bis_skin_checked="1">
-          <h4 id="bannerFormTitle" style="font-size: 1rem; margin-bottom: 0.8rem;">Adicionar Banner</h4>
-          <form id="bannerForm" onsubmit="handleSaveBanner(event)">
-            <input type="hidden" id="bannerEditingId" value="">
-            <div class="form-group">
-              <label>URL da imagem do banner:</label>
-              <input type="url" id="bannerImageUrl" placeholder="https://..." required="" oninput="cleanImageUrl(this)">
-            </div>
-            <div class="form-group">
-              <label>Link de destino (opcional):</label>
-              <input type="url" id="bannerLinkUrl" placeholder="https://seusite.com ou WhatsApp">
-            </div>
-            <button type="submit" class="btn-submit-admin" id="btnSubmitBanner">ADICIONAR BANNER</button>
-            <button type="button" class="btn-cancel-edit" id="btnCancelBannerEdit" style="display: none;" onclick="resetBannerForm()">CANCELAR EDIÇÃO</button>
-          </form>
-          <h4 style="font-size: 1rem; margin: 1.2rem 0 0.8rem;">Banners cadastrados</h4>
-          <div id="adminBannerListContainer" style="max-height: 270px; overflow-y: auto;"></div>
-          <p style="font-size: 0.75rem; color: #777; margin-top: 0.6rem;">Os banners alternam automaticamente a cada 5 segundos. Use imagens horizontais para melhor resultado.</p>
-        </div>
-
-        <!-- CONFIGURAR GITHUB -->
-        <div id="adminSecGithub" style="display: none;" bis_skin_checked="1">
-          <h4 style="font-size: 1rem; margin-bottom: 0.4rem;">Conectar com o GitHub</h4>
-          <p style="font-size: 0.8rem; color: #666; margin-bottom: 1rem;">Informe seus dados para gravar as alterações direto no arquivo do repositório:</p>
-          <form onsubmit="handleSaveGithubConfig(event)">
-            <div class="form-group" bis_skin_checked="1">
-              <label>GitHub Username:</label>
-              <input type="text" id="ghUsername" placeholder="Ex: adoniasdesigner" required="">
-            </div>
-            <div class="form-group" bis_skin_checked="1">
-              <label>Nome do Repositório:</label>
-              <input type="text" id="ghRepo" placeholder="Ex: sublimart-catalogo" required="">
-            </div>
-            <div class="form-group" bis_skin_checked="1">
-              <label>Nome do Arquivo (ex: index.html):</label>
-              <input type="text" id="ghFilename" value="index.html" required="">
-            </div>
-            <div class="form-group" bis_skin_checked="1">
-              <label>Personal Access Token (PAT):</label>
-              <input type="password" id="ghToken" placeholder="ghp_..." required="">
-            </div>
-            <button type="submit" class="btn-submit-admin">SALVAR CONFIGURAÇÃO GITHUB</button>
-          </form>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <!-- RODAPÉ -->
   <footer>
     <p><strong>SUBLIMArt Personalizados</strong> — Transformando suas ideias em arte.</p>
     <div class="footer-contacts" bis_skin_checked="1">
@@ -439,43 +292,7 @@
   <script id="sublimart-catalog-data" type="application/json">[{"id":"1791861251220","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº1","title":"ESTAMPA EM DTF CRISTÃO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/KThKE5n.png"},{"id":"1791861458307","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº2","title":"ESTAMPA EM DTF CRISTÃO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/4kMArKZ.png"},{"id":"1791861511586","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº3","title":"ESTAMPA EM DTF CRISTÃO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/t4jjKkr.png"},{"id":"1791861551676","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº4","title":"ESTAMPA EM DTF CRISTÃO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/fkeC85k.png"},{"id":"1791861588064","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº5","title":"ESTAMPA EM DTF CRISTÃO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/icv1nwl.png"},{"id":"1791861664116","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº6","title":"ESTAMPA EM DTF CRISTÃO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/NyWJwUE.png"},{"id":"1791861801876","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº7","title":"ESTAMPA EM DTF CRISTÃO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/pvUSuVf.png"},{"id":"1791861846632","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº8","title":"ESTAMPA EM DTF CRISTÃO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/MG78EO1.png"},{"id":"1791861947768","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº9","title":"ESTAMPA EM DTF MONKEY","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/GHFknDO.png"},{"id":"1791862051200","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº10","title":"ESTAMPA EM DTF URBANO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/uIMZHwM.png"},{"id":"1791862122488","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº11","title":"ESTAMPA EM DTF URBANO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/SdCbD0I.png"},{"id":"1791863468158","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº12","title":"ESTAMPA EM DTF URBANO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/x0gstIa.png"},{"id":"1791863536568","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº13","title":"ESTAMPA EM DTF MONKEY","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/Om9ddqK.png"},{"id":"1791865828148","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº14","title":"ESTAMPA EM DTF ANIME","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/5awQAPN.png"},{"id":"1791865889648","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº15","title":"ESTAMPA EM DTF URBANO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/BLUEIri.png"},{"id":"1791865951182","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº16","title":"ESTAMPA EM DTF URBANO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/B95p9Hg.png"},{"id":"1791866012718","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº17","title":"ESTAMPA EM DTF ANIME","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/5fEO4Tu.png"},{"id":"1791866054304","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº18","title":"ESTAMPA EM DTF ANIME","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/y0wU9fB.png"},{"id":"1791866096280","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº19","title":"ESTAMPA EM DTF URBANO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/waMOF8Z.png"},{"id":"1791866137736","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº20","title":"ESTAMPA EM DTF URBANO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/LNpWHSL.png"},{"id":"1792472949176","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº30","title":"ESTAMPA EM DTF ANIME","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/RXOJiWG.png"}]</script>
   <script id="sublimart-banners-data" type="application/json">[{"id":"1793343224877","image":"https://i.imgur.com/CulTI0v.png","link":""},{"id":"1793343403163","image":"https://i.imgur.com/OBaorfr.png","link":""},{"id":"1793770000000","image":"https://i.imgur.com/Rwjtkch.jpeg","link":""}]</script>
 
-  <!-- FIREBASE AUTH & GITHUB SYNC API -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyANjvOsw0EJohoDtgQAZ3gvN8Sd8UqGZDk",
-      authDomain: "sublimart-catalogo.firebaseapp.com",
-      projectId: "sublimart-catalogo",
-      storageBucket: "sublimart-catalogo.firebasestorage.app",
-      messagingSenderId: "713298486667",
-      appId: "1:713298486667:web:f7d63d7b0f2444bdf5fb8e"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    window.firebaseAuthLogin = (email, password) => signInWithEmailAndPassword(auth, email, password);
-    window.firebaseAuthLogout = () => signOut(auth);
-
-    onAuthStateChanged(auth, (user) => {
-      const loginForm = document.getElementById('adminLoginForm');
-      const mainPanel = document.getElementById('adminMainPanel');
-      if (loginForm && mainPanel) {
-        if (user) {
-          loginForm.style.display = 'none';
-          mainPanel.style.display = 'block';
-        } else {
-          loginForm.style.display = 'block';
-          mainPanel.style.display = 'none';
-        }
-      }
-    });
-  </script>
-
-  <script>
-    let products = [];
     let banners = [];
     let currentBannerIndex = 0;
     let bannerRotationTimer = null;
@@ -488,10 +305,7 @@
       loadBannersFromDataTag();
       renderBannerSlider();
       renderCatalog();
-      renderAdminProductsList();
-      renderAdminCategoriesList();
       renderCategoriesMenu();
-      loadGithubConfig();
     });
 
     function loadProductsFromDataTag() {
