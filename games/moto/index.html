@@ -12,11 +12,11 @@
 	<style>
 html,body{margin:0;padding:0;background:#080d18;overflow-x:hidden;touch-action:pan-y}
 #screen-race{width:100%;height:100dvh;min-height:540px;margin:0;position:relative;overflow:hidden}
-#game_canvas{display:block;width:100%;height:calc(100dvh - 138px);max-height:calc(100dvh - 138px);background:#080d18;touch-action:none}
+#game_canvas{display:block;width:100%;height:calc(100dvh - 92px);max-height:calc(100dvh - 92px);background:#080d18;touch-action:none}
 #dashboard{top:auto!important;bottom:76px!important;width:min(96vw,650px)!important;margin-left:0!important;left:2vw!important;display:flex;justify-content:space-around;transform:scale(.55);transform-origin:bottom center}
 #starter{top:22%!important}
 #finish,#race-menu{z-index:30;top:18%;left:10%;width:80%;height:auto;background:rgba(8,13,24,.92);padding:16px;border-radius:16px}
-#touchControls{position:fixed;z-index:1000;bottom:env(safe-area-inset-bottom,0);left:0;right:0;display:grid;grid-template-columns:repeat(4,1fr);gap:7px;padding:8px;background:linear-gradient(transparent,rgba(0,0,0,.88));}
+#touchControls{position:fixed;z-index:1000;bottom:env(safe-area-inset-bottom,0);left:0;right:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;padding:8px;background:linear-gradient(transparent,rgba(0,0,0,.88));}
 #touchControls button{min-width:0;min-height:62px;border:1px solid #ffffff66;border-radius:13px;color:#fff;background:linear-gradient(145deg,#263b58,#101827);font:800 12px Arial,sans-serif;box-shadow:0 4px 0 #050a12;touch-action:none;user-select:none;-webkit-user-select:none}
 #touchControls button:active,#touchControls button.is-down{background:linear-gradient(145deg,#e45b25,#a52a17);transform:translateY(3px);box-shadow:0 1px 0 #050a12}
 #touchControls .boost{background:linear-gradient(145deg,#d79b28,#8e4a0a)}
@@ -174,6 +174,18 @@ html,body{margin:0;padding:0;background:#080d18;overflow-x:hidden;touch-action:p
 		<script type='text/javascript' src='src/main.js'></script>
 	<script>
 (function(){
+  var canvas=document.getElementById('game_canvas');
+  function resizeGameCanvas(){
+    if(!canvas)return;
+    var rect=canvas.getBoundingClientRect();
+    if(rect.width>0&&rect.height>0){
+      canvas.width=Math.round(rect.width);
+      canvas.height=Math.round(rect.height);
+    }
+  }
+  window.addEventListener('resize',resizeGameCanvas);
+  resizeGameCanvas();
+  setTimeout(resizeGameCanvas,250);
   var pad=document.getElementById('touchControls');
   if(!pad)return;
   var active={};
