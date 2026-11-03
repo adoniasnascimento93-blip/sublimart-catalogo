@@ -47,6 +47,12 @@
          left: 10px;
       }
 
+      #mobileControls { width:535px; max-width:calc(100vw - 24px); margin: 970px 20px 24px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
+      #mobileControls button { flex:1; min-height:68px; border:2px solid rgba(255,255,255,.55); border-radius:16px; color:#fff; font:700 16px Arial,sans-serif; letter-spacing:.5px; background:linear-gradient(145deg,#27345f,#10172f); box-shadow:0 5px 0 #080d1e,0 8px 18px #0005; touch-action:none; user-select:none; -webkit-user-select:none; }
+      #mobileControls button:active { transform:translateY(4px); box-shadow:0 1px 0 #080d1e; background:linear-gradient(145deg,#e52f61,#9e1740); }
+      #mobileControls .launch { background:linear-gradient(145deg,#f4a52c,#d45a13); min-width:120px; }
+      @media (hover:hover) and (pointer:fine) { #mobileControls { display:none; } }
+      @media (max-width:600px) { body { margin:0; overflow-x:hidden; } #mobileControls { margin-left:12px; margin-right:12px; } }
     </style>
   </head>
 
@@ -74,6 +80,12 @@
       <canvas id='gameCanvas' width='535' height='936'>
          Canvas not supported
       </canvas>
+
+      <div id="mobileControls" aria-label="Controles de toque">
+        <button type="button" data-key="68" aria-label="Flipper esquerdo">◀ ESQUERDO</button>
+        <button type="button" class="launch" data-key="32" aria-label="Lançar bola">LANÇAR ●</button>
+        <button type="button" data-key="75" aria-label="Flipper direito">DIREITO ▶</button>
+      </div>
 
       <div id='showPolygonsOnlyToast' class='toast'>
          <input type='checkbox' id='showPolygonsOnlyCheckbox'/>
@@ -136,5 +148,19 @@
     <script src = 'gameEngine.js'></script>
     <script src = 'shapes.js'></script>
     <script src = 'pinball.js'></script>
+    <script>
+      (function () {
+        var controls = document.getElementById('mobileControls');
+        if (!controls) return;
+        controls.addEventListener('pointerdown', function (event) {
+          var button = event.target.closest('button[data-key]');
+          if (!button || !window.game || typeof window.game.keyPressed !== 'function') return;
+          event.preventDefault();
+          try { button.setPointerCapture(event.pointerId); } catch (e) {}
+          window.game.keyPressed({ keyCode: Number(button.getAttribute('data-key')) });
+        });
+        controls.addEventListener('contextmenu', function (event) { event.preventDefault(); });
+      })();
+    </script>
   </body>
 </html>
