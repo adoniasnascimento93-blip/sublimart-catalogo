@@ -155,21 +155,16 @@
           var button = event.target.closest('button[data-key]');
           if (!button || !window.game || typeof window.game.keyPressed !== 'function') return;
           event.preventDefault();
-          try { button.setPointerCapture(event.pointerId); } catch (e) {}
-
           var keyCode = Number(button.getAttribute('data-key'));
+
           if (keyCode === 32) {
-            // O jogo original exige carregar o atuador com a seta para baixo
-            // antes de pressionar espaço. No toque, fazemos essa sequência.
-            var chargeCount = 0;
-            var chargeTimer = window.setInterval(function () {
+            // Carrega o atuador diretamente, sem depender de temporizadores
+            // que podem ser limitados por navegadores móveis.
+            for (var i = 0; i < 7; i++) {
+              window.lastKeyListenerTime = 0;
               window.game.keyPressed({ keyCode: 40 });
-              chargeCount++;
-              if (chargeCount >= 7) {
-                window.clearInterval(chargeTimer);
-                window.game.keyPressed({ keyCode: 32 });
-              }
-            }, 100);
+            }
+            window.game.keyPressed({ keyCode: 32 });
           } else {
             window.game.keyPressed({ keyCode: keyCode });
           }
