@@ -981,6 +981,26 @@
         return;
       }
 
+      if (currentCategory === 'games') {
+        grid.innerHTML = filtered.filter(p => p.type === 'game').map(p => `
+          <div class="card game-card" onclick="openGame('${p.id}')">
+            <div class="card-img-wrapper">
+              <span class="card-code-badge">JOGO GRÁTIS</span>
+              <img src="${p.image}" alt="${p.title}" onerror="this.src='https://via.placeholder.com/500x700?text=PINBALL'">
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">${p.title}</h3>
+              <p class="card-desc">${p.desc}</p>
+              <div class="card-footer-buy">
+                <span class="price">JOGUE GRÁTIS</span>
+                <span class="btn-buy"><i class="fa-solid fa-gamepad"></i> JOGAR</span>
+              </div>
+            </div>
+          </div>
+        `).join('');
+        return;
+      }
+
       grid.innerHTML = filtered.map(p => `
         <div class="card" onclick="openProductDetail('${p.id}')">
           <div class="card-img-wrapper">
