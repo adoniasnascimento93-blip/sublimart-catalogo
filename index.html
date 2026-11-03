@@ -213,19 +213,6 @@
       100% { opacity: 1; filter: brightness(1); }
     }
 
-
-    /* JOGOS - PINBALL */
-    .game-overlay { position: fixed; inset: 0; z-index: 5000; display: none; align-items: flex-start; justify-content: center; overflow: auto; padding: 12px; background: rgba(7, 10, 24, .96); }
-    .game-shell { width: 100%; max-width: 650px; display: flex; flex-direction: column; align-items: center; gap: 8px; margin: auto; }
-    .game-toolbar { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; border: 1px solid rgba(255,255,255,.16); border-radius: 12px; background: #171b2e; color: #fff; }
-    .game-toolbar strong { letter-spacing: 1.5px; }
-    .game-close { border: 0; border-radius: 8px; padding: 9px 14px; background: #ef315d; color: #fff; font-weight: 700; cursor: pointer; }
-    .game-frame-wrap { width: 575px; height: 1080px; flex: 0 0 auto; overflow: hidden; border-radius: 8px; background: #87ceeb; }
-    .game-frame { display: block; width: 575px; height: 1080px; border: 0; background: #87ceeb; }
-    .game-card .card-img-wrapper img { object-fit: cover; }
-    .game-card .price { color: #159b60; }
-    @media (max-width: 600px) { .game-frame-wrap { zoom: .62; } }
-
     @media (max-width: 600px) {
       header h1 { font-size: 1.8rem; }
       .catalog-grid { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
@@ -287,20 +274,6 @@
     <div class="modal-card" bis_skin_checked="1">
       <button class="btn-close-modal" onclick="closeProductModal()"><i class="fa-solid fa-xmark"></i></button>
       <div class="product-detail-container" id="productModalContent" bis_skin_checked="1"></div>
-    </div>
-  </div>
-
-
-  <!-- JOGO PINBALL INTEGRADO -->
-  <div class="game-overlay" id="gameOverlay" role="dialog" aria-modal="true" aria-label="Jogo de passatempo">
-    <div class="game-shell">
-      <div class="game-toolbar">
-        <strong>SUBLIMArt PASSATEMPO · <span id="gameToolbarTitle">JOGO</span></strong>
-        <button type="button" class="game-close" onclick="closeGame()">FECHAR JOGO ✕</button>
-      </div>
-      <div class="game-frame-wrap">
-        <iframe class="game-frame" id="pinballFrame" src="about:blank" title="Pinball clássico" allow="autoplay; fullscreen" loading="lazy"></iframe>
-      </div>
     </div>
   </div>
 
@@ -458,7 +431,7 @@
   </footer>
 
   <!-- DADOS EMBUTIDOS NO HTML -->
-  <script id="sublimart-catalog-data" type="application/json">[{"id":"1791861251220","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº1","title":"ESTAMPA EM DTF CRISTÃO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/KThKE5n.png"},{"id":"1791861458307","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº2","title":"ESTAMPA EM DTF CRISTÃO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/4kMArKZ.png"},{"id":"1791861511586","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº3","title":"ESTAMPA EM DTF CRISTÃO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/t4jjKkr.png"},{"id":"1791861551676","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº4","title":"ESTAMPA EM DTF CRISTÃO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/fkeC85k.png"},{"id":"1791861588064","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº5","title":"ESTAMPA EM DTF CRISTÃO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/icv1nwl.png"},{"id":"1791861664116","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº6","title":"ESTAMPA EM DTF CRISTÃO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/NyWJwUE.png"},{"id":"1791861801876","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº7","title":"ESTAMPA EM DTF CRISTÃO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/pvUSuVf.png"},{"id":"1791861846632","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº8","title":"ESTAMPA EM DTF CRISTÃO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/MG78EO1.png"},{"id":"1791861947768","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº9","title":"ESTAMPA EM DTF MONKEY","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/GHFknDO.png"},{"id":"1791862051200","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº10","title":"ESTAMPA EM DTF URBANO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/uIMZHwM.png"},{"id":"1791862122488","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº11","title":"ESTAMPA EM DTF URBANO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/SdCbD0I.png"},{"id":"1791863468158","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº12","title":"ESTAMPA EM DTF URBANO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/x0gstIa.png"},{"id":"1791863536568","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº13","title":"ESTAMPA EM DTF MONKEY","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/Om9ddqK.png"},{"id":"1791865828148","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº14","title":"ESTAMPA EM DTF ANIME","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/5awQAPN.png"},{"id":"1791865889648","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº15","title":"ESTAMPA EM DTF URBANO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/BLUEIri.png"},{"id":"1791865951182","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº16","title":"ESTAMPA EM DTF URBANO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/B95p9Hg.png"},{"id":"1791866012718","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº17","title":"ESTAMPA EM DTF ANIME","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/5fEO4Tu.png"},{"id":"1791866054304","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº18","title":"ESTAMPA EM DTF ANIME","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/y0wU9fB.png"},{"id":"1791866096280","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº19","title":"ESTAMPA EM DTF URBANO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/waMOF8Z.png"},{"id":"1791866137736","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº20","title":"ESTAMPA EM DTF URBANO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/LNpWHSL.png"},{"id":"1792472949176","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº30","title":"ESTAMPA EM DTF ANIME","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/RXOJiWG.png"},{"id":"sublimart-game-pinball","category":"Passatempo","subcategory":"","code":"JOGO-PINBALL","title":"PINBALL","price":"GRÁTIS","desc":"Reviva a diversão do pinball clássico. Clique para jogar!","image":"https://cdn.jsdelivr.net/gh/corehtml5canvas/code@master/ch09/pinball/images/pinball-withballs.png","type":"game"},{"id":"sublimart-game-moto","category":"Passatempo","subcategory":"","code":"JOGO-MOTO","title":"MOTO CROSS","price":"GRÁTIS","desc":"Acelere, faça manobras e vença as pistas neste jogo de motocross. Controles para celular incluídos!","image":"https://cdn.jsdelivr.net/gh/marcwlester/moto.js@master/assets/img/title.png","type":"game"}]</script>
+  <script id="sublimart-catalog-data" type="application/json">[{"id":"1791861251220","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº1","title":"ESTAMPA EM DTF CRISTÃO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/KThKE5n.png"},{"id":"1791861458307","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº2","title":"ESTAMPA EM DTF CRISTÃO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/4kMArKZ.png"},{"id":"1791861511586","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº3","title":"ESTAMPA EM DTF CRISTÃO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/t4jjKkr.png"},{"id":"1791861551676","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº4","title":"ESTAMPA EM DTF CRISTÃO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/fkeC85k.png"},{"id":"1791861588064","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº5","title":"ESTAMPA EM DTF CRISTÃO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/icv1nwl.png"},{"id":"1791861664116","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº6","title":"ESTAMPA EM DTF CRISTÃO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/NyWJwUE.png"},{"id":"1791861801876","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº7","title":"ESTAMPA EM DTF CRISTÃO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/pvUSuVf.png"},{"id":"1791861846632","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº8","title":"ESTAMPA EM DTF CRISTÃO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/MG78EO1.png"},{"id":"1791861947768","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº9","title":"ESTAMPA EM DTF MONKEY","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/GHFknDO.png"},{"id":"1791862051200","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº10","title":"ESTAMPA EM DTF URBANO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/uIMZHwM.png"},{"id":"1791862122488","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº11","title":"ESTAMPA EM DTF URBANO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/SdCbD0I.png"},{"id":"1791863468158","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº12","title":"ESTAMPA EM DTF URBANO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/x0gstIa.png"},{"id":"1791863536568","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº13","title":"ESTAMPA EM DTF MONKEY","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/Om9ddqK.png"},{"id":"1791865828148","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº14","title":"ESTAMPA EM DTF ANIME","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/5awQAPN.png"},{"id":"1791865889648","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº15","title":"ESTAMPA EM DTF URBANO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/BLUEIri.png"},{"id":"1791865951182","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº16","title":"ESTAMPA EM DTF URBANO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/B95p9Hg.png"},{"id":"1791866012718","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº17","title":"ESTAMPA EM DTF ANIME","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/5fEO4Tu.png"},{"id":"1791866054304","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº18","title":"ESTAMPA EM DTF ANIME","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/y0wU9fB.png"},{"id":"1791866096280","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº19","title":"ESTAMPA EM DTF URBANO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/waMOF8Z.png"},{"id":"1791866137736","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº20","title":"ESTAMPA EM DTF URBANO","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/LNpWHSL.png"},{"id":"1792472949176","category":"estampas dtf","subcategory":"ESTAMPA DTF MASC","code":"ESTAMPA P/ CAMISA Nº30","title":"ESTAMPA EM DTF ANIME","price":"35,00","desc":"A cor da camisa depende da disponibilidade no nosso estoque.","image":"https://i.imgur.com/RXOJiWG.png"}]</script>
   <script id="sublimart-banners-data" type="application/json">[{"id":"1793343224877","image":"https://i.imgur.com/CulTI0v.png","link":""},{"id":"1793343403163","image":"https://i.imgur.com/OBaorfr.png","link":""},{"id":"1793770000000","image":"https://i.imgur.com/Rwjtkch.jpeg","link":""}]</script>
 
   <!-- FIREBASE AUTH & GITHUB SYNC API -->
@@ -981,26 +954,6 @@
         return;
       }
 
-      if (currentCategory.toLowerCase() === 'passatempo') {
-        grid.innerHTML = filtered.filter(p => p.type === 'game').map(p => `
-          <div class="card game-card" onclick="openGame('${p.id}')">
-            <div class="card-img-wrapper">
-              <span class="card-code-badge">JOGO GRÁTIS</span>
-              <img src="${p.image}" alt="${p.title}" onerror="this.src='https://via.placeholder.com/500x700?text=PINBALL'">
-            </div>
-            <div class="card-body">
-              <h3 class="card-title">${p.title}</h3>
-              <p class="card-desc">${p.desc}</p>
-              <div class="card-footer-buy">
-                <span class="price">JOGUE GRÁTIS</span>
-                <span class="btn-buy"><i class="fa-solid fa-gamepad"></i> JOGAR</span>
-              </div>
-            </div>
-          </div>
-        `).join('');
-        return;
-      }
-
       grid.innerHTML = filtered.map(p => `
         <div class="card" onclick="openProductDetail('${p.id}')">
           <div class="card-img-wrapper">
@@ -1066,32 +1019,9 @@
       renderCatalog();
     }
 
-    function openGame(id) {
-      const game = products.find(item => String(item.id) === String(id));
-      if (!game || game.type !== 'game') return;
-      const overlay = document.getElementById('gameOverlay');
-      const frame = document.getElementById('pinballFrame');
-      if (!overlay || !frame) return;
-      overlay.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
-      const isMoto = String(game.id) === 'sublimart-game-moto';
-      document.getElementById('gameToolbarTitle').textContent = isMoto ? 'MOTO CROSS' : 'PINBALL';
-      frame.title = isMoto ? 'Moto Cross' : 'Pinball clássico';
-      frame.src = isMoto ? 'games/moto/index.html?v=20261102a' : 'games/pinball/index.html?v=20261102b';
-    }
-
-    function closeGame() {
-      const overlay = document.getElementById('gameOverlay');
-      const frame = document.getElementById('pinballFrame');
-      if (frame) frame.src = 'about:blank';
-      if (overlay) overlay.style.display = 'none';
-      document.body.style.overflow = '';
-    }
-
     function openProductDetail(id) {
       const p = products.find(item => String(item.id) === String(id));
       if (!p) return;
-      if (p.type === 'game') { openGame(p.id); return; }
       document.getElementById('productModalContent').innerHTML = `
         <img src="${p.image}" class="product-detail-img" alt="${p.title}" onerror="this.src='https://via.placeholder.com/400?text=Sem+Imagem'">
         <span class="product-detail-code">Código: ${p.code}</span>
@@ -1226,7 +1156,6 @@
     function editProduct(id) {
       const p = products.find(item => String(item.id) === String(id));
       if (!p) return;
-      if (p.type === 'game') { alert('Este jogo é um item especial e não pode ser editado como produto.'); return; }
       document.getElementById('pEditingId').value = p.id;
       document.getElementById('pCategory').value = p.category;
       document.getElementById('pSubCategory').value = p.subcategory;
