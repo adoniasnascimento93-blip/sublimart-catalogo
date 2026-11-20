@@ -139,7 +139,15 @@
     .product-gallery-wrap { position:relative; width:100%; border-radius:12px; overflow:hidden; }
     .product-gallery { display:flex; gap:.7rem; overflow-x:auto; scroll-snap-type:x mandatory; overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch; border-radius:12px; scrollbar-width:none; }
     .product-gallery::-webkit-scrollbar { display:none; }
-    .product-gallery img { flex:0 0 100%; width:100%; max-height:380px; object-fit:contain; background:#f7f7f7; border-radius:12px; scroll-snap-align:start; }
+    .product-gallery img { flex:0 0 100%; width:100%; max-height:380px; object-fit:contain; background:#f7f7f7; border-radius:12px; scroll-snap-align:start; cursor:zoom-in; }
+    .product-detail-img { cursor:zoom-in; }
+    .image-zoom-overlay { position:fixed; inset:0; z-index:3000; display:none; align-items:center; justify-content:center; padding:16px; background:rgba(0,0,0,.96); }
+    .image-zoom-overlay.show { display:flex; }
+    .image-zoom-overlay img { max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; border-radius:4px; cursor:zoom-in; transition:transform .22s ease; transform:scale(1); }
+    .image-zoom-overlay img.zoomed { transform:scale(2); cursor:zoom-out; }
+    .image-zoom-close { position:absolute; top:16px; right:16px; z-index:2; width:42px; height:42px; border:1px solid rgba(255,255,255,.35); border-radius:50%; color:#fff; background:rgba(40,40,40,.65); font-size:24px; cursor:pointer; }
+    .image-zoom-hint { position:absolute; bottom:22px; left:0; right:0; color:#fff; text-align:center; font-size:.8rem; opacity:.8; pointer-events:none; }
+
     .gallery-nav-btn { position:absolute; top:50%; transform:translateY(-50%); z-index:3; width:34px; height:34px; border:1px solid rgba(255,255,255,.55); border-radius:50%; background:rgba(30,30,30,.28); color:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer; backdrop-filter:blur(5px); -webkit-backdrop-filter:blur(5px); box-shadow:0 1px 5px rgba(0,0,0,.12); transition:background .2s, opacity .2s; opacity:.78; }
     .gallery-nav-btn:hover,.gallery-nav-btn:focus-visible { background:rgba(30,30,30,.55); opacity:1; outline:2px solid rgba(255,255,255,.65); }
     .gallery-nav-prev { left:9px; }
@@ -422,6 +430,11 @@
       <button class="btn-close-modal" onclick="closeProductModal()"><i class="fa-solid fa-xmark"></i></button>
       <div class="product-detail-container" id="productModalContent"></div>
     </div>
+  </div>
+  <div class="image-zoom-overlay" id="imageZoomOverlay" onclick="closeImageZoom(event)" aria-label="Imagem ampliada do produto">
+    <button type="button" class="image-zoom-close" onclick="closeImageZoom()" aria-label="Fechar imagem">&times;</button>
+    <img id="imageZoomTarget" alt="Imagem ampliada do produto" onclick="toggleImageZoom(event)">
+    <span class="image-zoom-hint">Toque na imagem para aproximar ou afastar · Toque fora para fechar</span>
   </div>
 
   <!-- MODAL ADM -->
@@ -2391,12 +2404,12 @@
       const productImages = p.images && p.images.length ? p.images : [p.image];
       const galleryHtml = productImages.length > 1
         ? `<div class="product-gallery-wrap">
-            <div class="product-gallery" id="productGalleryTrack" aria-label="Fotos do produto">${productImages.map((src, index) => `<img src="${src}" alt="${p.title} - foto ${index + 1}" onerror="this.src='https://via.placeholder.com/400?text=Sem+Imagem'">`).join('')}</div>
+            <div class="product-gallery" id="productGalleryTrack" aria-label="Fotos do produto">${productImages.map((src, index) => `<img src="${src}" alt="${p.title} - foto ${index + 1}" onclick="openImageZoom(this.src)" onerror="this.src='https://via.placeholder.com/400?text=Sem+Imagem'">`).join('')}</div>
             <button type="button" class="gallery-nav-btn gallery-nav-prev" aria-label="Imagem anterior" onclick="moveProductGallery(-1)"><i class="fa-solid fa-chevron-left"></i></button>
             <button type="button" class="gallery-nav-btn gallery-nav-next" aria-label="Próxima imagem" onclick="moveProductGallery(1)"><i class="fa-solid fa-chevron-right"></i></button>
             <span class="gallery-counter" id="productGalleryCounter">1 / ${productImages.length}</span>
           </div>`
-        : `<img src="${productImages[0]}" class="product-detail-img" alt="${p.title}" onerror="this.src='https://via.placeholder.com/400?text=Sem+Imagem'">`;
+        : `<img src="${productImages[0]}" class="product-detail-img" alt="${p.title}" onclick="openImageZoom(this.src)" onerror="this.src='https://via.placeholder.com/400?text=Sem+Imagem'">`;
       document.getElementById('productModalContent').innerHTML = `
         ${galleryHtml}
         <span class="product-detail-code">Código: ${p.code}</span>
@@ -2409,6 +2422,34 @@
       `;
       document.getElementById('productModal').style.display = 'flex';
     }
+
+    function openImageZoom(src) {
+      if (!src) return;
+      const overlay = document.getElementById("imageZoomOverlay");
+      const image = document.getElementById("imageZoomTarget");
+      if (!overlay || !image) return;
+      image.src = src;
+      image.classList.remove("zoomed");
+      overlay.classList.add("show");
+      document.body.style.overflow = "hidden";
+    }
+
+    function toggleImageZoom(event) {
+      if (event) event.stopPropagation();
+      const image = document.getElementById("imageZoomTarget");
+      if (image) image.classList.toggle("zoomed");
+    }
+
+    function closeImageZoom(event) {
+      if (event && event.target && event.target.id !== "imageZoomOverlay") return;
+      const overlay = document.getElementById("imageZoomOverlay");
+      const image = document.getElementById("imageZoomTarget");
+      if (overlay) overlay.classList.remove("show");
+      if (image) { image.classList.remove("zoomed"); image.removeAttribute("src"); }
+      document.body.style.overflow = "";
+    }
+
+    document.addEventListener("keydown", event => { if (event.key === "Escape") closeImageZoom(); });
 
     function moveProductGallery(direction) {
       const track = document.getElementById('productGalleryTrack');
