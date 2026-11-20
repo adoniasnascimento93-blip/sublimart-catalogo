@@ -143,8 +143,9 @@
     .product-detail-img { cursor:zoom-in; }
     .image-zoom-overlay { position:fixed; inset:0; z-index:3000; display:none; align-items:center; justify-content:center; padding:16px; background:rgba(0,0,0,.96); }
     .image-zoom-overlay.show { display:flex; }
-    .image-zoom-overlay img { max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; border-radius:4px; cursor:zoom-in; transition:transform .22s ease; transform:scale(1); }
-    .image-zoom-overlay img.zoomed { transform:scale(2); cursor:zoom-out; }
+    .image-zoom-overlay img { max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; border-radius:4px; cursor:zoom-in; transform:translate(0px,0px) scale(1); transform-origin:center center; touch-action:none; user-select:none; -webkit-user-drag:none; }
+    .image-zoom-overlay img.zoomed { cursor:grab; }
+    .image-zoom-overlay img.dragging { cursor:grabbing; }
     .image-zoom-close { position:absolute; top:16px; right:16px; z-index:2; width:42px; height:42px; border:1px solid rgba(255,255,255,.35); border-radius:50%; color:#fff; background:rgba(40,40,40,.65); font-size:24px; cursor:pointer; }
     .image-zoom-hint { position:absolute; bottom:22px; left:0; right:0; color:#fff; text-align:center; font-size:.8rem; opacity:.8; pointer-events:none; }
 
@@ -2423,21 +2424,102 @@
       document.getElementById('productModal').style.display = 'flex';
     }
 
+    let zoomScale = 1;
+    let zoomX = 0;
+    let zoomY = 0;
+    let zoomPointers = new Map();
+    let zoomDragStart = null;
+    let zoomPinchStart = null;
+
+    function applyImageZoom() {
+      const image = document.getElementById("imageZoomTarget");
+      if (!image) return;
+      image.style.transform = "translate(" + zoomX + "px," + zoomY + "px) scale(" + zoomScale + ")";
+      image.classList.toggle("zoomed", zoomScale > 1);
+    }
+
+    function resetImageZoom() {
+      zoomScale = 1;
+      zoomX = 0;
+      zoomY = 0;
+      zoomPointers.clear();
+      zoomDragStart = null;
+      zoomPinchStart = null;
+      const image = document.getElementById("imageZoomTarget");
+      if (image) {
+        image.classList.remove("zoomed", "dragging");
+        image.style.transform = "translate(0px,0px) scale(1)";
+      }
+    }
+
     function openImageZoom(src) {
       if (!src) return;
       const overlay = document.getElementById("imageZoomOverlay");
       const image = document.getElementById("imageZoomTarget");
       if (!overlay || !image) return;
+      resetImageZoom();
       image.src = src;
-      image.classList.remove("zoomed");
       overlay.classList.add("show");
       document.body.style.overflow = "hidden";
     }
 
     function toggleImageZoom(event) {
       if (event) event.stopPropagation();
+      if (zoomScale > 1) resetImageZoom();
+      else {
+        zoomScale = 2;
+        zoomX = 0;
+        zoomY = 0;
+        applyImageZoom();
+      }
+    }
+
+    function zoomPointerDown(event) {
+      if (!document.getElementById("imageZoomOverlay").classList.contains("show")) return;
+      event.preventDefault();
       const image = document.getElementById("imageZoomTarget");
-      if (image) image.classList.toggle("zoomed");
+      image.setPointerCapture(event.pointerId);
+      zoomPointers.set(event.pointerId, {x:event.clientX,y:event.clientY});
+      if (zoomPointers.size === 1 && zoomScale > 1) {
+        zoomDragStart = {x:event.clientX,y:event.clientY,baseX:zoomX,baseY:zoomY};
+        image.classList.add("dragging");
+      } else if (zoomPointers.size === 2) {
+        const pts = Array.from(zoomPointers.values());
+        zoomPinchStart = {
+          distance:Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y),
+          scale:zoomScale
+        };
+        zoomDragStart = null;
+      }
+    }
+
+    function zoomPointerMove(event) {
+      if (!zoomPointers.has(event.pointerId)) return;
+      event.preventDefault();
+      zoomPointers.set(event.pointerId,{x:event.clientX,y:event.clientY});
+      if (zoomPointers.size >= 2 && zoomPinchStart) {
+        const pts = Array.from(zoomPointers.values());
+        const distance = Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y);
+        zoomScale = Math.max(1,Math.min(5,zoomPinchStart.scale * distance / Math.max(1,zoomPinchStart.distance)));
+        if (zoomScale === 1) { zoomX = 0; zoomY = 0; }
+        applyImageZoom();
+      } else if (zoomPointers.size === 1 && zoomDragStart && zoomScale > 1) {
+        zoomX = zoomDragStart.baseX + event.clientX - zoomDragStart.x;
+        zoomY = zoomDragStart.baseY + event.clientY - zoomDragStart.y;
+        applyImageZoom();
+      }
+    }
+
+    function zoomPointerUp(event) {
+      zoomPointers.delete(event.pointerId);
+      const image = document.getElementById("imageZoomTarget");
+      if (image && zoomPointers.size === 0) image.classList.remove("dragging");
+      zoomDragStart = null;
+      zoomPinchStart = null;
+      if (zoomPointers.size === 1 && zoomScale > 1) {
+        const remaining = Array.from(zoomPointers.values())[0];
+        zoomDragStart = {x:remaining.x,y:remaining.y,baseX:zoomX,baseY:zoomY};
+      }
     }
 
     function closeImageZoom(event) {
@@ -2445,11 +2527,19 @@
       const overlay = document.getElementById("imageZoomOverlay");
       const image = document.getElementById("imageZoomTarget");
       if (overlay) overlay.classList.remove("show");
-      if (image) { image.classList.remove("zoomed"); image.removeAttribute("src"); }
+      if (image) { resetImageZoom(); image.removeAttribute("src"); }
       document.body.style.overflow = "";
     }
 
     document.addEventListener("keydown", event => { if (event.key === "Escape") closeImageZoom(); });
+    document.addEventListener("DOMContentLoaded", () => {
+      const image = document.getElementById("imageZoomTarget");
+      if (!image) return;
+      image.addEventListener("pointerdown", zoomPointerDown);
+      image.addEventListener("pointermove", zoomPointerMove);
+      image.addEventListener("pointerup", zoomPointerUp);
+      image.addEventListener("pointercancel", zoomPointerUp);
+    });
 
     function moveProductGallery(direction) {
       const track = document.getElementById('productGalleryTrack');
