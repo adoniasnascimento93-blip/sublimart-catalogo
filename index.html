@@ -136,8 +136,15 @@
 
     .product-detail-container { display: flex; flex-direction: column; gap: 1.2rem; }
     .product-detail-img { width: 100%; max-height: 380px; object-fit: cover; border-radius: 12px; }
-    .product-gallery { display:flex; gap:.7rem; overflow-x:auto; scroll-snap-type:x mandatory; overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch; border-radius:12px; }
+    .product-gallery-wrap { position:relative; width:100%; border-radius:12px; overflow:hidden; }
+    .product-gallery { display:flex; gap:.7rem; overflow-x:auto; scroll-snap-type:x mandatory; overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch; border-radius:12px; scrollbar-width:none; }
+    .product-gallery::-webkit-scrollbar { display:none; }
     .product-gallery img { flex:0 0 100%; width:100%; max-height:380px; object-fit:contain; background:#f7f7f7; border-radius:12px; scroll-snap-align:start; }
+    .gallery-nav-btn { position:absolute; top:50%; transform:translateY(-50%); z-index:3; width:34px; height:34px; border:1px solid rgba(255,255,255,.55); border-radius:50%; background:rgba(30,30,30,.28); color:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer; backdrop-filter:blur(5px); -webkit-backdrop-filter:blur(5px); box-shadow:0 1px 5px rgba(0,0,0,.12); transition:background .2s, opacity .2s; opacity:.78; }
+    .gallery-nav-btn:hover,.gallery-nav-btn:focus-visible { background:rgba(30,30,30,.55); opacity:1; outline:2px solid rgba(255,255,255,.65); }
+    .gallery-nav-prev { left:9px; }
+    .gallery-nav-next { right:9px; }
+    .gallery-counter { position:absolute; bottom:10px; left:50%; transform:translateX(-50%); z-index:2; padding:4px 9px; border-radius:20px; color:#fff; background:rgba(30,30,30,.32); font-size:.72rem; letter-spacing:.02em; backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); pointer-events:none; }
     .product-detail-code { 
       align-self: flex-start;
       background: #f0f0f0; color: #555; font-size: 0.75rem; font-weight: 600; 
@@ -1027,7 +1034,12 @@
       if (!p) return;
       const productImages = p.images && p.images.length ? p.images : [p.image];
       const galleryHtml = productImages.length > 1
-        ? `<div class="product-gallery" aria-label="Fotos do produto">${productImages.map((src, index) => `<img src="${src}" alt="${p.title} - foto ${index + 1}" onerror="this.src='https://via.placeholder.com/400?text=Sem+Imagem'">`).join('')}</div>`
+        ? `<div class="product-gallery-wrap">
+            <div class="product-gallery" id="productGalleryTrack" aria-label="Fotos do produto">${productImages.map((src, index) => `<img src="${src}" alt="${p.title} - foto ${index + 1}" onerror="this.src='https://via.placeholder.com/400?text=Sem+Imagem'">`).join('')}</div>
+            <button type="button" class="gallery-nav-btn gallery-nav-prev" aria-label="Imagem anterior" onclick="moveProductGallery(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+            <button type="button" class="gallery-nav-btn gallery-nav-next" aria-label="Próxima imagem" onclick="moveProductGallery(1)"><i class="fa-solid fa-chevron-right"></i></button>
+            <span class="gallery-counter" id="productGalleryCounter">1 / ${productImages.length}</span>
+          </div>`
         : `<img src="${productImages[0]}" class="product-detail-img" alt="${p.title}" onerror="this.src='https://via.placeholder.com/400?text=Sem+Imagem'">`;
       document.getElementById('productModalContent').innerHTML = `
         ${galleryHtml}
@@ -1040,6 +1052,18 @@
         </a>
       `;
       document.getElementById('productModal').style.display = 'flex';
+    }
+
+    function moveProductGallery(direction) {
+      const track = document.getElementById('productGalleryTrack');
+      if (!track) return;
+      const slideWidth = track.clientWidth + 11.2;
+      const maxIndex = track.querySelectorAll('img').length - 1;
+      const currentIndex = Math.round(track.scrollLeft / slideWidth);
+      const nextIndex = Math.max(0, Math.min(maxIndex, currentIndex + direction));
+      track.scrollTo({ left: nextIndex * slideWidth, behavior: 'smooth' });
+      const counter = document.getElementById('productGalleryCounter');
+      if (counter) counter.textContent = (nextIndex + 1) + ' / ' + (maxIndex + 1);
     }
 
     function renderAdminProductsList() {
