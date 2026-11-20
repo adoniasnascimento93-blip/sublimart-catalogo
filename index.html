@@ -2430,6 +2430,7 @@
     let zoomPointers = new Map();
     let zoomDragStart = null;
     let zoomPinchStart = null;
+    let zoomDidMove = false;
 
     function applyImageZoom() {
       const image = document.getElementById("imageZoomTarget");
@@ -2465,6 +2466,7 @@
 
     function toggleImageZoom(event) {
       if (event) event.stopPropagation();
+      if (zoomDidMove) { zoomDidMove = false; return; }
       if (zoomScale > 1) resetImageZoom();
       else {
         zoomScale = 2;
@@ -2479,6 +2481,7 @@
       event.preventDefault();
       const image = document.getElementById("imageZoomTarget");
       image.setPointerCapture(event.pointerId);
+      if (zoomPointers.size === 0) zoomDidMove = false;
       zoomPointers.set(event.pointerId, {x:event.clientX,y:event.clientY});
       if (zoomPointers.size === 1 && zoomScale > 1) {
         zoomDragStart = {x:event.clientX,y:event.clientY,baseX:zoomX,baseY:zoomY};
@@ -2496,6 +2499,8 @@
     function zoomPointerMove(event) {
       if (!zoomPointers.has(event.pointerId)) return;
       event.preventDefault();
+      const previousPoint = zoomPointers.get(event.pointerId);
+      if (previousPoint && Math.hypot(event.clientX-previousPoint.x,event.clientY-previousPoint.y) > 4) zoomDidMove = true;
       zoomPointers.set(event.pointerId,{x:event.clientX,y:event.clientY});
       if (zoomPointers.size >= 2 && zoomPinchStart) {
         const pts = Array.from(zoomPointers.values());
