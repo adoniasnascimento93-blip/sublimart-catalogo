@@ -253,6 +253,19 @@
       position: relative;
       z-index: 1;
     }
+    /* Mantém o menu de categorias acima da área dos produtos */
+    body > nav {
+      z-index: 500;
+    }
+    .categories-dropdown,
+    .dropdown-content {
+      position: relative;
+      z-index: 501;
+    }
+    .categories-dropdown .dropdown-content {
+      position: absolute;
+      z-index: 502;
+    }
     .category-title { color: #f3f5ff; }
     @media (prefers-reduced-motion: reduce) {
       #sublimart-particles { opacity: .55; }
