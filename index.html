@@ -1543,4 +1543,42 @@
 
 
 
+
+<script id="sublimart-scroll-restore">
+(() => {
+  const storageKey = 'sublimart-scroll-position';
+  let saveFrame = 0;
+
+  const savePosition = () => {
+    if (saveFrame) cancelAnimationFrame(saveFrame);
+    saveFrame = requestAnimationFrame(() => {
+      try {
+        sessionStorage.setItem(storageKey, String(window.scrollY || window.pageYOffset || 0));
+      } catch (e) {}
+      saveFrame = 0;
+    });
+  };
+
+  const restorePosition = () => {
+    try {
+      const saved = sessionStorage.getItem(storageKey);
+      if (saved === null) return;
+      const position = Math.max(0, parseInt(saved, 10) || 0);
+      const restore = () => window.scrollTo(0, position);
+      restore();
+      requestAnimationFrame(restore);
+      setTimeout(restore, 150);
+      setTimeout(restore, 500);
+    } catch (e) {}
+  };
+
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  window.addEventListener('scroll', savePosition, { passive: true });
+  window.addEventListener('pagehide', savePosition);
+  window.addEventListener('beforeunload', savePosition);
+  document.addEventListener('DOMContentLoaded', restorePosition, { once: true });
+  window.addEventListener('load', restorePosition, { once: true });
+})();
+</script>
+
 </body></html>
