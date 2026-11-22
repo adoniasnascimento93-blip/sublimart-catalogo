@@ -1202,7 +1202,7 @@
       ];
 
       const gallerySlides = mediaItems.map((item, index) => item.type === 'video'
-        ? `<video class="gallery-video" controls playsinline preload="metadata" aria-label="${p.title} - vídeo ${index + 1}">
+        ? `<video class="gallery-video" controls muted playsinline preload="metadata" onvolumechange="this.muted=true;this.volume=0" aria-label="${p.title} - vídeo ${index + 1}">
              <source src="${item.url}" type="video/mp4">
              Seu navegador não conseguiu reproduzir este vídeo.
            </video>`
