@@ -646,9 +646,34 @@
     let currentCategory = 'todos';
     let currentSubCategory = 'todos';
 
+    const CATALOG_VIEW_KEY = 'sublimart-catalog-view';
+
+    function saveCatalogView(productId = null) {
+      try {
+        sessionStorage.setItem(CATALOG_VIEW_KEY, JSON.stringify({
+          category: currentCategory,
+          subcategory: currentSubCategory,
+          productId: productId ? String(productId) : null
+        }));
+      } catch (e) {}
+    }
+
+    function loadCatalogView() {
+      try {
+        const saved = JSON.parse(sessionStorage.getItem(CATALOG_VIEW_KEY) || 'null');
+        if (!saved || typeof saved !== 'object') return null;
+        currentCategory = saved.category || 'todos';
+        currentSubCategory = saved.subcategory || 'todos';
+        return saved.productId ? String(saved.productId) : null;
+      } catch (e) {
+        return null;
+      }
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       setCategoriesMenuOpen(false);
       loadProductsFromDataTag();
+      const savedProductId = loadCatalogView();
       loadBannersFromDataTag();
       renderBannerSlider();
       renderCatalog();
@@ -656,6 +681,11 @@
       renderAdminCategoriesList();
       renderCategoriesMenu();
       loadGithubConfig();
+      if (savedProductId && products.some(p => String(p.id) === savedProductId)) {
+        openProductDetail(savedProductId);
+      } else {
+        saveCatalogView();
+      }
     });
 
     function loadProductsFromDataTag() {
@@ -894,7 +924,10 @@
     function openAdminModal() { document.getElementById('adminModal').style.display = 'flex'; }
     function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
     function checkCloseAdminPopup(e) { if (e.target.id === 'adminModal') closeAdminModal(); }
-    function closeProductModal() { document.getElementById('productModal').style.display = 'none'; }
+    function closeProductModal() {
+      document.getElementById('productModal').style.display = 'none';
+      saveCatalogView();
+    }
 
     function switchAdminTab(tabName) {
       ['add', 'manageProd', 'manageCat', 'manageBanner', 'github'].forEach(sec => {
@@ -1164,6 +1197,7 @@
       renderCategoriesMenu();
       renderSubcategoriesBar();
       renderCatalog();
+      saveCatalogView();
     }
 
     function renderSubcategoriesBar() {
@@ -1188,6 +1222,7 @@
       currentSubCategory = sub;
       renderSubcategoriesBar();
       renderCatalog();
+      saveCatalogView();
     }
 
     function openProductDetail(id) {
@@ -1246,6 +1281,7 @@
       }
 
       document.getElementById('productModal').style.display = 'flex';
+      saveCatalogView(id);
     }
 
     let zoomScale = 1;
@@ -1543,42 +1579,5 @@
 
 
 
-
-<script id="sublimart-scroll-restore">
-(() => {
-  const storageKey = 'sublimart-scroll-position';
-  let saveFrame = 0;
-
-  const savePosition = () => {
-    if (saveFrame) cancelAnimationFrame(saveFrame);
-    saveFrame = requestAnimationFrame(() => {
-      try {
-        sessionStorage.setItem(storageKey, String(window.scrollY || window.pageYOffset || 0));
-      } catch (e) {}
-      saveFrame = 0;
-    });
-  };
-
-  const restorePosition = () => {
-    try {
-      const saved = sessionStorage.getItem(storageKey);
-      if (saved === null) return;
-      const position = Math.max(0, parseInt(saved, 10) || 0);
-      const restore = () => window.scrollTo(0, position);
-      restore();
-      requestAnimationFrame(restore);
-      setTimeout(restore, 150);
-      setTimeout(restore, 500);
-    } catch (e) {}
-  };
-
-  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-  window.addEventListener('scroll', savePosition, { passive: true });
-  window.addEventListener('pagehide', savePosition);
-  window.addEventListener('beforeunload', savePosition);
-  document.addEventListener('DOMContentLoaded', restorePosition, { once: true });
-  window.addEventListener('load', restorePosition, { once: true });
-})();
-</script>
 
 </body></html>
