@@ -139,7 +139,10 @@
     .product-gallery-wrap { position:relative; width:100%; border-radius:12px; overflow:hidden; }
     .product-gallery { display:flex; gap:.7rem; overflow-x:auto; scroll-snap-type:x mandatory; overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch; border-radius:12px; scrollbar-width:none; }
     .product-gallery::-webkit-scrollbar { display:none; }
-    .product-gallery img { flex:0 0 100%; width:100%; max-height:380px; object-fit:contain; background:#f7f7f7; border-radius:12px; scroll-snap-align:start; cursor:zoom-in; }
+    .product-gallery img,
+    .product-gallery video { flex:0 0 100%; width:100%; max-height:380px; height:380px; object-fit:contain; background:#f7f7f7; border-radius:12px; scroll-snap-align:start; }
+    .product-gallery img { cursor:zoom-in; }
+    .product-gallery video { background:#111; object-fit:contain; }
     .product-detail-img { cursor:zoom-in; }
     .image-zoom-overlay { position:fixed; inset:0; z-index:3000; display:none; align-items:center; justify-content:center; padding:16px; background:rgba(0,0,0,.96); }
     .image-zoom-overlay.show { display:flex; }
@@ -507,8 +510,13 @@
               <textarea id="pDesc" rows="2" placeholder="Digite a descrição..." required=""></textarea>
             </div>
             <div class="form-group">
-              <label>URL da Imagem:</label>
+              <label>URL da Imagem principal:</label>
               <input type="url" id="pImage" placeholder="https://..." required="" oninput="cleanImageUrl(this)" onpaste="setTimeout(() =&gt; cleanImageUrl(this), 10)">
+            </div>
+            <div class="form-group">
+              <label>URLs dos vídeos (opcional):</label>
+              <textarea id="pVideos" rows="3" placeholder="Cole um link direto de vídeo por linha. Ex.: https://i.imgur.com/SEUVIDEO.mp4"></textarea>
+              <small style="display:block;color:#777;margin-top:5px;">Use links diretos MP4 do Imgur. Para adicionar mais de um vídeo, coloque cada link em uma linha.</small>
             </div>
             <button type="submit" class="btn-submit-admin" id="btnSubmitFormProd">ATUALIZAR PRODUTO</button>
             <button type="button" class="btn-cancel-edit" id="btnCancelEditProd" style="display: block;" onclick="resetProductForm()">CANCELAR EDIÇÃO</button>
@@ -2145,7 +2153,8 @@
         price: document.getElementById('pPrice').value.trim(),
         desc: document.getElementById('pDesc').value.trim(),
         image: document.getElementById('pImage').value.trim(),
-        images: editingId && products.find(p => String(p.id) === String(editingId))?.images ? products.find(p => String(p.id) === String(editingId)).images : undefined
+        images: editingId && products.find(p => String(p.id) === String(editingId))?.images ? products.find(p => String(p.id) === String(editingId)).images : undefined,
+        videos: document.getElementById('pVideos').value.split(/\r?\n/).map(url => url.trim()).filter(url => /^https?:\/\//i.test(url))
       };
 
       let newProductsList = [...products];
@@ -2402,15 +2411,33 @@
     function openProductDetail(id) {
       const p = products.find(item => String(item.id) === String(id));
       if (!p) return;
-      const productImages = p.images && p.images.length ? p.images : [p.image];
-      const galleryHtml = productImages.length > 1
+
+      // Mantém compatibilidade com produtos antigos e reúne fotos e vídeos na mesma galeria.
+      const productImages = p.images && p.images.length ? p.images : (p.image ? [p.image] : []);
+      const mediaItems = [
+        ...productImages.filter(Boolean).map(url => ({ type: 'image', url })),
+        ...(Array.isArray(p.videos) ? p.videos : []).filter(Boolean).map(url => ({ type: 'video', url }))
+      ];
+
+      const gallerySlides = mediaItems.map((item, index) => item.type === 'video'
+        ? `<video class="gallery-video" controls playsinline preload="metadata" aria-label="${p.title} - vídeo ${index + 1}">
+             <source src="${item.url}" type="video/mp4">
+             Seu navegador não conseguiu reproduzir este vídeo.
+           </video>`
+        : `<img src="${item.url}" alt="${p.title} - foto ${index + 1}" onclick="openImageZoom(this.src)" onerror="this.src='https://via.placeholder.com/400?text=Sem+Imagem'">`
+      ).join('');
+
+      const galleryHtml = mediaItems.length
         ? `<div class="product-gallery-wrap">
-            <div class="product-gallery" id="productGalleryTrack" aria-label="Fotos do produto">${productImages.map((src, index) => `<img src="${src}" alt="${p.title} - foto ${index + 1}" onclick="openImageZoom(this.src)" onerror="this.src='https://via.placeholder.com/400?text=Sem+Imagem'">`).join('')}</div>
-            <button type="button" class="gallery-nav-btn gallery-nav-prev" aria-label="Imagem anterior" onclick="moveProductGallery(-1)"><i class="fa-solid fa-chevron-left"></i></button>
-            <button type="button" class="gallery-nav-btn gallery-nav-next" aria-label="Próxima imagem" onclick="moveProductGallery(1)"><i class="fa-solid fa-chevron-right"></i></button>
-            <span class="gallery-counter" id="productGalleryCounter">1 / ${productImages.length}</span>
-          </div>`
-        : `<img src="${productImages[0]}" class="product-detail-img" alt="${p.title}" onclick="openImageZoom(this.src)" onerror="this.src='https://via.placeholder.com/400?text=Sem+Imagem'">`;
+             <div class="product-gallery" id="productGalleryTrack" aria-label="Fotos e vídeos do produto">${gallerySlides}</div>
+             ${mediaItems.length > 1 ? `
+               <button type="button" class="gallery-nav-btn gallery-nav-prev" aria-label="Mídia anterior" onclick="moveProductGallery(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+               <button type="button" class="gallery-nav-btn gallery-nav-next" aria-label="Próxima mídia" onclick="moveProductGallery(1)"><i class="fa-solid fa-chevron-right"></i></button>
+               <span class="gallery-counter" id="productGalleryCounter">1 / ${mediaItems.length}</span>
+             ` : ''}
+           </div>`
+        : '';
+
       document.getElementById('productModalContent').innerHTML = `
         ${galleryHtml}
         <span class="product-detail-code">Código: ${p.code}</span>
@@ -2421,6 +2448,21 @@
           <i class="fa-brands fa-whatsapp"></i> Comprar pelo WhatsApp
         </a>
       `;
+
+      const galleryTrack = document.getElementById('productGalleryTrack');
+      if (galleryTrack && mediaItems.length > 1) {
+        galleryTrack.addEventListener('scroll', () => {
+          const slideWidth = galleryTrack.clientWidth + 11.2;
+          const currentIndex = Math.max(0, Math.min(mediaItems.length - 1, Math.round(galleryTrack.scrollLeft / slideWidth)));
+          const counter = document.getElementById('productGalleryCounter');
+          if (counter) counter.textContent = (currentIndex + 1) + ' / ' + mediaItems.length;
+          galleryTrack.querySelectorAll('video').forEach(video => {
+            const videoIndex = Array.from(galleryTrack.children).indexOf(video);
+            if (videoIndex !== currentIndex) video.pause();
+          });
+        }, { passive: true });
+      }
+
       document.getElementById('productModal').style.display = 'flex';
     }
 
@@ -2550,9 +2592,10 @@
       const track = document.getElementById('productGalleryTrack');
       if (!track) return;
       const slideWidth = track.clientWidth + 11.2;
-      const maxIndex = track.querySelectorAll('img').length - 1;
+      const maxIndex = track.children.length - 1;
       const currentIndex = Math.round(track.scrollLeft / slideWidth);
       const nextIndex = Math.max(0, Math.min(maxIndex, currentIndex + direction));
+      track.querySelectorAll('video').forEach(video => video.pause());
       track.scrollTo({ left: nextIndex * slideWidth, behavior: 'smooth' });
       const counter = document.getElementById('productGalleryCounter');
       if (counter) counter.textContent = (nextIndex + 1) + ' / ' + (maxIndex + 1);
@@ -2687,6 +2730,7 @@
       document.getElementById('pPrice').value = p.price;
       document.getElementById('pDesc').value = p.desc;
       document.getElementById('pImage').value = p.image;
+      document.getElementById('pVideos').value = Array.isArray(p.videos) ? p.videos.join('\n') : '';
 
       document.getElementById('formProductTitleHeader').textContent = 'Editar Produto';
       document.getElementById('btnSubmitFormProd').textContent = 'ATUALIZAR PRODUTO';
