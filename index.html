@@ -1169,7 +1169,7 @@
             <p class="card-desc">${p.desc}</p>
             <div class="card-footer-buy">
               ${p.price ? `<span class="price">R$ ${p.price}</span>` : `<span class="price" style="font-size:.8rem">Consulte</span>`}
-              <a href="https://wa.me/5592992914876?text=Olá! Gostaria de encomendar o produto ${encodeURIComponent(p.code)} - ${encodeURIComponent(p.title)}" target="_blank" class="btn-buy" onclick="event.stopPropagation()">
+              <a href="https://wa.me/5592992914876?text=Olá! Gostaria de comprar este produto. Código: ${encodeURIComponent(p.code)}" target="_blank" class="btn-buy" onclick="event.stopPropagation()">
                 <i class="fa-brands fa-whatsapp"></i> Comprar
               </a>
             </div>
@@ -1261,7 +1261,7 @@
         <h2 class="product-detail-title">${p.title}</h2>
         ${p.price ? `<div class="product-detail-price">R$ ${p.price}</div>` : ''}
         <p class="product-detail-desc">${p.desc}</p>
-        <a href="https://wa.me/5592992914876?text=Olá! Gostaria de encomendar o produto ${encodeURIComponent(p.code)} - ${encodeURIComponent(p.title)}" target="_blank" class="btn-buy-modal">
+        <a href="https://wa.me/5592992914876?text=Olá! Gostaria de comprar este produto. Código: ${encodeURIComponent(p.code)}" target="_blank" class="btn-buy-modal">
           <i class="fa-brands fa-whatsapp"></i> Comprar pelo WhatsApp
         </a>
       `;
